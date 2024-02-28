@@ -7,59 +7,52 @@ import { toast } from "sonner";
 import { useValidatedForm } from "@/lib/hooks/useValidatedForm";
 
 import { type Action, cn } from "@/lib/utils";
-import { type TAddOptimistic } from "@/app/(app)/quotes/useOptimisticQuotes";
+import { type TAddOptimistic } from "@/app/(app)/book-shelves/useOptimisticBookShelves";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useBackPath } from "@/components/shared/BackButton";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
-import { type Quote, insertQuoteParams } from "@/lib/db/schema/quotes";
 import {
-  createQuoteAction,
-  deleteQuoteAction,
-  updateQuoteAction
-} from "@/lib/actions/quotes";
-import { type Book, type BookId } from "@/lib/db/schema/books";
+  type BookShelf,
+  insertBookShelfParams
+} from "@/lib/db/schema/bookShelves";
+import {
+  createBookShelfAction,
+  deleteBookShelfAction,
+  updateBookShelfAction
+} from "@/lib/actions/bookShelves";
 
-const QuoteForm = ({
-  books,
-  bookId,
-  quote,
+const BookShelfForm = ({
+  bookShelf,
   openModal,
   closeModal,
   addOptimistic,
   postSuccess
 }: {
-  quote?: Quote | null;
-  books: Book[];
-  bookId?: BookId;
-  openModal?: (quote?: Quote) => void;
+  bookShelf?: BookShelf | null;
+
+  openModal?: (bookShelf?: BookShelf) => void;
   closeModal?: () => void;
   addOptimistic?: TAddOptimistic;
   postSuccess?: () => void;
 }) => {
   const { errors, hasErrors, setErrors, handleChange } =
-    useValidatedForm<Quote>(insertQuoteParams);
-  const editing = !!quote?.id;
+    useValidatedForm<BookShelf>(insertBookShelfParams);
+  const editing = !!bookShelf?.id;
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [pending, startMutation] = useTransition();
 
   const router = useRouter();
-  const backpath = useBackPath("quotes");
+  const backpath = useBackPath("book-shelves");
 
   const onSuccess = (
     action: Action,
-    data?: { error: string; values: Quote }
+    data?: { error: string; values: BookShelf }
   ) => {
     const failed = Boolean(data?.error);
     if (failed) {
@@ -70,7 +63,7 @@ const QuoteForm = ({
     } else {
       router.refresh();
       postSuccess && postSuccess();
-      toast.success(`Quote ${action}d!`);
+      toast.success(`BookShelf ${action}d!`);
       if (action === "delete") router.push(backpath);
     }
   };
@@ -79,39 +72,38 @@ const QuoteForm = ({
     setErrors(null);
 
     const payload = Object.fromEntries(data.entries());
-    const quoteParsed = await insertQuoteParams.safeParseAsync({
-      bookId,
+    const bookShelfParsed = await insertBookShelfParams.safeParseAsync({
       ...payload
     });
-    if (!quoteParsed.success) {
-      setErrors(quoteParsed?.error.flatten().fieldErrors);
+    if (!bookShelfParsed.success) {
+      setErrors(bookShelfParsed?.error.flatten().fieldErrors);
       return;
     }
 
     closeModal && closeModal();
-    const values = quoteParsed.data;
-    const pendingQuote: Quote = {
-      updatedAt: quote?.updatedAt ?? new Date(),
-      createdAt: quote?.createdAt ?? new Date(),
-      id: quote?.id ?? "",
-      userId: quote?.userId ?? "",
+    const values = bookShelfParsed.data;
+    const pendingBookShelf: BookShelf = {
+      updatedAt: bookShelf?.updatedAt ?? new Date(),
+      createdAt: bookShelf?.createdAt ?? new Date(),
+      id: bookShelf?.id ?? "",
+      userId: bookShelf?.userId ?? "",
       ...values
     };
     try {
       startMutation(async () => {
         addOptimistic &&
           addOptimistic({
-            data: pendingQuote,
+            data: pendingBookShelf,
             action: editing ? "update" : "create"
           });
 
         const error = editing
-          ? await updateQuoteAction({ ...values, id: quote.id })
-          : await createQuoteAction(values);
+          ? await updateBookShelfAction({ ...values, id: bookShelf.id })
+          : await createBookShelfAction(values);
 
         const errorFormatted = {
           error: error ?? "Error",
-          values: pendingQuote
+          values: pendingBookShelf
         };
         onSuccess(
           editing ? "update" : "create",
@@ -132,55 +124,88 @@ const QuoteForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.content ? "text-destructive" : ""
+            errors?.title ? "text-destructive" : ""
           )}
         >
-          Content
+          Title
         </Label>
         <Input
           type="text"
-          name="content"
-          className={cn(errors?.content ? "ring ring-destructive" : "")}
-          defaultValue={quote?.content ?? ""}
+          name="title"
+          className={cn(errors?.title ? "ring ring-destructive" : "")}
+          defaultValue={bookShelf?.title ?? ""}
         />
-        {errors?.content ? (
-          <p className="mt-2 text-xs text-destructive">{errors.content[0]}</p>
+        {errors?.title ? (
+          <p className="mt-2 text-xs text-destructive">{errors.title[0]}</p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-
-      {bookId ? null : (
-        <div>
-          <Label
-            className={cn(
-              "mb-2 inline-block",
-              errors?.bookId ? "text-destructive" : ""
-            )}
-          >
-            Book
-          </Label>
-          <Select defaultValue={quote?.bookId} name="bookId">
-            <SelectTrigger
-              className={cn(errors?.bookId ? "ring ring-destructive" : "")}
-            >
-              <SelectValue placeholder="Select a book" />
-            </SelectTrigger>
-            <SelectContent>
-              {books?.map((book) => (
-                <SelectItem key={book.id} value={book.id.toString()}>
-                  {book.title}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {errors?.bookId ? (
-            <p className="mt-2 text-xs text-destructive">{errors.bookId[0]}</p>
-          ) : (
-            <div className="h-6" />
+      <div>
+        <Label
+          className={cn(
+            "mb-2 inline-block",
+            errors?.description ? "text-destructive" : ""
           )}
-        </div>
-      )}
+        >
+          Description
+        </Label>
+        <Input
+          type="text"
+          name="description"
+          className={cn(errors?.description ? "ring ring-destructive" : "")}
+          defaultValue={bookShelf?.description ?? ""}
+        />
+        {errors?.description ? (
+          <p className="mt-2 text-xs text-destructive">
+            {errors.description[0]}
+          </p>
+        ) : (
+          <div className="h-6" />
+        )}
+      </div>
+      <div>
+        <Label
+          className={cn(
+            "mb-2 inline-block",
+            errors?.slug ? "text-destructive" : ""
+          )}
+        >
+          Slug
+        </Label>
+        <Input
+          type="text"
+          name="slug"
+          className={cn(errors?.slug ? "ring ring-destructive" : "")}
+          defaultValue={bookShelf?.slug ?? ""}
+        />
+        {errors?.slug ? (
+          <p className="mt-2 text-xs text-destructive">{errors.slug[0]}</p>
+        ) : (
+          <div className="h-6" />
+        )}
+      </div>
+      <div>
+        <Label
+          className={cn(
+            "mb-2 inline-block",
+            errors?.public ? "text-destructive" : ""
+          )}
+        >
+          Public
+        </Label>
+        <br />
+        <Checkbox
+          defaultChecked={bookShelf?.public}
+          name={"public"}
+          className={cn(errors?.public ? "ring ring-destructive" : "")}
+        />
+        {errors?.public ? (
+          <p className="mt-2 text-xs text-destructive">{errors.public[0]}</p>
+        ) : (
+          <div className="h-6" />
+        )}
+      </div>
       {/* Schema fields end */}
 
       {/* Save Button */}
@@ -196,12 +221,13 @@ const QuoteForm = ({
             setIsDeleting(true);
             closeModal && closeModal();
             startMutation(async () => {
-              addOptimistic && addOptimistic({ action: "delete", data: quote });
-              const error = await deleteQuoteAction(quote.id);
+              addOptimistic &&
+                addOptimistic({ action: "delete", data: bookShelf });
+              const error = await deleteBookShelfAction(bookShelf.id);
               setIsDeleting(false);
               const errorFormatted = {
                 error: error ?? "Error",
-                values: quote
+                values: bookShelf
               };
 
               onSuccess("delete", error ? errorFormatted : undefined);
@@ -215,7 +241,7 @@ const QuoteForm = ({
   );
 };
 
-export default QuoteForm;
+export default BookShelfForm;
 
 const SaveButton = ({
   editing,

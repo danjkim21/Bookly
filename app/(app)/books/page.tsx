@@ -5,6 +5,7 @@ import BookList from "@/components/books/BookList";
 import { getBooks } from "@/lib/api/books/queries";
 import { getAuthors } from "@/lib/api/authors/queries";
 import { checkAuth } from "@/lib/auth/utils";
+import { getBookShelves } from "@/lib/api/bookShelves/queries";
 
 export const revalidate = 0;
 
@@ -26,9 +27,11 @@ const Books = async () => {
 
   const { books } = await getBooks();
   const { authors } = await getAuthors();
+  const { bookShelves } = await getBookShelves();
+
   return (
     <Suspense fallback={<Loading />}>
-      <BookList books={books} authors={authors} />
+      <BookList books={books} authors={authors} bookShelves={bookShelves} />
     </Suspense>
   );
 };

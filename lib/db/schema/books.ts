@@ -10,6 +10,7 @@ import {
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { authors } from "./authors";
+import { bookShelves } from "./bookShelves";
 import { type getBooks } from "@/lib/api/books/queries";
 
 import { nanoid, timestamps } from "@/lib/utils";
@@ -26,6 +27,12 @@ export const books = pgTable("books", {
   authorId: varchar("author_id", { length: 256 })
     .references(() => authors.id, { onDelete: "cascade" })
     .notNull(),
+  bookShelfId: varchar("book_shelf_id", { length: 256 }).references(
+    () => bookShelves.id,
+    {
+      onDelete: "cascade"
+    }
+  ),
   userId: varchar("user_id", { length: 256 }).notNull(),
 
   createdAt: timestamp("created_at")

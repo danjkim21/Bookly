@@ -39,11 +39,14 @@ import {
   updateBookAction
 } from "@/lib/actions/books";
 import { type Author, type AuthorId } from "@/lib/db/schema/authors";
+import { BookShelf, BookShelfId } from "@/lib/db/schema/bookShelves";
 
 const BookForm = ({
   authors,
   authorId,
   book,
+  bookShelves,
+  bookShelfId,
   openModal,
   closeModal,
   addOptimistic,
@@ -52,6 +55,8 @@ const BookForm = ({
   book?: Book | null;
   authors: Author[];
   authorId?: AuthorId;
+  bookShelves?: BookShelf[];
+  bookShelfId?: BookShelfId;
   openModal?: (book?: Book) => void;
   closeModal?: () => void;
   addOptimistic?: TAddOptimistic;
@@ -300,8 +305,7 @@ const BookForm = ({
             <SelectContent>
               {authors?.map((author) => (
                 <SelectItem key={author.id} value={author.id.toString()}>
-                  {author.id}
-                  {/* TODO: Replace with a field from the author model */}
+                  {author.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -315,6 +319,41 @@ const BookForm = ({
           )}
         </div>
       )}
+
+      {bookShelfId ? null : (
+        <div>
+          <Label
+            className={cn(
+              "mb-2 inline-block",
+              errors?.bookShelfId ? "text-destructive" : ""
+            )}
+          >
+            Book Shelf
+          </Label>
+          <Select defaultValue={undefined} name="bookShelfId">
+            <SelectTrigger
+              className={cn(errors?.bookShelfId ? "ring ring-destructive" : "")}
+            >
+              <SelectValue placeholder="Select a book shelf" />
+            </SelectTrigger>
+            <SelectContent>
+              {bookShelves?.map((bookshelf) => (
+                <SelectItem key={bookshelf.id} value={bookshelf.id.toString()}>
+                  {bookshelf.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors?.bookShelfId ? (
+            <p className="mt-2 text-xs text-destructive">
+              {errors.bookShelfId[0]}
+            </p>
+          ) : (
+            <div className="h-6" />
+          )}
+        </div>
+      )}
+
       {/* Schema fields end */}
 
       {/* Save Button */}

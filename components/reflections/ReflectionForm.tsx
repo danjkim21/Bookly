@@ -172,8 +172,7 @@ const ReflectionForm = ({
             <SelectContent>
               {books?.map((book) => (
                 <SelectItem key={book.id} value={book.id.toString()}>
-                  {book.id}
-                  {/* TODO: Replace with a field from the book model */}
+                  {book.title}
                 </SelectItem>
               ))}
             </SelectContent>

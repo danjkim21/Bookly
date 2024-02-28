@@ -5,38 +5,34 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { type Book, CompleteBook } from "@/lib/db/schema/books";
+import { type Comment, CompleteComment } from "@/lib/db/schema/comments";
 import Modal from "@/components/shared/Modal";
-import { type Author, type AuthorId } from "@/lib/db/schema/authors";
-import { useOptimisticBooks } from "@/app/(app)/books/useOptimisticBooks";
+import { type BookShelf, type BookShelfId } from "@/lib/db/schema/bookShelves";
+import { useOptimisticComments } from "@/app/(app)/comments/useOptimisticComments";
 import { Button } from "@/components/ui/button";
-import BookForm from "./BookForm";
+import CommentForm from "./CommentForm";
 import { PlusIcon } from "lucide-react";
-import { BookShelf } from "@/lib/db/schema/bookShelves";
 
-type TOpenModal = (book?: Book) => void;
+type TOpenModal = (comment?: Comment) => void;
 
-export default function BookList({
-  books,
-  authors,
-  authorId,
-  bookShelves
+export default function CommentList({
+  comments,
+  bookShelves,
+  bookShelfId
 }: {
-  books: CompleteBook[];
-  authors: Author[];
-  authorId?: AuthorId;
-  bookShelves?: BookShelf[];
+  comments: CompleteComment[];
+  bookShelves: BookShelf[];
+  bookShelfId?: BookShelfId;
 }) {
-  const { optimisticBooks, addOptimisticBook } = useOptimisticBooks(
-    books,
-    authors
+  const { optimisticComments, addOptimisticComment } = useOptimisticComments(
+    comments,
+    bookShelves
   );
-
   const [open, setOpen] = useState(false);
-  const [activeBook, setActiveBook] = useState<Book | null>(null);
-  const openModal = (book?: Book) => {
+  const [activeComment, setActiveComment] = useState<Comment | null>(null);
+  const openModal = (comment?: Comment) => {
     setOpen(true);
-    book ? setActiveBook(book) : setActiveBook(null);
+    comment ? setActiveComment(comment) : setActiveComment(null);
   };
   const closeModal = () => setOpen(false);
 
@@ -45,16 +41,15 @@ export default function BookList({
       <Modal
         open={open}
         setOpen={setOpen}
-        title={activeBook ? "Edit Book" : "Create Book"}
+        title={activeComment ? "Edit Comment" : "Create Comment"}
       >
-        <BookForm
-          book={activeBook}
-          addOptimistic={addOptimisticBook}
+        <CommentForm
+          comment={activeComment}
+          addOptimistic={addOptimisticComment}
           openModal={openModal}
           closeModal={closeModal}
-          authors={authors}
-          authorId={authorId}
           bookShelves={bookShelves}
+          bookShelfId={bookShelfId}
         />
       </Modal>
       <div className="absolute right-0 top-0 ">
@@ -62,12 +57,12 @@ export default function BookList({
           +
         </Button>
       </div>
-      {optimisticBooks.length === 0 ? (
+      {optimisticComments.length === 0 ? (
         <EmptyState openModal={openModal} />
       ) : (
         <ul>
-          {optimisticBooks.map((book) => (
-            <Book book={book} key={book.id} openModal={openModal} />
+          {optimisticComments.map((comment) => (
+            <Comment comment={comment} key={comment.id} openModal={openModal} />
           ))}
         </ul>
       )}
@@ -75,18 +70,20 @@ export default function BookList({
   );
 }
 
-const Book = ({
-  book,
+const Comment = ({
+  comment,
   openModal
 }: {
-  book: CompleteBook;
+  comment: CompleteComment;
   openModal: TOpenModal;
 }) => {
-  const optimistic = book.id === "optimistic";
-  const deleting = book.id === "delete";
+  const optimistic = comment.id === "optimistic";
+  const deleting = comment.id === "delete";
   const mutating = optimistic || deleting;
   const pathname = usePathname();
-  const basePath = pathname.includes("books") ? pathname : pathname + "/books/";
+  const basePath = pathname.includes("comments")
+    ? pathname
+    : pathname + "/comments/";
 
   return (
     <li
@@ -97,10 +94,10 @@ const Book = ({
       )}
     >
       <div className="w-full">
-        <div>{book.title}</div>
+        <div>{comment.content}</div>
       </div>
       <Button variant={"link"} asChild>
-        <Link href={basePath + "/" + book.id}>Edit</Link>
+        <Link href={basePath + "/" + comment.id}>Edit</Link>
       </Button>
     </li>
   );
@@ -110,14 +107,14 @@ const EmptyState = ({ openModal }: { openModal: TOpenModal }) => {
   return (
     <div className="text-center">
       <h3 className="mt-2 text-sm font-semibold text-secondary-foreground">
-        No books
+        No comments
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        Get started by creating a new book.
+        Get started by creating a new comment.
       </p>
       <div className="mt-6">
         <Button onClick={() => openModal()}>
-          <PlusIcon className="h-4" /> New Books{" "}
+          <PlusIcon className="h-4" /> New Comments{" "}
         </Button>
       </div>
     </div>
