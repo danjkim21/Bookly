@@ -5,7 +5,7 @@ import {
   date,
   integer,
   timestamp,
-  pgTable,
+  pgTable
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -33,7 +33,7 @@ export const books = pgTable("books", {
     .default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .notNull()
-    .default(sql`now()`),
+    .default(sql`now()`)
 });
 
 // Schema for books - used to validate API requests
@@ -46,11 +46,11 @@ export const insertBookParams = baseSchema
     completedOn: z.coerce.string().min(1),
     rating: z.coerce.number(),
     favorited: z.coerce.boolean(),
-    authorId: z.coerce.string().min(1),
+    authorId: z.coerce.string().min(1)
   })
   .omit({
     id: true,
-    userId: true,
+    userId: true
   });
 
 export const updateBookSchema = baseSchema;
@@ -60,10 +60,10 @@ export const updateBookParams = baseSchema
     completedOn: z.coerce.string().min(1),
     rating: z.coerce.number(),
     favorited: z.coerce.boolean(),
-    authorId: z.coerce.string().min(1),
+    authorId: z.coerce.string().min(1)
   })
   .omit({
-    userId: true,
+    userId: true
   });
 export const bookIdSchema = baseSchema.pick({ id: true });
 

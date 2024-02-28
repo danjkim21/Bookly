@@ -7,24 +7,24 @@ export type TAddOptimistic = (action: OptimisticAction<Book>) => void;
 
 export const useOptimisticBooks = (
   books: CompleteBook[],
-  authors: Author[],
+  authors: Author[]
 ) => {
   const [optimisticBooks, addOptimisticBook] = useOptimistic(
     books,
     (
       currentState: CompleteBook[],
-      action: OptimisticAction<Book>,
+      action: OptimisticAction<Book>
     ): CompleteBook[] => {
       const { data } = action;
 
       const optimisticAuthor = authors.find(
-        (author) => author.id === data.authorId,
+        (author) => author.id === data.authorId
       )!;
 
       const optimisticBook = {
         ...data,
         author: optimisticAuthor,
-        id: "optimistic",
+        id: "optimistic"
       };
 
       switch (action.action) {
@@ -34,16 +34,16 @@ export const useOptimisticBooks = (
             : [...currentState, optimisticBook];
         case "update":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, ...optimisticBook } : item,
+            item.id === data.id ? { ...item, ...optimisticBook } : item
           );
         case "delete":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, id: "delete" } : item,
+            item.id === data.id ? { ...item, id: "delete" } : item
           );
         default:
           return currentState;
       }
-    },
+    }
   );
 
   return { addOptimisticBook, optimisticBooks };

@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 
 export default function UpdateNameCard({ name }: { name: string }) {
   const [state, formAction] = useFormState(updateUser, {
-    error: "",
+    error: ""
   });
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function UpdateNameCard({ name }: { name: string }) {
       params={{
         header: "Your Name",
         description:
-          "Please enter your full name, or a display name you are comfortable with.",
+          "Please enter your full name, or a display name you are comfortable with."
       }}
     >
       <form action={formAction}>

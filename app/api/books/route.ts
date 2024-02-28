@@ -6,7 +6,7 @@ import { createBook, deleteBook, updateBook } from "@/lib/api/books/mutations";
 import {
   bookIdSchema,
   insertBookParams,
-  updateBookParams,
+  updateBookParams
 } from "@/lib/db/schema/books";
 
 export async function POST(req: Request) {

@@ -7,7 +7,7 @@ import {
   updateAuthorSchema,
   insertAuthorSchema,
   authors,
-  authorIdSchema,
+  authorIdSchema
 } from "@/lib/db/schema/authors";
 import { getUserAuth } from "@/lib/auth/utils";
 
@@ -15,7 +15,7 @@ export const createAuthor = async (author: NewAuthorParams) => {
   const { session } = await getUserAuth();
   const newAuthor = insertAuthorSchema.parse({
     ...author,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [a] = await db.insert(authors).values(newAuthor).returning();
@@ -29,20 +29,20 @@ export const createAuthor = async (author: NewAuthorParams) => {
 
 export const updateAuthor = async (
   id: AuthorId,
-  author: UpdateAuthorParams,
+  author: UpdateAuthorParams
 ) => {
   const { session } = await getUserAuth();
   const { id: authorId } = authorIdSchema.parse({ id });
   const newAuthor = updateAuthorSchema.parse({
     ...author,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [a] = await db
       .update(authors)
       .set({ ...newAuthor, updatedAt: new Date() })
       .where(
-        and(eq(authors.id, authorId!), eq(authors.userId, session?.user.id!)),
+        and(eq(authors.id, authorId!), eq(authors.userId, session?.user.id!))
       )
       .returning();
     return { author: a };
@@ -60,7 +60,7 @@ export const deleteAuthor = async (id: AuthorId) => {
     const [a] = await db
       .delete(authors)
       .where(
-        and(eq(authors.id, authorId!), eq(authors.userId, session?.user.id!)),
+        and(eq(authors.id, authorId!), eq(authors.userId, session?.user.id!))
       )
       .returning();
     return { author: a };

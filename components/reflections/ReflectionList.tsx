@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   type Reflection,
-  CompleteReflection,
+  CompleteReflection
 } from "@/lib/db/schema/reflections";
 import Modal from "@/components/shared/Modal";
 import { type Book, type BookId } from "@/lib/db/schema/books";
@@ -21,7 +21,7 @@ type TOpenModal = (reflection?: Reflection) => void;
 export default function ReflectionList({
   reflections,
   books,
-  bookId,
+  bookId
 }: {
   reflections: CompleteReflection[];
   books: Book[];
@@ -31,7 +31,7 @@ export default function ReflectionList({
     useOptimisticReflections(reflections, books);
   const [open, setOpen] = useState(false);
   const [activeReflection, setActiveReflection] = useState<Reflection | null>(
-    null,
+    null
   );
   const openModal = (reflection?: Reflection) => {
     setOpen(true);
@@ -79,7 +79,7 @@ export default function ReflectionList({
 
 const Reflection = ({
   reflection,
-  openModal,
+  openModal
 }: {
   reflection: CompleteReflection;
   openModal: TOpenModal;
@@ -95,9 +95,9 @@ const Reflection = ({
   return (
     <li
       className={cn(
-        "flex justify-between my-2",
-        mutating ? "opacity-30 animate-pulse" : "",
-        deleting ? "text-destructive" : "",
+        "my-2 flex justify-between",
+        mutating ? "animate-pulse opacity-30" : "",
+        deleting ? "text-destructive" : ""
       )}
     >
       <div className="w-full">

@@ -36,7 +36,7 @@ export default SidebarItems;
 const SidebarLinkGroup = ({
   links,
   title,
-  border,
+  border
 }: {
   links: SidebarLink[];
   title?: string;
@@ -46,9 +46,9 @@ const SidebarLinkGroup = ({
   const pathname = "/" + fullPathname.split("/")[1];
 
   return (
-    <div className={border ? "border-border border-t my-8 pt-4" : ""}>
+    <div className={border ? "my-8 border-t border-border pt-4" : ""}>
       {title ? (
-        <h4 className="px-2 mb-2 text-xs uppercase text-muted-foreground tracking-wider">
+        <h4 className="mb-2 px-2 text-xs uppercase tracking-wider text-muted-foreground">
           {title}
         </h4>
       ) : null}
@@ -64,7 +64,7 @@ const SidebarLinkGroup = ({
 };
 const SidebarLink = ({
   link,
-  active,
+  active
 }: {
   link: SidebarLink;
   active: boolean;
@@ -72,18 +72,18 @@ const SidebarLink = ({
   return (
     <Link
       href={link.href}
-      className={`group transition-colors p-2 inline-block hover:bg-popover hover:text-primary text-muted-foreground text-xs hover:shadow rounded-md w-full${
-        active ? " text-primary font-semibold" : ""
+      className={`group inline-block rounded-md p-2 text-xs text-muted-foreground transition-colors hover:bg-popover hover:text-primary hover:shadow w-full${
+        active ? " font-semibold text-primary" : ""
       }`}
     >
       <div className="flex items-center">
         <div
           className={cn(
-            "opacity-0 left-0 h-6 w-[4px] absolute rounded-r-lg bg-primary",
-            active ? "opacity-100" : "",
+            "absolute left-0 h-6 w-[4px] rounded-r-lg bg-primary opacity-0",
+            active ? "opacity-100" : ""
           )}
         />
-        <link.icon className="h-3.5 mr-1" />
+        <link.icon className="mr-1 h-3.5" />
         <span>{link.title}</span>
       </div>
     </Link>

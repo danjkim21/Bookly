@@ -2,14 +2,14 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 
 export default function Modal({
   title,
   open,
   setOpen,
-  children,
+  children
 }: {
   title?: string;
   open: boolean;

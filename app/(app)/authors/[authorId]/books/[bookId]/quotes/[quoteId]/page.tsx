@@ -12,7 +12,7 @@ import Loading from "@/app/loading";
 export const revalidate = 0;
 
 export default async function QuotePage({
-  params,
+  params
 }: {
   params: { quoteId: string };
 }) {

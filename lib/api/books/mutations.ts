@@ -7,7 +7,7 @@ import {
   updateBookSchema,
   insertBookSchema,
   books,
-  bookIdSchema,
+  bookIdSchema
 } from "@/lib/db/schema/books";
 import { getUserAuth } from "@/lib/auth/utils";
 
@@ -15,7 +15,7 @@ export const createBook = async (book: NewBookParams) => {
   const { session } = await getUserAuth();
   const newBook = insertBookSchema.parse({
     ...book,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [b] = await db.insert(books).values(newBook).returning();
@@ -32,7 +32,7 @@ export const updateBook = async (id: BookId, book: UpdateBookParams) => {
   const { id: bookId } = bookIdSchema.parse({ id });
   const newBook = updateBookSchema.parse({
     ...book,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [b] = await db

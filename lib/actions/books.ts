@@ -8,7 +8,7 @@ import {
   UpdateBookParams,
   bookIdSchema,
   insertBookParams,
-  updateBookParams,
+  updateBookParams
 } from "@/lib/db/schema/books";
 
 const handleErrors = (e: unknown) => {

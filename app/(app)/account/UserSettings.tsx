@@ -4,7 +4,7 @@ import UpdateEmailCard from "./UpdateEmailCard";
 import { AuthSession } from "@/lib/auth/utils";
 
 export default function UserSettings({
-  session,
+  session
 }: {
   session: AuthSession["session"];
 }) {

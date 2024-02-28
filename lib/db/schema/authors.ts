@@ -19,7 +19,7 @@ export const authors = pgTable("authors", {
     .default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .notNull()
-    .default(sql`now()`),
+    .default(sql`now()`)
 });
 
 // Schema for authors - used to validate API requests
@@ -28,12 +28,12 @@ const baseSchema = createSelectSchema(authors).omit(timestamps);
 export const insertAuthorSchema = createInsertSchema(authors).omit(timestamps);
 export const insertAuthorParams = baseSchema.extend({}).omit({
   id: true,
-  userId: true,
+  userId: true
 });
 
 export const updateAuthorSchema = baseSchema;
 export const updateAuthorParams = baseSchema.extend({}).omit({
-  userId: true,
+  userId: true
 });
 export const authorIdSchema = baseSchema.pick({ id: true });
 

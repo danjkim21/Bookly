@@ -5,12 +5,12 @@ import { z } from "zod";
 import {
   createQuote,
   deleteQuote,
-  updateQuote,
+  updateQuote
 } from "@/lib/api/quotes/mutations";
 import {
   quoteIdSchema,
   insertQuoteParams,
-  updateQuoteParams,
+  updateQuoteParams
 } from "@/lib/db/schema/quotes";
 
 export async function POST(req: Request) {

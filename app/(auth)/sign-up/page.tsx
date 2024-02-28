@@ -13,12 +13,12 @@ import AuthFormError from "@/components/auth/AuthFormError";
 
 export default function SignUpPage() {
   const [state, formAction] = useFormState(signUpAction, {
-    error: "",
+    error: ""
   });
 
   return (
-    <main className="max-w-lg mx-auto my-4 bg-popover p-10">
-      <h1 className="text-2xl font-bold text-center">Create an account</h1>
+    <main className="mx-auto my-4 max-w-lg bg-popover p-10">
+      <h1 className="text-center text-2xl font-bold">Create an account</h1>
       <AuthFormError state={state} />
       <form action={formAction}>
         <Label htmlFor="email" className="text-muted-foreground">
@@ -33,7 +33,7 @@ export default function SignUpPage() {
         <br />
         <SubmitButton />
       </form>
-      <div className="mt-4 text-muted-foreground text-center text-sm">
+      <div className="mt-4 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link href="/sign-in" className="text-secondary-foreground underline">
           Sign in

@@ -28,17 +28,17 @@ export function AccountCardBody({ children }: { children: React.ReactNode }) {
 
 export function AccountCardFooter({
   description,
-  children,
+  children
 }: {
   children: React.ReactNode;
   description: string;
 }) {
   return (
     <div
-      className="bg-muted p-4 border dark:bg-card flex justify-between items-center rounded-b-lg"
+      className="flex items-center justify-between rounded-b-lg border bg-muted p-4 dark:bg-card"
       id="footer"
     >
-      <p className="text-muted-foreground text-sm">{description}</p>
+      <p className="text-sm text-muted-foreground">{description}</p>
       {children}
     </div>
   );

@@ -9,7 +9,7 @@ type AdditionalLinks = {
 export const defaultLinks: SidebarLink[] = [
   { href: "/dashboard", title: "Home", icon: HomeIcon },
   { href: "/account", title: "Account", icon: Cog },
-  { href: "/settings", title: "Settings", icon: Cog },
+  { href: "/settings", title: "Settings", icon: Cog }
 ];
 
 export const additionalLinks: AdditionalLinks[] = [
@@ -19,23 +19,23 @@ export const additionalLinks: AdditionalLinks[] = [
       {
         href: "/reflections",
         title: "Reflections",
-        icon: Globe,
+        icon: Globe
       },
       {
         href: "/quotes",
         title: "Quotes",
-        icon: Globe,
+        icon: Globe
       },
       {
         href: "/books",
         title: "Books",
-        icon: Globe,
+        icon: Globe
       },
       {
         href: "/authors",
         title: "Authors",
-        icon: Globe,
-      },
-    ],
-  },
+        icon: Globe
+      }
+    ]
+  }
 ];

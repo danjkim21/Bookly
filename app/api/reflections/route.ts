@@ -5,12 +5,12 @@ import { z } from "zod";
 import {
   createReflection,
   deleteReflection,
-  updateReflection,
+  updateReflection
 } from "@/lib/api/reflections/mutations";
 import {
   reflectionIdSchema,
   insertReflectionParams,
-  updateReflectionParams,
+  updateReflectionParams
 } from "@/lib/db/schema/reflections";
 
 export async function POST(req: Request) {
@@ -40,7 +40,7 @@ export async function PUT(req: Request) {
 
     const { reflection } = await updateReflection(
       validatedParams.id,
-      validatedData,
+      validatedData
     );
 
     return NextResponse.json(reflection, { status: 200 });

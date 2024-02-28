@@ -5,12 +5,12 @@ import { z } from "zod";
 import {
   createAuthor,
   deleteAuthor,
-  updateAuthor,
+  updateAuthor
 } from "@/lib/api/authors/mutations";
 import {
   authorIdSchema,
   insertAuthorParams,
-  updateAuthorParams,
+  updateAuthorParams
 } from "@/lib/db/schema/authors";
 
 export async function POST(req: Request) {

@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Settings</h1>
-      <div className="space-y-4 my-4">
+      <div className="my-4 space-y-4">
         <div>
           <h3 className="text-lg font-medium">Appearance</h3>
           <p className="text-sm text-muted-foreground">
@@ -19,7 +19,7 @@ export default function Page() {
         <Button
           asChild
           variant={"ghost"}
-          className="w-fit h-fit"
+          className="h-fit w-fit"
           onClick={() => setTheme("light")}
         >
           <div className="flex flex-col">
@@ -48,7 +48,7 @@ export default function Page() {
           asChild
           variant={"ghost"}
           onClick={() => setTheme("dark")}
-          className="w-fit h-fit"
+          className="h-fit w-fit"
         >
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
@@ -76,7 +76,7 @@ export default function Page() {
           asChild
           variant={"ghost"}
           onClick={() => setTheme("system")}
-          className="w-fit h-fit"
+          className="h-fit w-fit"
         >
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">

@@ -13,16 +13,16 @@ export const lucia = new Lucia(adapter, {
   sessionCookie: {
     expires: false,
     attributes: {
-      secure: process.env.NODE_ENV === "production",
-    },
+      secure: process.env.NODE_ENV === "production"
+    }
   },
   getUserAttributes: (attributes) => {
     return {
       // attributes has the type of DatabaseUserAttributes
       email: attributes.email,
-      name: attributes.name,
+      name: attributes.name
     };
-  },
+  }
 });
 
 declare module "lucia" {
@@ -45,7 +45,7 @@ export const validateRequest = cache(
     if (!sessionId) {
       return {
         user: null,
-        session: null,
+        session: null
       };
     }
 
@@ -57,7 +57,7 @@ export const validateRequest = cache(
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
-          sessionCookie.attributes,
+          sessionCookie.attributes
         );
       }
       if (!result.session) {
@@ -65,10 +65,12 @@ export const validateRequest = cache(
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
-          sessionCookie.attributes,
+          sessionCookie.attributes
         );
       }
-    } catch {}
+    } catch {
+      //
+    }
     return result;
-  },
+  }
 );

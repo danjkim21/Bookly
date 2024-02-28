@@ -4,7 +4,7 @@ import { getUserAuth } from "@/lib/auth/utils";
 import {
   type AuthorId,
   authorIdSchema,
-  authors,
+  authors
 } from "@/lib/db/schema/authors";
 import { books, type CompleteBook } from "@/lib/db/schema/books";
 
@@ -25,7 +25,7 @@ export const getAuthorById = async (id: AuthorId) => {
     .select()
     .from(authors)
     .where(
-      and(eq(authors.id, authorId), eq(authors.userId, session?.user.id!)),
+      and(eq(authors.id, authorId), eq(authors.userId, session?.user.id!))
     );
   if (row === undefined) return {};
   const a = row;

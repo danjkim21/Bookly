@@ -16,7 +16,7 @@ export function useBackPath(currentResource: string) {
 }
 
 export function BackButton({
-  currentResource,
+  currentResource
 }: {
   /* must be in kebab-case */
   currentResource: string;

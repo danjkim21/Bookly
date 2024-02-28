@@ -18,7 +18,7 @@ import { type Author, insertAuthorParams } from "@/lib/db/schema/authors";
 import {
   createAuthorAction,
   deleteAuthorAction,
-  updateAuthorAction,
+  updateAuthorAction
 } from "@/lib/actions/authors";
 
 const AuthorForm = ({
@@ -26,7 +26,7 @@ const AuthorForm = ({
   openModal,
   closeModal,
   addOptimistic,
-  postSuccess,
+  postSuccess
 }: {
   author?: Author | null;
 
@@ -47,13 +47,13 @@ const AuthorForm = ({
 
   const onSuccess = (
     action: Action,
-    data?: { error: string; values: Author },
+    data?: { error: string; values: Author }
   ) => {
     const failed = Boolean(data?.error);
     if (failed) {
       openModal && openModal(data?.values);
       toast.error(`Failed to ${action}`, {
-        description: data?.error ?? "Error",
+        description: data?.error ?? "Error"
       });
     } else {
       router.refresh();
@@ -68,7 +68,7 @@ const AuthorForm = ({
 
     const payload = Object.fromEntries(data.entries());
     const authorParsed = await insertAuthorParams.safeParseAsync({
-      ...payload,
+      ...payload
     });
     if (!authorParsed.success) {
       setErrors(authorParsed?.error.flatten().fieldErrors);
@@ -82,14 +82,14 @@ const AuthorForm = ({
       createdAt: author?.createdAt ?? new Date(),
       id: author?.id ?? "",
       userId: author?.userId ?? "",
-      ...values,
+      ...values
     };
     try {
       startMutation(async () => {
         addOptimistic &&
           addOptimistic({
             data: pendingAuthor,
-            action: editing ? "update" : "create",
+            action: editing ? "update" : "create"
           });
 
         const error = editing
@@ -98,11 +98,11 @@ const AuthorForm = ({
 
         const errorFormatted = {
           error: error ?? "Error",
-          values: pendingAuthor,
+          values: pendingAuthor
         };
         onSuccess(
           editing ? "update" : "create",
-          error ? errorFormatted : undefined,
+          error ? errorFormatted : undefined
         );
       });
     } catch (e) {
@@ -119,7 +119,7 @@ const AuthorForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.name ? "text-destructive" : "",
+            errors?.name ? "text-destructive" : ""
           )}
         >
           Name
@@ -131,7 +131,7 @@ const AuthorForm = ({
           defaultValue={author?.name ?? ""}
         />
         {errors?.name ? (
-          <p className="text-xs text-destructive mt-2">{errors.name[0]}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.name[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -157,7 +157,7 @@ const AuthorForm = ({
               setIsDeleting(false);
               const errorFormatted = {
                 error: error ?? "Error",
-                values: author,
+                values: author
               };
 
               onSuccess("delete", error ? errorFormatted : undefined);
@@ -175,7 +175,7 @@ export default AuthorForm;
 
 const SaveButton = ({
   editing,
-  errors,
+  errors
 }: {
   editing: boolean;
   errors: boolean;

@@ -6,7 +6,7 @@ import { authors } from "@/lib/db/schema/authors";
 import { quotes, type CompleteQuote } from "@/lib/db/schema/quotes";
 import {
   reflections,
-  type CompleteReflection,
+  type CompleteReflection
 } from "@/lib/db/schema/reflections";
 
 export const getBooks = async () => {

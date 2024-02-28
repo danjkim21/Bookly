@@ -12,7 +12,7 @@ import Loading from "@/app/loading";
 export const revalidate = 0;
 
 export default async function AuthorPage({
-  params,
+  params
 }: {
   params: { authorId: string };
 }) {
@@ -35,8 +35,8 @@ const Author = async ({ id }: { id: string }) => {
         <BackButton currentResource="authors" />
         <OptimisticAuthor author={author} />
       </div>
-      <div className="relative mt-8 mx-4">
-        <h3 className="text-xl font-medium mb-4">{author.name}&apos;s Books</h3>
+      <div className="relative mx-4 mt-8">
+        <h3 className="mb-4 text-xl font-medium">{author.name}&apos;s Books</h3>
         <BookList authors={[]} authorId={author.id} books={books} />
       </div>
     </Suspense>

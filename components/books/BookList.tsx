@@ -18,7 +18,7 @@ type TOpenModal = (book?: Book) => void;
 export default function BookList({
   books,
   authors,
-  authorId,
+  authorId
 }: {
   books: CompleteBook[];
   authors: Author[];
@@ -26,7 +26,7 @@ export default function BookList({
 }) {
   const { optimisticBooks, addOptimisticBook } = useOptimisticBooks(
     books,
-    authors,
+    authors
   );
   const [open, setOpen] = useState(false);
   const [activeBook, setActiveBook] = useState<Book | null>(null);
@@ -72,7 +72,7 @@ export default function BookList({
 
 const Book = ({
   book,
-  openModal,
+  openModal
 }: {
   book: CompleteBook;
   openModal: TOpenModal;
@@ -86,9 +86,9 @@ const Book = ({
   return (
     <li
       className={cn(
-        "flex justify-between my-2",
-        mutating ? "opacity-30 animate-pulse" : "",
-        deleting ? "text-destructive" : "",
+        "my-2 flex justify-between",
+        mutating ? "animate-pulse opacity-30" : "",
+        deleting ? "text-destructive" : ""
       )}
     >
       <div className="w-full">

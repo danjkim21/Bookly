@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -29,14 +29,14 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 
 import { type Book, insertBookParams } from "@/lib/db/schema/books";
 import {
   createBookAction,
   deleteBookAction,
-  updateBookAction,
+  updateBookAction
 } from "@/lib/actions/books";
 import { type Author, type AuthorId } from "@/lib/db/schema/authors";
 
@@ -47,7 +47,7 @@ const BookForm = ({
   openModal,
   closeModal,
   addOptimistic,
-  postSuccess,
+  postSuccess
 }: {
   book?: Book | null;
   authors: Author[];
@@ -61,7 +61,7 @@ const BookForm = ({
     useValidatedForm<Book>(insertBookParams);
   const editing = !!book?.id;
   const [completedOn, setCompletedOn] = useState<Date | undefined>(
-    book?.completedOn,
+    book?.completedOn
   );
 
   const [isDeleting, setIsDeleting] = useState(false);
@@ -72,13 +72,13 @@ const BookForm = ({
 
   const onSuccess = (
     action: Action,
-    data?: { error: string; values: Book },
+    data?: { error: string; values: Book }
   ) => {
     const failed = Boolean(data?.error);
     if (failed) {
       openModal && openModal(data?.values);
       toast.error(`Failed to ${action}`, {
-        description: data?.error ?? "Error",
+        description: data?.error ?? "Error"
       });
     } else {
       router.refresh();
@@ -94,7 +94,7 @@ const BookForm = ({
     const payload = Object.fromEntries(data.entries());
     const bookParsed = await insertBookParams.safeParseAsync({
       authorId,
-      ...payload,
+      ...payload
     });
     if (!bookParsed.success) {
       setErrors(bookParsed?.error.flatten().fieldErrors);
@@ -108,14 +108,14 @@ const BookForm = ({
       createdAt: book?.createdAt ?? new Date(),
       id: book?.id ?? "",
       userId: book?.userId ?? "",
-      ...values,
+      ...values
     };
     try {
       startMutation(async () => {
         addOptimistic &&
           addOptimistic({
             data: pendingBook,
-            action: editing ? "update" : "create",
+            action: editing ? "update" : "create"
           });
 
         const error = editing
@@ -124,11 +124,11 @@ const BookForm = ({
 
         const errorFormatted = {
           error: error ?? "Error",
-          values: pendingBook,
+          values: pendingBook
         };
         onSuccess(
           editing ? "update" : "create",
-          error ? errorFormatted : undefined,
+          error ? errorFormatted : undefined
         );
       });
     } catch (e) {
@@ -145,7 +145,7 @@ const BookForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.title ? "text-destructive" : "",
+            errors?.title ? "text-destructive" : ""
           )}
         >
           Title
@@ -157,7 +157,7 @@ const BookForm = ({
           defaultValue={book?.title ?? ""}
         />
         {errors?.title ? (
-          <p className="text-xs text-destructive mt-2">{errors.title[0]}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.title[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -166,7 +166,7 @@ const BookForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.completed ? "text-destructive" : "",
+            errors?.completed ? "text-destructive" : ""
           )}
         >
           Completed
@@ -178,7 +178,7 @@ const BookForm = ({
           className={cn(errors?.completed ? "ring ring-destructive" : "")}
         />
         {errors?.completed ? (
-          <p className="text-xs text-destructive mt-2">{errors.completed[0]}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.completed[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -187,7 +187,7 @@ const BookForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.completedOn ? "text-destructive" : "",
+            errors?.completedOn ? "text-destructive" : ""
           )}
         >
           Completed On
@@ -207,7 +207,7 @@ const BookForm = ({
               variant={"outline"}
               className={cn(
                 "w-[240px] pl-3 text-left font-normal",
-                !book?.completedOn && "text-muted-foreground",
+                !book?.completedOn && "text-muted-foreground"
               )}
             >
               {completedOn ? (
@@ -231,7 +231,7 @@ const BookForm = ({
           </PopoverContent>
         </Popover>
         {errors?.completedOn ? (
-          <p className="text-xs text-destructive mt-2">
+          <p className="mt-2 text-xs text-destructive">
             {errors.completedOn[0]}
           </p>
         ) : (
@@ -242,7 +242,7 @@ const BookForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.rating ? "text-destructive" : "",
+            errors?.rating ? "text-destructive" : ""
           )}
         >
           Rating
@@ -254,7 +254,7 @@ const BookForm = ({
           defaultValue={book?.rating ?? ""}
         />
         {errors?.rating ? (
-          <p className="text-xs text-destructive mt-2">{errors.rating[0]}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.rating[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -263,7 +263,7 @@ const BookForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.favorited ? "text-destructive" : "",
+            errors?.favorited ? "text-destructive" : ""
           )}
         >
           Favorited
@@ -275,7 +275,7 @@ const BookForm = ({
           className={cn(errors?.favorited ? "ring ring-destructive" : "")}
         />
         {errors?.favorited ? (
-          <p className="text-xs text-destructive mt-2">{errors.favorited[0]}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.favorited[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -286,7 +286,7 @@ const BookForm = ({
           <Label
             className={cn(
               "mb-2 inline-block",
-              errors?.authorId ? "text-destructive" : "",
+              errors?.authorId ? "text-destructive" : ""
             )}
           >
             Author
@@ -307,7 +307,7 @@ const BookForm = ({
             </SelectContent>
           </Select>
           {errors?.authorId ? (
-            <p className="text-xs text-destructive mt-2">
+            <p className="mt-2 text-xs text-destructive">
               {errors.authorId[0]}
             </p>
           ) : (
@@ -335,7 +335,7 @@ const BookForm = ({
               setIsDeleting(false);
               const errorFormatted = {
                 error: error ?? "Error",
-                values: book,
+                values: book
               };
 
               onSuccess("delete", error ? errorFormatted : undefined);
@@ -353,7 +353,7 @@ export default BookForm;
 
 const SaveButton = ({
   editing,
-  errors,
+  errors
 }: {
   editing: boolean;
   errors: boolean;

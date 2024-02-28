@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import {
   createReflection,
   deleteReflection,
-  updateReflection,
+  updateReflection
 } from "@/lib/api/reflections/mutations";
 import {
   ReflectionId,
@@ -12,7 +12,7 @@ import {
   UpdateReflectionParams,
   reflectionIdSchema,
   insertReflectionParams,
-  updateReflectionParams,
+  updateReflectionParams
 } from "@/lib/db/schema/reflections";
 
 const handleErrors = (e: unknown) => {

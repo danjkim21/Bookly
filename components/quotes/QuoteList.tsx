@@ -18,7 +18,7 @@ type TOpenModal = (quote?: Quote) => void;
 export default function QuoteList({
   quotes,
   books,
-  bookId,
+  bookId
 }: {
   quotes: CompleteQuote[];
   books: Book[];
@@ -26,7 +26,7 @@ export default function QuoteList({
 }) {
   const { optimisticQuotes, addOptimisticQuote } = useOptimisticQuotes(
     quotes,
-    books,
+    books
   );
   const [open, setOpen] = useState(false);
   const [activeQuote, setActiveQuote] = useState<Quote | null>(null);
@@ -72,7 +72,7 @@ export default function QuoteList({
 
 const Quote = ({
   quote,
-  openModal,
+  openModal
 }: {
   quote: CompleteQuote;
   openModal: TOpenModal;
@@ -88,9 +88,9 @@ const Quote = ({
   return (
     <li
       className={cn(
-        "flex justify-between my-2",
-        mutating ? "opacity-30 animate-pulse" : "",
-        deleting ? "text-destructive" : "",
+        "my-2 flex justify-between",
+        mutating ? "animate-pulse opacity-30" : "",
+        deleting ? "text-destructive" : ""
       )}
     >
       <div className="w-full">

@@ -29,16 +29,16 @@ export default function OptimisticAuthor({ author }: { author: Author }) {
           addOptimistic={updateAuthor}
         />
       </Modal>
-      <div className="flex justify-between items-end mb-4">
-        <h1 className="font-semibold text-2xl">{optimisticAuthor.name}</h1>
+      <div className="mb-4 flex items-end justify-between">
+        <h1 className="text-2xl font-semibold">{optimisticAuthor.name}</h1>
         <Button className="" onClick={() => setOpen(true)}>
           Edit
         </Button>
       </div>
       <pre
         className={cn(
-          "bg-secondary p-4 rounded-lg break-all text-wrap",
-          optimisticAuthor.id === "optimistic" ? "animate-pulse" : "",
+          "text-wrap break-all rounded-lg bg-secondary p-4",
+          optimisticAuthor.id === "optimistic" ? "animate-pulse" : ""
         )}
       >
         {JSON.stringify(optimisticAuthor, null, 2)}

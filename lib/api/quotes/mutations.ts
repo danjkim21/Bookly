@@ -7,7 +7,7 @@ import {
   updateQuoteSchema,
   insertQuoteSchema,
   quotes,
-  quoteIdSchema,
+  quoteIdSchema
 } from "@/lib/db/schema/quotes";
 import { getUserAuth } from "@/lib/auth/utils";
 
@@ -15,7 +15,7 @@ export const createQuote = async (quote: NewQuoteParams) => {
   const { session } = await getUserAuth();
   const newQuote = insertQuoteSchema.parse({
     ...quote,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [q] = await db.insert(quotes).values(newQuote).returning();
@@ -32,7 +32,7 @@ export const updateQuote = async (id: QuoteId, quote: UpdateQuoteParams) => {
   const { id: quoteId } = quoteIdSchema.parse({ id });
   const newQuote = updateQuoteSchema.parse({
     ...quote,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [q] = await db

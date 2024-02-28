@@ -10,7 +10,7 @@ export const useOptimisticQuotes = (quotes: CompleteQuote[], books: Book[]) => {
     quotes,
     (
       currentState: CompleteQuote[],
-      action: OptimisticAction<Quote>,
+      action: OptimisticAction<Quote>
     ): CompleteQuote[] => {
       const { data } = action;
 
@@ -19,7 +19,7 @@ export const useOptimisticQuotes = (quotes: CompleteQuote[], books: Book[]) => {
       const optimisticQuote = {
         ...data,
         book: optimisticBook,
-        id: "optimistic",
+        id: "optimistic"
       };
 
       switch (action.action) {
@@ -29,16 +29,16 @@ export const useOptimisticQuotes = (quotes: CompleteQuote[], books: Book[]) => {
             : [...currentState, optimisticQuote];
         case "update":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, ...optimisticQuote } : item,
+            item.id === data.id ? { ...item, ...optimisticQuote } : item
           );
         case "delete":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, id: "delete" } : item,
+            item.id === data.id ? { ...item, id: "delete" } : item
           );
         default:
           return currentState;
       }
-    },
+    }
   );
 
   return { addOptimisticQuote, optimisticQuotes };

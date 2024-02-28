@@ -19,17 +19,17 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 
 import {
   type Reflection,
-  insertReflectionParams,
+  insertReflectionParams
 } from "@/lib/db/schema/reflections";
 import {
   createReflectionAction,
   deleteReflectionAction,
-  updateReflectionAction,
+  updateReflectionAction
 } from "@/lib/actions/reflections";
 import { type Book, type BookId } from "@/lib/db/schema/books";
 
@@ -40,7 +40,7 @@ const ReflectionForm = ({
   openModal,
   closeModal,
   addOptimistic,
-  postSuccess,
+  postSuccess
 }: {
   reflection?: Reflection | null;
   books: Book[];
@@ -62,13 +62,13 @@ const ReflectionForm = ({
 
   const onSuccess = (
     action: Action,
-    data?: { error: string; values: Reflection },
+    data?: { error: string; values: Reflection }
   ) => {
     const failed = Boolean(data?.error);
     if (failed) {
       openModal && openModal(data?.values);
       toast.error(`Failed to ${action}`, {
-        description: data?.error ?? "Error",
+        description: data?.error ?? "Error"
       });
     } else {
       router.refresh();
@@ -84,7 +84,7 @@ const ReflectionForm = ({
     const payload = Object.fromEntries(data.entries());
     const reflectionParsed = await insertReflectionParams.safeParseAsync({
       bookId,
-      ...payload,
+      ...payload
     });
     if (!reflectionParsed.success) {
       setErrors(reflectionParsed?.error.flatten().fieldErrors);
@@ -98,14 +98,14 @@ const ReflectionForm = ({
       createdAt: reflection?.createdAt ?? new Date(),
       id: reflection?.id ?? "",
       userId: reflection?.userId ?? "",
-      ...values,
+      ...values
     };
     try {
       startMutation(async () => {
         addOptimistic &&
           addOptimistic({
             data: pendingReflection,
-            action: editing ? "update" : "create",
+            action: editing ? "update" : "create"
           });
 
         const error = editing
@@ -114,11 +114,11 @@ const ReflectionForm = ({
 
         const errorFormatted = {
           error: error ?? "Error",
-          values: pendingReflection,
+          values: pendingReflection
         };
         onSuccess(
           editing ? "update" : "create",
-          error ? errorFormatted : undefined,
+          error ? errorFormatted : undefined
         );
       });
     } catch (e) {
@@ -135,7 +135,7 @@ const ReflectionForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.content ? "text-destructive" : "",
+            errors?.content ? "text-destructive" : ""
           )}
         >
           Content
@@ -147,7 +147,7 @@ const ReflectionForm = ({
           defaultValue={reflection?.content ?? ""}
         />
         {errors?.content ? (
-          <p className="text-xs text-destructive mt-2">{errors.content[0]}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.content[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -158,7 +158,7 @@ const ReflectionForm = ({
           <Label
             className={cn(
               "mb-2 inline-block",
-              errors?.bookId ? "text-destructive" : "",
+              errors?.bookId ? "text-destructive" : ""
             )}
           >
             Book
@@ -179,7 +179,7 @@ const ReflectionForm = ({
             </SelectContent>
           </Select>
           {errors?.bookId ? (
-            <p className="text-xs text-destructive mt-2">{errors.bookId[0]}</p>
+            <p className="mt-2 text-xs text-destructive">{errors.bookId[0]}</p>
           ) : (
             <div className="h-6" />
           )}
@@ -206,7 +206,7 @@ const ReflectionForm = ({
               setIsDeleting(false);
               const errorFormatted = {
                 error: error ?? "Error",
-                values: reflection,
+                values: reflection
               };
 
               onSuccess("delete", error ? errorFormatted : undefined);
@@ -224,7 +224,7 @@ export default ReflectionForm;
 
 const SaveButton = ({
   editing,
-  errors,
+  errors
 }: {
   editing: boolean;
   errors: boolean;

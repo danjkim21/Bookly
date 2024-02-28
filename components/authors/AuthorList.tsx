@@ -60,7 +60,7 @@ export default function AuthorList({ authors }: { authors: CompleteAuthor[] }) {
 
 const Author = ({
   author,
-  openModal,
+  openModal
 }: {
   author: CompleteAuthor;
   openModal: TOpenModal;
@@ -76,9 +76,9 @@ const Author = ({
   return (
     <li
       className={cn(
-        "flex justify-between my-2",
-        mutating ? "opacity-30 animate-pulse" : "",
-        deleting ? "text-destructive" : "",
+        "my-2 flex justify-between",
+        mutating ? "animate-pulse opacity-30" : "",
+        deleting ? "text-destructive" : ""
       )}
     >
       <div className="w-full">

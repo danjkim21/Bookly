@@ -7,7 +7,7 @@ import {
   updateReflectionSchema,
   insertReflectionSchema,
   reflections,
-  reflectionIdSchema,
+  reflectionIdSchema
 } from "@/lib/db/schema/reflections";
 import { getUserAuth } from "@/lib/auth/utils";
 
@@ -15,7 +15,7 @@ export const createReflection = async (reflection: NewReflectionParams) => {
   const { session } = await getUserAuth();
   const newReflection = insertReflectionSchema.parse({
     ...reflection,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [r] = await db.insert(reflections).values(newReflection).returning();
@@ -29,13 +29,13 @@ export const createReflection = async (reflection: NewReflectionParams) => {
 
 export const updateReflection = async (
   id: ReflectionId,
-  reflection: UpdateReflectionParams,
+  reflection: UpdateReflectionParams
 ) => {
   const { session } = await getUserAuth();
   const { id: reflectionId } = reflectionIdSchema.parse({ id });
   const newReflection = updateReflectionSchema.parse({
     ...reflection,
-    userId: session?.user.id!,
+    userId: session?.user.id!
   });
   try {
     const [r] = await db
@@ -44,8 +44,8 @@ export const updateReflection = async (
       .where(
         and(
           eq(reflections.id, reflectionId!),
-          eq(reflections.userId, session?.user.id!),
-        ),
+          eq(reflections.userId, session?.user.id!)
+        )
       )
       .returning();
     return { reflection: r };
@@ -65,8 +65,8 @@ export const deleteReflection = async (id: ReflectionId) => {
       .where(
         and(
           eq(reflections.id, reflectionId!),
-          eq(reflections.userId, session?.user.id!),
-        ),
+          eq(reflections.userId, session?.user.id!)
+        )
       )
       .returning();
     return { reflection: r };

@@ -19,14 +19,14 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 
 import { type Quote, insertQuoteParams } from "@/lib/db/schema/quotes";
 import {
   createQuoteAction,
   deleteQuoteAction,
-  updateQuoteAction,
+  updateQuoteAction
 } from "@/lib/actions/quotes";
 import { type Book, type BookId } from "@/lib/db/schema/books";
 
@@ -37,7 +37,7 @@ const QuoteForm = ({
   openModal,
   closeModal,
   addOptimistic,
-  postSuccess,
+  postSuccess
 }: {
   quote?: Quote | null;
   books: Book[];
@@ -59,13 +59,13 @@ const QuoteForm = ({
 
   const onSuccess = (
     action: Action,
-    data?: { error: string; values: Quote },
+    data?: { error: string; values: Quote }
   ) => {
     const failed = Boolean(data?.error);
     if (failed) {
       openModal && openModal(data?.values);
       toast.error(`Failed to ${action}`, {
-        description: data?.error ?? "Error",
+        description: data?.error ?? "Error"
       });
     } else {
       router.refresh();
@@ -81,7 +81,7 @@ const QuoteForm = ({
     const payload = Object.fromEntries(data.entries());
     const quoteParsed = await insertQuoteParams.safeParseAsync({
       bookId,
-      ...payload,
+      ...payload
     });
     if (!quoteParsed.success) {
       setErrors(quoteParsed?.error.flatten().fieldErrors);
@@ -95,14 +95,14 @@ const QuoteForm = ({
       createdAt: quote?.createdAt ?? new Date(),
       id: quote?.id ?? "",
       userId: quote?.userId ?? "",
-      ...values,
+      ...values
     };
     try {
       startMutation(async () => {
         addOptimistic &&
           addOptimistic({
             data: pendingQuote,
-            action: editing ? "update" : "create",
+            action: editing ? "update" : "create"
           });
 
         const error = editing
@@ -111,11 +111,11 @@ const QuoteForm = ({
 
         const errorFormatted = {
           error: error ?? "Error",
-          values: pendingQuote,
+          values: pendingQuote
         };
         onSuccess(
           editing ? "update" : "create",
-          error ? errorFormatted : undefined,
+          error ? errorFormatted : undefined
         );
       });
     } catch (e) {
@@ -132,7 +132,7 @@ const QuoteForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.content ? "text-destructive" : "",
+            errors?.content ? "text-destructive" : ""
           )}
         >
           Content
@@ -144,7 +144,7 @@ const QuoteForm = ({
           defaultValue={quote?.content ?? ""}
         />
         {errors?.content ? (
-          <p className="text-xs text-destructive mt-2">{errors.content[0]}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.content[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -155,7 +155,7 @@ const QuoteForm = ({
           <Label
             className={cn(
               "mb-2 inline-block",
-              errors?.bookId ? "text-destructive" : "",
+              errors?.bookId ? "text-destructive" : ""
             )}
           >
             Book
@@ -176,7 +176,7 @@ const QuoteForm = ({
             </SelectContent>
           </Select>
           {errors?.bookId ? (
-            <p className="text-xs text-destructive mt-2">{errors.bookId[0]}</p>
+            <p className="mt-2 text-xs text-destructive">{errors.bookId[0]}</p>
           ) : (
             <div className="h-6" />
           )}
@@ -202,7 +202,7 @@ const QuoteForm = ({
               setIsDeleting(false);
               const errorFormatted = {
                 error: error ?? "Error",
-                values: quote,
+                values: quote
               };
 
               onSuccess("delete", error ? errorFormatted : undefined);
@@ -220,7 +220,7 @@ export default QuoteForm;
 
 const SaveButton = ({
   editing,
-  errors,
+  errors
 }: {
   editing: boolean;
   errors: boolean;

@@ -13,7 +13,7 @@ import { type Author, type AuthorId } from "@/lib/db/schema/authors";
 export default function OptimisticBook({
   book,
   authors,
-  authorId,
+  authorId
 }: {
   book: Book;
 
@@ -41,16 +41,16 @@ export default function OptimisticBook({
           addOptimistic={updateBook}
         />
       </Modal>
-      <div className="flex justify-between items-end mb-4">
-        <h1 className="font-semibold text-2xl">{optimisticBook.title}</h1>
+      <div className="mb-4 flex items-end justify-between">
+        <h1 className="text-2xl font-semibold">{optimisticBook.title}</h1>
         <Button className="" onClick={() => setOpen(true)}>
           Edit
         </Button>
       </div>
       <pre
         className={cn(
-          "bg-secondary p-4 rounded-lg break-all text-wrap",
-          optimisticBook.id === "optimistic" ? "animate-pulse" : "",
+          "text-wrap break-all rounded-lg bg-secondary p-4",
+          optimisticBook.id === "optimistic" ? "animate-pulse" : ""
         )}
       >
         {JSON.stringify(optimisticBook, null, 2)}

@@ -22,7 +22,7 @@ export const reflections = pgTable("reflections", {
     .default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .notNull()
-    .default(sql`now()`),
+    .default(sql`now()`)
 });
 
 // Schema for reflections - used to validate API requests
@@ -32,20 +32,20 @@ export const insertReflectionSchema =
   createInsertSchema(reflections).omit(timestamps);
 export const insertReflectionParams = baseSchema
   .extend({
-    bookId: z.coerce.string().min(1),
+    bookId: z.coerce.string().min(1)
   })
   .omit({
     id: true,
-    userId: true,
+    userId: true
   });
 
 export const updateReflectionSchema = baseSchema;
 export const updateReflectionParams = baseSchema
   .extend({
-    bookId: z.coerce.string().min(1),
+    bookId: z.coerce.string().min(1)
   })
   .omit({
-    userId: true,
+    userId: true
   });
 export const reflectionIdSchema = baseSchema.pick({ id: true });
 

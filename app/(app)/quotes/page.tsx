@@ -13,7 +13,7 @@ export default async function QuotesPage() {
     <main>
       <div className="relative">
         <div className="flex justify-between">
-          <h1 className="font-semibold text-2xl my-2">Quotes</h1>
+          <h1 className="my-2 text-2xl font-semibold">Quotes</h1>
         </div>
         <Quotes />
       </div>

@@ -22,7 +22,7 @@ export const quotes = pgTable("quotes", {
     .default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .notNull()
-    .default(sql`now()`),
+    .default(sql`now()`)
 });
 
 // Schema for quotes - used to validate API requests
@@ -31,20 +31,20 @@ const baseSchema = createSelectSchema(quotes).omit(timestamps);
 export const insertQuoteSchema = createInsertSchema(quotes).omit(timestamps);
 export const insertQuoteParams = baseSchema
   .extend({
-    bookId: z.coerce.string().min(1),
+    bookId: z.coerce.string().min(1)
   })
   .omit({
     id: true,
-    userId: true,
+    userId: true
   });
 
 export const updateQuoteSchema = baseSchema;
 export const updateQuoteParams = baseSchema
   .extend({
-    bookId: z.coerce.string().min(1),
+    bookId: z.coerce.string().min(1)
   })
   .omit({
-    userId: true,
+    userId: true
   });
 export const quoteIdSchema = baseSchema.pick({ id: true });
 

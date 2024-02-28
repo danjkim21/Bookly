@@ -24,9 +24,9 @@ export const getUserAuth = async (): Promise<AuthSession> => {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
-      },
-    },
+        name: user.name
+      }
+    }
   };
 };
 
@@ -49,7 +49,7 @@ const getErrorMessage = (errors: any): string => {
 };
 
 export const validateAuthFormData = (
-  formData: FormData,
+  formData: FormData
 ):
   | { data: UsernameAndPassword; error: null }
   | { data: null; error: string } => {
@@ -60,7 +60,7 @@ export const validateAuthFormData = (
   if (!result.success) {
     return {
       data: null,
-      error: getErrorMessage(result.error.flatten().fieldErrors),
+      error: getErrorMessage(result.error.flatten().fieldErrors)
     };
   }
 

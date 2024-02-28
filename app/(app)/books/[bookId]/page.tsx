@@ -14,7 +14,7 @@ import Loading from "@/app/loading";
 export const revalidate = 0;
 
 export default async function BookPage({
-  params,
+  params
 }: {
   params: { bookId: string };
 }) {
@@ -39,12 +39,12 @@ const Book = async ({ id }: { id: string }) => {
         <BackButton currentResource="books" />
         <OptimisticBook book={book} authors={authors} />
       </div>
-      <div className="relative mt-8 mx-4">
-        <h3 className="text-xl font-medium mb-4">{book.title}&apos;s Quotes</h3>
+      <div className="relative mx-4 mt-8">
+        <h3 className="mb-4 text-xl font-medium">{book.title}&apos;s Quotes</h3>
         <QuoteList books={[]} bookId={book.id} quotes={quotes} />
       </div>
-      <div className="relative mt-8 mx-4">
-        <h3 className="text-xl font-medium mb-4">
+      <div className="relative mx-4 mt-8">
+        <h3 className="mb-4 text-xl font-medium">
           {book.title}&apos;s Reflections
         </h3>
         <ReflectionList books={[]} bookId={book.id} reflections={reflections} />

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import {
   createAuthor,
   deleteAuthor,
-  updateAuthor,
+  updateAuthor
 } from "@/lib/api/authors/mutations";
 import {
   AuthorId,
@@ -12,7 +12,7 @@ import {
   UpdateAuthorParams,
   authorIdSchema,
   insertAuthorParams,
-  updateAuthorParams,
+  updateAuthorParams
 } from "@/lib/db/schema/authors";
 
 const handleErrors = (e: unknown) => {

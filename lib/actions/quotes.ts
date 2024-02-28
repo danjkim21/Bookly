@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import {
   createQuote,
   deleteQuote,
-  updateQuote,
+  updateQuote
 } from "@/lib/api/quotes/mutations";
 import {
   QuoteId,
@@ -12,7 +12,7 @@ import {
   UpdateQuoteParams,
   quoteIdSchema,
   insertQuoteParams,
-  updateQuoteParams,
+  updateQuoteParams
 } from "@/lib/db/schema/quotes";
 
 const handleErrors = (e: unknown) => {

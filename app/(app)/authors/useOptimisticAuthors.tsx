@@ -9,14 +9,14 @@ export const useOptimisticAuthors = (authors: CompleteAuthor[]) => {
     authors,
     (
       currentState: CompleteAuthor[],
-      action: OptimisticAction<Author>,
+      action: OptimisticAction<Author>
     ): CompleteAuthor[] => {
       const { data } = action;
 
       const optimisticAuthor = {
         ...data,
 
-        id: "optimistic",
+        id: "optimistic"
       };
 
       switch (action.action) {
@@ -26,16 +26,16 @@ export const useOptimisticAuthors = (authors: CompleteAuthor[]) => {
             : [...currentState, optimisticAuthor];
         case "update":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, ...optimisticAuthor } : item,
+            item.id === data.id ? { ...item, ...optimisticAuthor } : item
           );
         case "delete":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, id: "delete" } : item,
+            item.id === data.id ? { ...item, id: "delete" } : item
           );
         default:
           return currentState;
       }
-    },
+    }
   );
 
   return { addOptimisticAuthor, optimisticAuthors };

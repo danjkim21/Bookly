@@ -4,7 +4,7 @@ import { getUserAuth } from "@/lib/auth/utils";
 import {
   type ReflectionId,
   reflectionIdSchema,
-  reflections,
+  reflections
 } from "@/lib/db/schema/reflections";
 import { books } from "@/lib/db/schema/books";
 
@@ -28,8 +28,8 @@ export const getReflectionById = async (id: ReflectionId) => {
     .where(
       and(
         eq(reflections.id, reflectionId),
-        eq(reflections.userId, session?.user.id!),
-      ),
+        eq(reflections.userId, session?.user.id!)
+      )
     )
     .leftJoin(books, eq(reflections.bookId, books.id));
   if (row === undefined) return {};
