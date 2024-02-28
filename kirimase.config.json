@@ -1,0 +1,14 @@
+{
+  "hasSrc": false,
+  "packages": ["shadcn-ui", "drizzle", "lucia"],
+  "preferredPackageManager": "yarn",
+  "t3": false,
+  "alias": "@",
+  "analytics": true,
+  "rootPath": "",
+  "componentLib": "shadcn-ui",
+  "driver": "pg",
+  "provider": "vercel-pg",
+  "orm": "drizzle",
+  "auth": "lucia"
+}
