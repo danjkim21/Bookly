@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --background: 133, 15%, 47%;
+    --foreground: 0, 0%, 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card: 137, 13%, 54%, 0.671;
+    --card-foreground: 0, 0%, 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
+    --popover: 137, 13%, 54%, 0.671;
+    --popover-foreground: 0, 0%, 100%;
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 0, 0%, 100%;
+    --primary-foreground: 185, 29%, 23%;
 
-    --secondary: 0 0% 96.1%;
+    --secondary: 137, 13%, 54%, 0.671;
     --secondary-foreground: 0 0% 9%;
 
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted: 133, 15%, 47%;
+    --muted-foreground: 129, 9%, 85%;
 
-    --accent: 0 0% 96.1%;
+    --accent: 129, 9%, 85%;
     --accent-foreground: 0 0% 9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 89.8%;
+    --border: 137, 13%, 54%, 0.671;
     --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --ring: 186, 30%, 20%;
 
-    --radius: 0.5rem;
+    --radius: 2rem;
   }
 
   .dark {
@@ -69,6 +69,22 @@
 @layer base {
   * {
     @apply border-border;
+    /* darkblue */
+    /* color: hsl(185, 29%, 23%);  */
+    /* green */
+    /* color: hsl(89, 17%, 69%); */
+    /* white green */
+    /* color: hsl(90, 14%, 97%);  */
+    /* white */
+    /* color: hsl(0, 0%, 100%);  */
+    /* Dark Green */
+    /* color: hsl(133, 15%, 47%) */
+    /* Transparent Green */
+    /* color: hsla(137, 13%, 54%, 0.671); */
+    /* Transparent Green White */
+    /* color: hsl(129, 9%, 85%); */
+    /* Text transparent green white */
+    /* color: hsl(120, 5%, 75%); */
   }
   body {
     @apply bg-background text-foreground;
