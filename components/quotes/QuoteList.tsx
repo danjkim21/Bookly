@@ -94,7 +94,17 @@ const Quote = ({
       )}
     >
       <div className="w-full">
-        <div>{quote.content}</div>
+        <blockquote className="text-background-foreground text-left text-xl  font-normal italic dark:text-white">
+          <p className='before:content-["\""] after:content-["\""]'>
+            {quote.content}
+          </p>
+        </blockquote>
+        {/* <Link
+            href={`books/${review.bookId}`} */}
+        <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
+          {quote.book && quote.book.title}
+        </div>
+        {/* </Link> */}
       </div>
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + quote.id}>Edit</Link>

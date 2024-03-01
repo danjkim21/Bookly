@@ -9,16 +9,18 @@ import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
 import BookForm from "@/components/books/BookForm";
 import { type Author, type AuthorId } from "@/lib/db/schema/authors";
+import { BookShelf } from "@/lib/db/schema/bookShelves";
 
 export default function OptimisticBook({
   book,
   authors,
-  authorId
+  authorId,
+  bookShelves
 }: {
   book: Book;
-
   authors: Author[];
   authorId?: AuthorId;
+  bookShelves?: BookShelf[];
 }) {
   const [open, setOpen] = useState(false);
   const openModal = (_?: Book) => {
@@ -39,6 +41,7 @@ export default function OptimisticBook({
           closeModal={closeModal}
           openModal={openModal}
           addOptimistic={updateBook}
+          bookShelves={bookShelves}
         />
       </Modal>
       <div className="mb-4 flex items-end justify-between">

@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1709131376248,
-      "tag": "0000_burly_tony_stark",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1709131918955,
-      "tag": "0001_loose_slipstream",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1709146113331,
-      "tag": "0002_same_darwin",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1709146841591,
-      "tag": "0003_robust_micromax",
+      "when": 1709309934423,
+      "tag": "0000_fine_fat_cobra",
       "breakpoints": true
     }
   ]

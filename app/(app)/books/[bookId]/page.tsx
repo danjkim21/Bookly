@@ -10,6 +10,7 @@ import ReflectionList from "@/components/reflections/ReflectionList";
 
 import { BackButton } from "@/components/shared/BackButton";
 import Loading from "@/app/loading";
+import { getBookShelves } from "@/lib/api/bookShelves/queries";
 
 export const revalidate = 0;
 
@@ -31,13 +32,18 @@ const Book = async ({ id }: { id: string }) => {
   const { book, quotes, reflections } =
     await getBookByIdWithQuotesAndReflections(id);
   const { authors } = await getAuthors();
+  const { bookShelves } = await getBookShelves();
 
   if (!book) notFound();
   return (
     <Suspense fallback={<Loading />}>
       <div className="relative">
         <BackButton currentResource="books" />
-        <OptimisticBook book={book} authors={authors} />
+        <OptimisticBook
+          book={book}
+          authors={authors}
+          bookShelves={bookShelves}
+        />
       </div>
       <div className="relative mx-4 mt-8">
         <h3 className="mb-4 text-xl font-medium">{book.title}&apos;s Quotes</h3>

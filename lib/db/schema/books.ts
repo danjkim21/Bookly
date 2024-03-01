@@ -3,7 +3,6 @@ import {
   varchar,
   boolean,
   date,
-  integer,
   timestamp,
   pgTable
 } from "drizzle-orm/pg-core";
@@ -22,8 +21,7 @@ export const books = pgTable("books", {
   title: varchar("title", { length: 256 }).notNull(),
   completed: boolean("completed").notNull(),
   completedOn: date("completed_on"),
-  rating: integer("rating"),
-  favorited: boolean("favorited").notNull(),
+  favorited: boolean("favorited"),
   authorId: varchar("author_id", { length: 256 })
     .references(() => authors.id, { onDelete: "cascade" })
     .notNull(),
@@ -49,11 +47,21 @@ const baseSchema = createSelectSchema(books).omit(timestamps);
 export const insertBookSchema = createInsertSchema(books).omit(timestamps);
 export const insertBookParams = baseSchema
   .extend({
+    title: z.coerce.string().min(1, "Add a Title"),
     completed: z.coerce.boolean(),
-    completedOn: z.coerce.string().min(1),
-    rating: z.coerce.number(),
-    favorited: z.coerce.boolean(),
-    authorId: z.coerce.string().min(1)
+    completedOn: z.coerce
+      .string()
+      .optional()
+      .transform((e) => (e === "" || e === "undefined" ? undefined : e)),
+    favorited: z.coerce
+      .boolean()
+      .optional()
+      .transform((e) => (e === null ? undefined : e)),
+    authorId: z.coerce.string().min(1, "Select or Add an Author"),
+    bookShelfId: z.coerce
+      .string()
+      .optional()
+      .transform((e) => (e === "" || e === "undefined" ? undefined : e))
   })
   .omit({
     id: true,
@@ -64,10 +72,19 @@ export const updateBookSchema = baseSchema;
 export const updateBookParams = baseSchema
   .extend({
     completed: z.coerce.boolean(),
-    completedOn: z.coerce.string().min(1),
-    rating: z.coerce.number(),
-    favorited: z.coerce.boolean(),
-    authorId: z.coerce.string().min(1)
+    completedOn: z.coerce
+      .string()
+      .optional()
+      .transform((e) => (e === "" || e === "undefined" ? undefined : e)),
+    favorited: z.coerce
+      .boolean()
+      .optional()
+      .transform((e) => (e === null ? undefined : e)),
+    authorId: z.coerce.string().min(1),
+    bookShelfId: z.coerce
+      .string()
+      .optional()
+      .transform((e) => (e === "" || e === "undefined" ? undefined : e))
   })
   .omit({
     userId: true

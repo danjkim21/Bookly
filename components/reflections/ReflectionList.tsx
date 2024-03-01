@@ -101,7 +101,17 @@ const Reflection = ({
       )}
     >
       <div className="w-full">
-        <div>{reflection.content}</div>
+        <blockquote className="text-background-foreground text-left text-xl font-normal italic  dark:text-white">
+          <p className='before:content-["\""] after:content-["\""]'>
+            {reflection.content}
+          </p>
+        </blockquote>
+        {/* <Link
+            href={`books/${review.bookId}`} */}
+        <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
+          {reflection.book && reflection.book.title}
+        </div>
+        {/* </Link> */}
       </div>
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + reflection.id}>Edit</Link>

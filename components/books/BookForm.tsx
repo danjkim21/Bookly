@@ -65,6 +65,7 @@ const BookForm = ({
   const { errors, hasErrors, setErrors, handleChange } =
     useValidatedForm<Book>(insertBookParams);
   const editing = !!book?.id;
+  const [completed, setCompleted] = useState(book?.completed ?? false);
   const [completedOn, setCompletedOn] = useState<Date | undefined>(
     book?.completedOn
   );
@@ -101,6 +102,9 @@ const BookForm = ({
       authorId,
       ...payload
     });
+
+    console.log(bookParsed);
+
     if (!bookParsed.success) {
       setErrors(bookParsed?.error.flatten().fieldErrors);
       return;
@@ -181,6 +185,9 @@ const BookForm = ({
           defaultChecked={book?.completed}
           name={"completed"}
           className={cn(errors?.completed ? "ring ring-destructive" : "")}
+          onCheckedChange={(checked) =>
+            setCompleted(Boolean(checked.valueOf()))
+          }
         />
         {errors?.completed ? (
           <p className="mt-2 text-xs text-destructive">{errors.completed[0]}</p>
@@ -188,82 +195,65 @@ const BookForm = ({
           <div className="h-6" />
         )}
       </div>
-      <div>
-        <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.completedOn ? "text-destructive" : ""
-          )}
-        >
-          Completed On
-        </Label>
-        <br />
-        <Popover>
-          <Input
-            name="completedOn"
-            onChange={() => {}}
-            readOnly
-            value={completedOn?.toUTCString() ?? new Date().toUTCString()}
-            className="hidden"
-          />
 
-          <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className={cn(
-                "w-[240px] pl-3 text-left font-normal",
-                !book?.completedOn && "text-muted-foreground"
-              )}
-            >
-              {completedOn ? (
-                <span>{format(completedOn, "PPP")}</span>
-              ) : (
-                <span>Pick a date</span>
-              )}
-              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              onSelect={(e) => setCompletedOn(e)}
-              selected={completedOn}
-              disabled={(date) =>
-                date > new Date() || date < new Date("1900-01-01")
-              }
-              initialFocus
+      {completed && (
+        <div>
+          <Label
+            className={cn(
+              "mb-2 inline-block",
+              errors?.completedOn ? "text-destructive" : ""
+            )}
+          >
+            Completed On
+          </Label>
+          <br />
+          <Popover>
+            <Input
+              name="completedOn"
+              onChange={() => {}}
+              readOnly
+              value={completedOn?.toUTCString() ?? new Date().toUTCString()}
+              className="hidden"
             />
-          </PopoverContent>
-        </Popover>
-        {errors?.completedOn ? (
-          <p className="mt-2 text-xs text-destructive">
-            {errors.completedOn[0]}
-          </p>
-        ) : (
-          <div className="h-6" />
-        )}
-      </div>
-      <div>
-        <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.rating ? "text-destructive" : ""
+
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-[240px] pl-3 text-left font-normal",
+                  !book?.completedOn && "text-muted-foreground"
+                )}
+              >
+                {completedOn ? (
+                  <span>{format(completedOn, "PPP")}</span>
+                ) : (
+                  <span>Pick a date</span>
+                )}
+                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                onSelect={(e) => setCompletedOn(e)}
+                selected={completedOn}
+                disabled={(date) =>
+                  date > new Date() || date < new Date("1900-01-01")
+                }
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          {errors?.completedOn ? (
+            <p className="mt-2 text-xs text-destructive">
+              {errors.completedOn[0]}
+            </p>
+          ) : (
+            <div className="h-6" />
           )}
-        >
-          Rating
-        </Label>
-        <Input
-          type="text"
-          name="rating"
-          className={cn(errors?.rating ? "ring ring-destructive" : "")}
-          defaultValue={book?.rating ?? ""}
-        />
-        {errors?.rating ? (
-          <p className="mt-2 text-xs text-destructive">{errors.rating[0]}</p>
-        ) : (
-          <div className="h-6" />
-        )}
-      </div>
+        </div>
+      )}
+
       <div>
         <Label
           className={cn(
