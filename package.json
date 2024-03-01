@@ -17,15 +17,6 @@
     "format": "prettier --write '.'",
     "lint:fix": "eslint '*/**/*.{js,jsx,ts,tsx}' --quiet --fix"
   },
-  "lint-staged": {
-    "*/**/*.{js,jsx,ts,tsx}": [
-      "npx eslint --fix",
-      "npx prettier --write"
-    ],
-    "*/**/*.{css,scss,md,html,json}": [
-      "npx prettier --write"
-    ]
-  },
   "dependencies": {
     "@lucia-auth/adapter-drizzle": "^1.0.2",
     "@node-rs/argon2": "^1.7.2",
