@@ -1,13 +1,18 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
-import { getBookShelfByIdWithComments } from "@/lib/api/bookShelves/queries";
+import {
+  getBookShelfByIdWithBooksAndComments,
+  getBookShelfByIdWithComments
+} from "@/lib/api/bookShelves/queries";
 import OptimisticBookShelf from "./OptimisticBookShelf";
 import { checkAuth } from "@/lib/auth/utils";
 import CommentList from "@/components/comments/CommentList";
 
 import { BackButton } from "@/components/shared/BackButton";
 import Loading from "@/app/loading";
+import BookList from "@/components/books/BookList";
+import { getAuthors } from "@/lib/api/authors/queries";
 
 export const revalidate = 0;
 
@@ -26,7 +31,11 @@ export default async function BookShelfPage({
 const BookShelf = async ({ id }: { id: string }) => {
   await checkAuth();
 
-  const { bookShelf, comments } = await getBookShelfByIdWithComments(id);
+  const { bookShelf, books, comments } =
+    await getBookShelfByIdWithBooksAndComments(id);
+  const { authors } = await getAuthors();
+
+  console.log("Books", books);
 
   if (!bookShelf) notFound();
   return (
@@ -34,6 +43,10 @@ const BookShelf = async ({ id }: { id: string }) => {
       <div className="relative">
         <BackButton currentResource="book-shelves" />
         <OptimisticBookShelf bookShelf={bookShelf} />
+      </div>
+      <div className="relative mx-4 mt-8">
+        <h3 className="mb-4 text-xl font-medium">Books</h3>
+        <BookList authors={authors} books={books} />
       </div>
       <div className="relative mx-4 mt-8">
         <h3 className="mb-4 text-xl font-medium">

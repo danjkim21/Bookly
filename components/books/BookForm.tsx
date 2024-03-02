@@ -320,7 +320,10 @@ const BookForm = ({
           >
             Book Shelf
           </Label>
-          <Select defaultValue={undefined} name="bookShelfId">
+          <Select
+            defaultValue={book?.bookShelfId ? book?.bookShelfId : undefined}
+            name="bookShelfId"
+          >
             <SelectTrigger
               className={cn(errors?.bookShelfId ? "ring ring-destructive" : "")}
             >

@@ -9,18 +9,20 @@ import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
 import BookForm from "@/components/books/BookForm";
 import { type Author, type AuthorId } from "@/lib/db/schema/authors";
-import { BookShelf } from "@/lib/db/schema/bookShelves";
+import { BookShelf, BookShelfId } from "@/lib/db/schema/bookShelves";
 
 export default function OptimisticBook({
   book,
   authors,
   authorId,
-  bookShelves
+  bookShelves,
+  bookShelfId
 }: {
   book: Book;
   authors: Author[];
   authorId?: AuthorId;
   bookShelves?: BookShelf[];
+  bookShelfId?: BookShelfId;
 }) {
   const [open, setOpen] = useState(false);
   const openModal = (_?: Book) => {

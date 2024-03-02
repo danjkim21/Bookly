@@ -56,7 +56,7 @@ export const insertBookParams = baseSchema
     favorited: z.coerce
       .boolean()
       .optional()
-      .transform((e) => (e === null ? undefined : e)),
+      .transform((e) => (e === null || e === undefined ? false : e)),
     authorId: z.coerce.string().min(1, "Select or Add an Author"),
     bookShelfId: z.coerce
       .string()
@@ -79,7 +79,7 @@ export const updateBookParams = baseSchema
     favorited: z.coerce
       .boolean()
       .optional()
-      .transform((e) => (e === null ? undefined : e)),
+      .transform((e) => (e === null || e === undefined ? false : e)),
     authorId: z.coerce.string().min(1),
     bookShelfId: z.coerce
       .string()

@@ -1,5 +1,5 @@
 import { SidebarLink } from "@/components/SidebarItems";
-import { Cog, Globe, HomeIcon } from "lucide-react";
+import { Book, BookA, BookCopyIcon, Cog, Globe, HomeIcon } from "lucide-react";
 
 type AdditionalLinks = {
   title: string;
@@ -19,7 +19,17 @@ export const additionalLinks: AdditionalLinks[] = [
       {
         href: "/book-shelves",
         title: "Book Shelves",
-        icon: Globe
+        icon: BookCopyIcon
+      },
+      {
+        href: "/books",
+        title: "Books",
+        icon: Book
+      },
+      {
+        href: "/authors",
+        title: "Authors",
+        icon: BookA
       },
       {
         href: "/reflections",
@@ -29,16 +39,6 @@ export const additionalLinks: AdditionalLinks[] = [
       {
         href: "/quotes",
         title: "Quotes",
-        icon: Globe
-      },
-      {
-        href: "/books",
-        title: "Books",
-        icon: Globe
-      },
-      {
-        href: "/authors",
-        title: "Authors",
         icon: Globe
       }
     ]

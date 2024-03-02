@@ -43,6 +43,7 @@ const Book = async ({ id }: { id: string }) => {
           book={book}
           authors={authors}
           bookShelves={bookShelves}
+          bookShelfId={book?.bookShelfId!}
         />
       </div>
       <div className="relative mx-4 mt-8">

@@ -8,8 +8,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
     params.slug
   );
 
-  console.log(bookShelf);
-
   if (!bookShelf) notFound();
   if (bookShelf.public === false) return <main>This page is not public.</main>;
 

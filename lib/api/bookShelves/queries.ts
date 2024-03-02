@@ -46,7 +46,6 @@ export const getBookShelfBySlugWithBooksAndComments = async (slug: string) => {
     .leftJoin(books, eq(bookShelves.id, books.bookShelfId))
     .leftJoin(comments, eq(bookShelves.id, comments.bookShelfId));
 
-  console.log("rows: ", rows);
   if (rows.length === 0) return {};
   const b = rows[0].bookShelf;
   const bb = rows
@@ -79,4 +78,32 @@ export const getBookShelfByIdWithComments = async (id: BookShelfId) => {
     .map((c) => c.comment) as CompleteComment[];
 
   return { bookShelf: b, comments: bc };
+};
+
+export const getBookShelfByIdWithBooksAndComments = async (id: BookShelfId) => {
+  const { session } = await getUserAuth();
+  const { id: bookShelfId } = bookShelfIdSchema.parse({ id });
+
+  const rows = await db
+    .select({ bookShelf: bookShelves, comment: comments, book: books })
+    .from(bookShelves)
+    .where(
+      and(
+        eq(bookShelves.id, bookShelfId),
+        eq(bookShelves.userId, session?.user.id!)
+      )
+    )
+    .leftJoin(comments, eq(bookShelves.id, comments.bookShelfId))
+    .leftJoin(books, eq(bookShelves.id, books.bookShelfId));
+
+  if (rows.length === 0) return {};
+  const b = rows[0].bookShelf;
+  const bb = rows
+    .filter((r) => r.book !== null)
+    .map((c) => c.book) as CompleteBook[];
+  const bc = rows
+    .filter((r) => r.comment !== null)
+    .map((c) => c.comment) as CompleteComment[];
+
+  return { bookShelf: b, books: bb, comments: bc };
 };
