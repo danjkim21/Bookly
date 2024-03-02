@@ -67,7 +67,7 @@ const BookForm = ({
   const editing = !!book?.id;
   const [completed, setCompleted] = useState(book?.completed ?? false);
   const [completedOn, setCompletedOn] = useState<Date | undefined>(
-    book?.completedOn
+    book?.completedOn ? new Date(book.completedOn) : undefined
   );
 
   const [isDeleting, setIsDeleting] = useState(false);
@@ -117,6 +117,8 @@ const BookForm = ({
       createdAt: book?.createdAt ?? new Date(),
       id: book?.id ?? "",
       userId: book?.userId ?? "",
+      completedOn: values.completedOn ?? null,
+      bookShelfId: values.bookShelfId ?? null,
       ...values
     };
     try {
@@ -265,7 +267,7 @@ const BookForm = ({
         </Label>
         <br />
         <Checkbox
-          defaultChecked={book?.favorited}
+          defaultChecked={book?.favorited ?? undefined}
           name={"favorited"}
           className={cn(errors?.favorited ? "ring ring-destructive" : "")}
         />
