@@ -94,9 +94,16 @@ const BookShelf = ({
       <div className="w-full">
         <div>{bookShelf.title}</div>
       </div>
-      <Button className='after:content-["_↗"]' variant="link" asChild>
-        <Link href={bookShelf.slug}>Public Link</Link>
-      </Button>
+      {bookShelf.public && (
+        <Button
+          className='after:content-["_↗"]'
+          variant="link"
+          asChild
+          disabled
+        >
+          <Link href={bookShelf.slug}>Public Link</Link>
+        </Button>
+      )}
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + bookShelf.id}>Edit</Link>
       </Button>

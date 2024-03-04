@@ -94,7 +94,7 @@ const Quote = ({
       )}
     >
       <div className="w-full">
-        <blockquote className="text-background-foreground text-left text-xl  font-normal italic dark:text-white">
+        <blockquote className="text-background-foreground text-left font-normal italic dark:text-white">
           <p className='before:content-["\""] after:content-["\""]'>
             {quote.content}
           </p>

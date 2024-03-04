@@ -91,14 +91,20 @@ const Book = ({
   return (
     <li
       className={cn(
-        "my-2 flex justify-between",
+        "my-4 flex items-center justify-between rounded-xl hover:bg-secondary",
         mutating ? "animate-pulse opacity-30" : "",
         deleting ? "text-destructive" : ""
       )}
     >
-      <div className="w-full">
-        <div>{book.title}</div>
-      </div>
+      <article className="flex w-full content-start justify-start">
+        <div className="h-16 w-12 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800">
+          {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
+        </div>
+        <section className="ml-4 flex flex-col justify-center">
+          <div className="font-medium text-primary">{book.title}</div>
+          <div className="text-muted-foreground">{book.author?.name}</div>
+        </section>
+      </article>
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + book.id}>Edit</Link>
       </Button>
