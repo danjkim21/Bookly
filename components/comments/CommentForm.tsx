@@ -169,8 +169,7 @@ const CommentForm = ({
             <SelectContent>
               {bookShelves?.map((bookShelf) => (
                 <SelectItem key={bookShelf.id} value={bookShelf.id.toString()}>
-                  {bookShelf.id}
-                  {/* TODO: Replace with a field from the bookShelf model */}
+                  {bookShelf.title}
                 </SelectItem>
               ))}
             </SelectContent>
