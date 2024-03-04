@@ -48,6 +48,26 @@ export const updateBook = async (id: BookId, book: UpdateBookParams) => {
   }
 };
 
+export const updateBookFavoritedStatus = async (
+  id: BookId,
+  favorited: boolean
+) => {
+  const { session } = await getUserAuth();
+  const { id: bookId } = bookIdSchema.parse({ id });
+  try {
+    const [b] = await db
+      .update(books)
+      .set({ favorited, updatedAt: new Date() })
+      .where(and(eq(books.id, bookId!), eq(books.userId, session?.user.id!)))
+      .returning();
+    return { book: b };
+  } catch (err) {
+    const message = (err as Error).message ?? "Error, please try again";
+    console.error(message);
+    throw { error: message };
+  }
+};
+
 export const deleteBook = async (id: BookId) => {
   const { session } = await getUserAuth();
   const { id: bookId } = bookIdSchema.parse({ id });

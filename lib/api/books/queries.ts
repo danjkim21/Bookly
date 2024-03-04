@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import { getUserAuth } from "@/lib/auth/utils";
 import { type BookId, bookIdSchema, books } from "@/lib/db/schema/books";
 import { authors } from "@/lib/db/schema/authors";
@@ -15,7 +15,8 @@ export const getBooks = async () => {
     .select({ book: books, author: authors })
     .from(books)
     .leftJoin(authors, eq(books.authorId, authors.id))
-    .where(eq(books.userId, session?.user.id!));
+    .where(eq(books.userId, session?.user.id!))
+    .orderBy(desc(books.createdAt));
   const b = rows.map((r) => ({ ...r.book, author: r.author }));
   return { books: b };
 };

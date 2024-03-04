@@ -11,8 +11,10 @@ import { type Author, type AuthorId } from "@/lib/db/schema/authors";
 import { useOptimisticBooks } from "@/app/(app)/books/useOptimisticBooks";
 import { Button } from "@/components/ui/button";
 import BookForm from "./BookForm";
-import { PlusIcon } from "lucide-react";
+import { Heart, PlusIcon } from "lucide-react";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
+import { updateBookFavoritedStatus } from "@/lib/api/books/mutations";
+import BookFavoriteButton from "./BookFavoriteButton";
 
 type TOpenModal = (book?: Book) => void;
 
@@ -105,6 +107,10 @@ const Book = ({
           <div className="text-muted-foreground">{book.author?.name}</div>
         </section>
       </article>
+      <BookFavoriteButton
+        bookId={book.id}
+        bookFavorited={book.favorited || false}
+      />
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + book.id}>Edit</Link>
       </Button>

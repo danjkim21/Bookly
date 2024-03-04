@@ -1,7 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createBook, deleteBook, updateBook } from "@/lib/api/books/mutations";
+import {
+  createBook,
+  deleteBook,
+  updateBook,
+  updateBookFavoritedStatus
+} from "@/lib/api/books/mutations";
 import {
   BookId,
   NewBookParams,
@@ -37,6 +42,20 @@ export const updateBookAction = async (input: UpdateBookParams) => {
   try {
     const payload = updateBookParams.parse(input);
     await updateBook(payload.id, payload);
+    revalidateBooks();
+  } catch (e) {
+    return handleErrors(e);
+  }
+};
+
+export const updateBookFavoritedStatusAction = async (
+  input: BookId,
+  favorited: boolean
+) => {
+  try {
+    const payload = bookIdSchema.parse({ id: input });
+    console.log(payload);
+    await updateBookFavoritedStatus(payload.id, !favorited);
     revalidateBooks();
   } catch (e) {
     return handleErrors(e);
