@@ -11,9 +11,8 @@ import { type Author, type AuthorId } from "@/lib/db/schema/authors";
 import { useOptimisticBooks } from "@/app/(app)/books/useOptimisticBooks";
 import { Button } from "@/components/ui/button";
 import BookForm from "./BookForm";
-import { Heart, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
-import { updateBookFavoritedStatus } from "@/lib/api/books/mutations";
 import BookFavoriteButton from "./BookFavoriteButton";
 
 type TOpenModal = (book?: Book) => void;
