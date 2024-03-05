@@ -99,12 +99,11 @@ const Quote = ({
             {quote.content}
           </p>
         </blockquote>
-        {/* <Link
-            href={`books/${review.bookId}`} */}
-        <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
-          {quote.book && quote.book.title}
-        </div>
-        {/* </Link> */}
+        <Link href={`books/${quote.bookId}`}>
+          <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
+            {quote.book && quote.book.title}
+          </div>
+        </Link>
       </div>
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + quote.id}>Edit</Link>

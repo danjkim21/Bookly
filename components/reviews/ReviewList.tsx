@@ -94,7 +94,16 @@ const Review = ({
       )}
     >
       <div className="w-full">
-        <div>{review.content}</div>
+        <blockquote className="text-background-foreground text-left font-normal italic dark:text-white">
+          <p className='before:content-["\""] after:content-["\""]'>
+            {review.content}
+          </p>
+        </blockquote>
+        <Link href={`books/${review.bookId}`}>
+          <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
+            {review.book && review.book.title}
+          </div>
+        </Link>
       </div>
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + review.id}>Edit</Link>

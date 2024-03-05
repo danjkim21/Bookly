@@ -106,12 +106,11 @@ const Reflection = ({
             {reflection.content}
           </p>
         </blockquote>
-        {/* <Link
-            href={`books/${review.bookId}`} */}
-        <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
-          {reflection.book && reflection.book.title}
-        </div>
-        {/* </Link> */}
+        <Link href={`books/${reflection.bookId}`}>
+          <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
+            {reflection.book && reflection.book.title}
+          </div>
+        </Link>
       </div>
       <Button variant={"link"} asChild>
         <Link href={basePath + "/" + reflection.id}>Edit</Link>
