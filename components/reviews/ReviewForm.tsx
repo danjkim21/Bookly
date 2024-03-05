@@ -57,6 +57,8 @@ const ReviewForm = ({
   const router = useRouter();
   const backpath = useBackPath("reviews");
 
+  const completedBooks = books.filter((book) => book.completed);
+
   const onSuccess = (
     action: Action,
     data?: { error: string; values: Review }
@@ -190,7 +192,7 @@ const ReviewForm = ({
               <SelectValue placeholder="Select a book" />
             </SelectTrigger>
             <SelectContent>
-              {books?.map((book) => (
+              {completedBooks?.map((book) => (
                 <SelectItem key={book.id} value={book.id.toString()}>
                   {book.title}
                 </SelectItem>
