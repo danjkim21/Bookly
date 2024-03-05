@@ -95,7 +95,7 @@ const Reflection = ({
   return (
     <li
       className={cn(
-        "my-2 flex justify-between",
+        "my-4 flex justify-between",
         mutating ? "animate-pulse opacity-30" : "",
         deleting ? "text-destructive" : ""
       )}

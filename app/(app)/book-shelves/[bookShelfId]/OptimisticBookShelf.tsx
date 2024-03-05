@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
 import BookShelfForm from "@/components/bookShelves/BookShelfForm";
+import Link from "next/link";
 
 export default function OptimisticBookShelf({
   bookShelf
@@ -36,6 +37,15 @@ export default function OptimisticBookShelf({
       </Modal>
       <div className="mb-4 flex items-end justify-between">
         <h1 className="text-2xl font-semibold">{optimisticBookShelf.title}</h1>
+        {bookShelf.public && (
+          <Button
+            className='ml-auto after:content-["_↗"]'
+            variant="link"
+            asChild
+          >
+            <Link href={`/${bookShelf.slug}`}>Public Link</Link>
+          </Button>
+        )}
         <Button className="" onClick={() => setOpen(true)}>
           Edit
         </Button>
