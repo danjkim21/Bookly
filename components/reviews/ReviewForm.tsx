@@ -7,52 +7,61 @@ import { toast } from "sonner";
 import { useValidatedForm } from "@/lib/hooks/useValidatedForm";
 
 import { type Action, cn } from "@/lib/utils";
-import { type TAddOptimistic } from "@/app/(app)/book-shelves/useOptimisticBookShelves";
+import { type TAddOptimistic } from "@/app/(app)/reviews/useOptimisticReviews";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useBackPath } from "@/components/shared/BackButton";
 
-import { Checkbox } from "@/components/ui/checkbox";
-
 import {
-  type BookShelf,
-  insertBookShelfParams
-} from "@/lib/db/schema/bookShelves";
-import {
-  createBookShelfAction,
-  deleteBookShelfAction,
-  updateBookShelfAction
-} from "@/lib/actions/bookShelves";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
-const BookShelfForm = ({
-  bookShelf,
+import { type Review, insertReviewParams } from "@/lib/db/schema/reviews";
+import {
+  createReviewAction,
+  deleteReviewAction,
+  updateReviewAction
+} from "@/lib/actions/reviews";
+import { type Book, type BookId } from "@/lib/db/schema/books";
+
+const ReviewForm = ({
+  books,
+  bookId,
+  review,
   openModal,
   closeModal,
   addOptimistic,
   postSuccess
 }: {
-  bookShelf?: BookShelf | null;
-
-  openModal?: (bookShelf?: BookShelf) => void;
+  review?: Review | null;
+  books: Book[];
+  bookId?: BookId;
+  openModal?: (review?: Review) => void;
   closeModal?: () => void;
   addOptimistic?: TAddOptimistic;
   postSuccess?: () => void;
 }) => {
   const { errors, hasErrors, setErrors, handleChange } =
-    useValidatedForm<BookShelf>(insertBookShelfParams);
-  const editing = !!bookShelf?.id;
+    useValidatedForm<Review>(insertReviewParams);
+  const editing = !!review?.id;
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [pending, startMutation] = useTransition();
 
   const router = useRouter();
-  const backpath = useBackPath("book-shelves");
+  const backpath = useBackPath("reviews");
+
+  const completedBooks = books.filter((book) => book.completed);
 
   const onSuccess = (
     action: Action,
-    data?: { error: string; values: BookShelf }
+    data?: { error: string; values: Review }
   ) => {
     const failed = Boolean(data?.error);
     if (failed) {
@@ -63,7 +72,7 @@ const BookShelfForm = ({
     } else {
       router.refresh();
       postSuccess && postSuccess();
-      toast.success(`BookShelf ${action}d!`);
+      toast.success(`Review ${action}d!`);
       if (action === "delete") router.push(backpath);
     }
   };
@@ -72,38 +81,39 @@ const BookShelfForm = ({
     setErrors(null);
 
     const payload = Object.fromEntries(data.entries());
-    const bookShelfParsed = await insertBookShelfParams.safeParseAsync({
+    const reviewParsed = await insertReviewParams.safeParseAsync({
+      bookId,
       ...payload
     });
-    if (!bookShelfParsed.success) {
-      setErrors(bookShelfParsed?.error.flatten().fieldErrors);
+    if (!reviewParsed.success) {
+      setErrors(reviewParsed?.error.flatten().fieldErrors);
       return;
     }
 
     closeModal && closeModal();
-    const values = bookShelfParsed.data;
-    const pendingBookShelf: BookShelf = {
-      updatedAt: bookShelf?.updatedAt ?? new Date(),
-      createdAt: bookShelf?.createdAt ?? new Date(),
-      id: bookShelf?.id ?? "",
-      userId: bookShelf?.userId ?? "",
+    const values = reviewParsed.data;
+    const pendingReview: Review = {
+      updatedAt: review?.updatedAt ?? new Date(),
+      createdAt: review?.createdAt ?? new Date(),
+      id: review?.id ?? "",
+      userId: review?.userId ?? "",
       ...values
     };
     try {
       startMutation(async () => {
         addOptimistic &&
           addOptimistic({
-            data: pendingBookShelf,
+            data: pendingReview,
             action: editing ? "update" : "create"
           });
 
         const error = editing
-          ? await updateBookShelfAction({ ...values, id: bookShelf.id })
-          : await createBookShelfAction(values);
+          ? await updateReviewAction({ ...values, id: review.id })
+          : await createReviewAction(values);
 
         const errorFormatted = {
           error: error ?? "Error",
-          values: pendingBookShelf
+          values: pendingReview
         };
         onSuccess(
           editing ? "update" : "create",
@@ -124,19 +134,19 @@ const BookShelfForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.title ? "text-destructive" : ""
+            errors?.content ? "text-destructive" : ""
           )}
         >
-          Title
+          Content
         </Label>
         <Input
           type="text"
-          name="title"
-          className={cn(errors?.title ? "ring ring-destructive" : "")}
-          defaultValue={bookShelf?.title ?? ""}
+          name="content"
+          className={cn(errors?.content ? "ring ring-destructive" : "")}
+          defaultValue={review?.content ?? ""}
         />
-        {errors?.title ? (
-          <p className="mt-2 text-xs text-destructive">{errors.title[0]}</p>
+        {errors?.content ? (
+          <p className="mt-2 text-xs text-destructive">{errors.content[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -145,69 +155,57 @@ const BookShelfForm = ({
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.description ? "text-destructive" : ""
+            errors?.rating ? "text-destructive" : ""
           )}
         >
-          Description
+          Rating
         </Label>
         <Input
-          type="text"
-          name="description"
-          className={cn(errors?.description ? "ring ring-destructive" : "")}
-          defaultValue={bookShelf?.description ?? ""}
+          type="number"
+          name="rating"
+          min="1"
+          max="5"
+          className={cn(errors?.rating ? "ring ring-destructive" : "")}
+          defaultValue={review?.rating ?? ""}
         />
-        {errors?.description ? (
-          <p className="mt-2 text-xs text-destructive">
-            {errors.description[0]}
-          </p>
+        {errors?.rating ? (
+          <p className="mt-2 text-xs text-destructive">{errors.rating[0]}</p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-      <div>
-        <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.slug ? "text-destructive" : ""
+
+      {bookId ? null : (
+        <div>
+          <Label
+            className={cn(
+              "mb-2 inline-block",
+              errors?.bookId ? "text-destructive" : ""
+            )}
+          >
+            Book
+          </Label>
+          <Select defaultValue={review?.bookId} name="bookId">
+            <SelectTrigger
+              className={cn(errors?.bookId ? "ring ring-destructive" : "")}
+            >
+              <SelectValue placeholder="Select a book" />
+            </SelectTrigger>
+            <SelectContent>
+              {completedBooks?.map((book) => (
+                <SelectItem key={book.id} value={book.id.toString()}>
+                  {book.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors?.bookId ? (
+            <p className="mt-2 text-xs text-destructive">{errors.bookId[0]}</p>
+          ) : (
+            <div className="h-6" />
           )}
-        >
-          Slug
-        </Label>
-        <Input
-          type="text"
-          name="slug"
-          minLength={4}
-          pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
-          className={cn(errors?.slug ? "ring ring-destructive" : "")}
-          defaultValue={bookShelf?.slug ?? ""}
-        />
-        {errors?.slug ? (
-          <p className="mt-2 text-xs text-destructive">{errors.slug[0]}</p>
-        ) : (
-          <div className="h-6" />
-        )}
-      </div>
-      <div>
-        <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.public ? "text-destructive" : ""
-          )}
-        >
-          Public
-        </Label>
-        <br />
-        <Checkbox
-          defaultChecked={bookShelf?.public}
-          name={"public"}
-          className={cn(errors?.public ? "ring ring-destructive" : "")}
-        />
-        {errors?.public ? (
-          <p className="mt-2 text-xs text-destructive">{errors.public[0]}</p>
-        ) : (
-          <div className="h-6" />
-        )}
-      </div>
+        </div>
+      )}
       {/* Schema fields end */}
 
       {/* Save Button */}
@@ -224,12 +222,12 @@ const BookShelfForm = ({
             closeModal && closeModal();
             startMutation(async () => {
               addOptimistic &&
-                addOptimistic({ action: "delete", data: bookShelf });
-              const error = await deleteBookShelfAction(bookShelf.id);
+                addOptimistic({ action: "delete", data: review });
+              const error = await deleteReviewAction(review.id);
               setIsDeleting(false);
               const errorFormatted = {
                 error: error ?? "Error",
-                values: bookShelf
+                values: review
               };
 
               onSuccess("delete", error ? errorFormatted : undefined);
@@ -243,7 +241,7 @@ const BookShelfForm = ({
   );
 };
 
-export default BookShelfForm;
+export default ReviewForm;
 
 const SaveButton = ({
   editing,

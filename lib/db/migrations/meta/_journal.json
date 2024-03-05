@@ -8,6 +8,13 @@
       "when": 1709310950037,
       "tag": "0000_closed_silvermane",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1709585266984,
+      "tag": "0001_great_king_cobra",
+      "breakpoints": true
     }
   ]
 }

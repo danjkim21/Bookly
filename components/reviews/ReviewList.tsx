@@ -5,34 +5,34 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { type Quote, CompleteQuote } from "@/lib/db/schema/quotes";
+import { type Review, CompleteReview } from "@/lib/db/schema/reviews";
 import Modal from "@/components/shared/Modal";
 import { type Book, type BookId } from "@/lib/db/schema/books";
-import { useOptimisticQuotes } from "@/app/(app)/quotes/useOptimisticQuotes";
+import { useOptimisticReviews } from "@/app/(app)/reviews/useOptimisticReviews";
 import { Button } from "@/components/ui/button";
-import QuoteForm from "./QuoteForm";
+import ReviewForm from "./ReviewForm";
 import { PlusIcon } from "lucide-react";
 
-type TOpenModal = (quote?: Quote) => void;
+type TOpenModal = (review?: Review) => void;
 
-export default function QuoteList({
-  quotes,
+export default function ReviewList({
+  reviews,
   books,
   bookId
 }: {
-  quotes: CompleteQuote[];
+  reviews: CompleteReview[];
   books: Book[];
   bookId?: BookId;
 }) {
-  const { optimisticQuotes, addOptimisticQuote } = useOptimisticQuotes(
-    quotes,
+  const { optimisticReviews, addOptimisticReview } = useOptimisticReviews(
+    reviews,
     books
   );
   const [open, setOpen] = useState(false);
-  const [activeQuote, setActiveQuote] = useState<Quote | null>(null);
-  const openModal = (quote?: Quote) => {
+  const [activeReview, setActiveReview] = useState<Review | null>(null);
+  const openModal = (review?: Review) => {
     setOpen(true);
-    quote ? setActiveQuote(quote) : setActiveQuote(null);
+    review ? setActiveReview(review) : setActiveReview(null);
   };
   const closeModal = () => setOpen(false);
 
@@ -41,11 +41,11 @@ export default function QuoteList({
       <Modal
         open={open}
         setOpen={setOpen}
-        title={activeQuote ? "Edit Quote" : "Create Quote"}
+        title={activeReview ? "Edit Review" : "Create Review"}
       >
-        <QuoteForm
-          quote={activeQuote}
-          addOptimistic={addOptimisticQuote}
+        <ReviewForm
+          review={activeReview}
+          addOptimistic={addOptimisticReview}
           openModal={openModal}
           closeModal={closeModal}
           books={books}
@@ -57,12 +57,12 @@ export default function QuoteList({
           +
         </Button>
       </div>
-      {optimisticQuotes.length === 0 ? (
+      {optimisticReviews.length === 0 ? (
         <EmptyState openModal={openModal} />
       ) : (
         <ul>
-          {optimisticQuotes.map((quote) => (
-            <Quote quote={quote} key={quote.id} openModal={openModal} />
+          {optimisticReviews.map((review) => (
+            <Review review={review} key={review.id} openModal={openModal} />
           ))}
         </ul>
       )}
@@ -70,20 +70,20 @@ export default function QuoteList({
   );
 }
 
-const Quote = ({
-  quote,
+const Review = ({
+  review,
   openModal
 }: {
-  quote: CompleteQuote;
+  review: CompleteReview;
   openModal: TOpenModal;
 }) => {
-  const optimistic = quote.id === "optimistic";
-  const deleting = quote.id === "delete";
+  const optimistic = review.id === "optimistic";
+  const deleting = review.id === "delete";
   const mutating = optimistic || deleting;
   const pathname = usePathname();
-  const basePath = pathname.includes("quotes")
+  const basePath = pathname.includes("reviews")
     ? pathname
-    : pathname + "/quotes/";
+    : pathname + "/reviews/";
 
   return (
     <li
@@ -94,19 +94,33 @@ const Quote = ({
       )}
     >
       <div className="w-full">
+        <div className="flex items-center">
+          <svg
+            className="me-1 h-4 w-4 text-yellow-300"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 22 20"
+          >
+            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+          </svg>
+          <p className="ms-2 text-sm font-semibold text-muted-foreground">
+            <span className="">{review.rating}</span> out of 5
+          </p>
+        </div>
         <blockquote className="text-background-foreground text-left font-normal italic dark:text-white">
           <p className='before:content-["\""] after:content-["\""]'>
-            {quote.content}
+            {review.content}
           </p>
         </blockquote>
-        <Link href={`books/${quote.bookId}`}>
+        <Link href={`books/${review.bookId}`}>
           <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
-            {quote.book && quote.book.title}
+            {review.book && review.book.title}
           </div>
         </Link>
       </div>
       <Button variant={"link"} asChild>
-        <Link href={basePath + "/" + quote.id}>Edit</Link>
+        <Link href={basePath + "/" + review.id}>Edit</Link>
       </Button>
     </li>
   );
@@ -116,14 +130,14 @@ const EmptyState = ({ openModal }: { openModal: TOpenModal }) => {
   return (
     <div className="text-center">
       <h3 className="mt-2 text-sm font-semibold text-secondary-foreground">
-        No quotes
+        No reviews
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        Get started by creating a new quote.
+        Get started by creating a new review.
       </p>
       <div className="mt-6">
         <Button onClick={() => openModal()}>
-          <PlusIcon className="h-4" /> New Quotes{" "}
+          <PlusIcon className="h-4" /> New Reviews{" "}
         </Button>
       </div>
     </div>

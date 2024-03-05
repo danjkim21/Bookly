@@ -1,10 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
-import {
-  getBookShelfByIdWithBooksAndComments,
-  getBookShelfByIdWithComments
-} from "@/lib/api/bookShelves/queries";
+import { getBookShelfByIdWithBooksAndComments } from "@/lib/api/bookShelves/queries";
 import OptimisticBookShelf from "./OptimisticBookShelf";
 import { checkAuth } from "@/lib/auth/utils";
 import CommentList from "@/components/comments/CommentList";
@@ -34,8 +31,6 @@ const BookShelf = async ({ id }: { id: string }) => {
   const { bookShelf, books, comments } =
     await getBookShelfByIdWithBooksAndComments(id);
   const { authors } = await getAuthors();
-
-  console.log("Books", books);
 
   if (!bookShelf) notFound();
   return (

@@ -95,12 +95,7 @@ const BookShelf = ({
         <div>{bookShelf.title}</div>
       </div>
       {bookShelf.public && (
-        <Button
-          className='after:content-["_↗"]'
-          variant="link"
-          asChild
-          disabled
-        >
+        <Button className='after:content-["_↗"]' variant="link" asChild>
           <Link href={bookShelf.slug}>Public Link</Link>
         </Button>
       )}

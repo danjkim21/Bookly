@@ -16,7 +16,8 @@ export const getBooks = async () => {
     .from(books)
     .leftJoin(authors, eq(books.authorId, authors.id))
     .where(eq(books.userId, session?.user.id!))
-    .orderBy(desc(books.createdAt));
+    // .orderBy(desc(books.createdAt));
+    .orderBy(books.createdAt);
   const b = rows.map((r) => ({ ...r.book, author: r.author }));
   return { books: b };
 };

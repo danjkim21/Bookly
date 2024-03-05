@@ -32,6 +32,11 @@ export const additionalLinks: AdditionalLinks[] = [
         icon: BookA
       },
       {
+        href: "/reviews",
+        title: "Reviews",
+        icon: Globe
+      },
+      {
         href: "/reflections",
         title: "Reflections",
         icon: Globe
