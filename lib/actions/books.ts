@@ -15,6 +15,7 @@ import {
   insertBookParams,
   updateBookParams
 } from "@/lib/db/schema/books";
+import { getBookSearchResults } from "../api/books/queries";
 
 const handleErrors = (e: unknown) => {
   const errMsg = "Error, please try again.";
@@ -67,6 +68,15 @@ export const deleteBookAction = async (input: BookId) => {
     const payload = bookIdSchema.parse({ id: input });
     await deleteBook(payload.id);
     revalidateBooks();
+  } catch (e) {
+    return handleErrors(e);
+  }
+};
+
+export const getBookSearchResultsAction = async (value: string) => {
+  try {
+    const { docs } = await getBookSearchResults(value);
+    return docs;
   } catch (e) {
     return handleErrors(e);
   }

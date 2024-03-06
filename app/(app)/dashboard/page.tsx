@@ -1,3 +1,4 @@
+import Search from "@/components/Search";
 import { getUserAuth } from "@/lib/auth/utils";
 
 export default async function Home() {
@@ -10,6 +11,8 @@ export default async function Home() {
       <pre className="my-2 rounded-lg bg-secondary p-4">
         {JSON.stringify(session, null, 2)}
       </pre>
+
+      <Search />
     </main>
   );
 }

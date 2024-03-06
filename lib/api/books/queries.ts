@@ -55,3 +55,23 @@ export const getBookByIdWithQuotesAndReflections = async (id: BookId) => {
 
   return { book: b, quotes: bq, reflections: br };
 };
+
+export const getBookSearchResults = async (search: string) => {
+  // convert search string to url params format
+  const searchParams = new URLSearchParams(search).toString();
+  const fields = "title,author_name,key";
+  const limit = "10";
+  const data = await fetch(
+    `https://openlibrary.org/search.json?title=${searchParams}&fields=${fields}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      next: { revalidate: 10 }
+    }
+  );
+
+  const { docs } = await data.json();
+  return { docs };
+};
