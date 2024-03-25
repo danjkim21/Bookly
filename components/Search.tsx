@@ -40,6 +40,7 @@ export default function Search() {
 
   useEffect(() => {
     searchBooks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
 
   return (
@@ -58,7 +59,7 @@ export default function Search() {
           searchResults.length > 0 &&
           searchResults.map((book) => (
             <CommandItem key={`${book.key}`} value={`${book.title}`}>
-              {book.title} by {book?.author_name?.[0]} -- {book.key}
+              {book.title} by {book?.author_name?.[0]}
             </CommandItem>
           ))}
       </CommandList>
