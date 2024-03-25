@@ -11,20 +11,20 @@ import {
 } from "./ui/command";
 
 import { getBookSearchResultsAction } from "@/lib/actions/books";
+import { BookSearchResult } from "@/lib/api/books/queries";
 
 // type Props = {};
 
 export default function Search() {
   // props: Props
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<BookSearchResult[]>([]);
 
   const handleSearchOnChange = async (value: string) => {
     setSearch(value);
 
     const docs = await getBookSearchResultsAction(value);
 
-    console.log(docs);
     setSearchResults(docs);
   };
 
