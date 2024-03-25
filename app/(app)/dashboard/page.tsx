@@ -1,15 +1,15 @@
+import Search from "@/components/Search";
 import { getUserAuth } from "@/lib/auth/utils";
 
 export default async function Home() {
   const { session } = await getUserAuth();
   return (
     <main className="">
-      <h1 className="my-2 text-2xl font-bold">
-        Welcome, {session?.user.name}!
+      <h1 className="my-2 text-2xl font-bold text-accent">
+        Welcome, <span className="text-white">{session?.user.name}!</span>
       </h1>
-      <pre className="my-2 rounded-lg bg-secondary p-4">
-        {JSON.stringify(session, null, 2)}
-      </pre>
+
+      <Search />
     </main>
   );
 }

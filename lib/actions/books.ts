@@ -15,6 +15,7 @@ import {
   insertBookParams,
   updateBookParams
 } from "@/lib/db/schema/books";
+import { BookSearchResult, getBookSearchResults } from "../api/books/queries";
 
 const handleErrors = (e: unknown) => {
   const errMsg = "Error, please try again.";
@@ -69,5 +70,25 @@ export const deleteBookAction = async (input: BookId) => {
     revalidateBooks();
   } catch (e) {
     return handleErrors(e);
+  }
+};
+
+export const getBookSearchResultsAction = async (
+  value: string
+): Promise<BookSearchResult[]> => {
+  try {
+    if (!value) {
+      console.error("Search value is null or undefined");
+      return [];
+    }
+    const docs = await getBookSearchResults(value);
+    if (!docs) {
+      console.error("Book search results are null or undefined");
+      return [];
+    }
+    return docs;
+  } catch (e) {
+    console.error("Error in getBookSearchResultsAction:", e);
+    return [];
   }
 };
