@@ -44,13 +44,14 @@ export default function Search() {
   }, [debouncedSearch]);
 
   return (
-    <Command>
+    <Command className="group">
       <CommandInput
         value={search}
         onValueChange={handleSearchOnChange}
         placeholder="Search for books..."
+        className="group"
       />
-      <CommandList>
+      <CommandList className="hidden group-focus-within:block">
         {isSearching && <CommandEmpty>Searching...</CommandEmpty>}
         {!isSearching && searchResults.length === 0 && (
           <CommandEmpty>No results found.</CommandEmpty>
