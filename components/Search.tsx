@@ -59,8 +59,13 @@ export default function Search() {
         {!isSearching &&
           searchResults.length > 0 &&
           searchResults.map((book) => (
-            <CommandItem key={`${book.key}`} value={`${book.title}`}>
-              {book.title} by {book?.author_name?.[0]}
+            <CommandItem
+              key={`${book.key}`}
+              value={`${book.title}`}
+              className="block rounded-none"
+            >
+              <div>{book.title}</div>
+              <div className="text-xs">{book?.author_name?.[0]}</div>
             </CommandItem>
           ))}
       </CommandList>

@@ -4,6 +4,7 @@ import SidebarItems from "./SidebarItems";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 
 import { AuthSession, getUserAuth } from "@/lib/auth/utils";
+import { BooklyIcon } from "./shared/BooklyIcon";
 
 const Sidebar = async () => {
   const session = await getUserAuth();
@@ -13,7 +14,7 @@ const Sidebar = async () => {
     <aside className="hidden h-screen min-w-52 border-r border-border bg-muted p-4 pt-8 shadow-inner md:block">
       <div className="flex h-full flex-col justify-between">
         <div className="space-y-4">
-          <h3 className="ml-4 text-lg font-semibold">Logo</h3>
+          <BooklyIcon className="ml-3 h-12 w-12" />
           <SidebarItems />
         </div>
         <UserDetails session={session} />
