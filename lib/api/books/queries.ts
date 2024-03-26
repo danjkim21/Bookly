@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/index";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { getUserAuth } from "@/lib/auth/utils";
 import { type BookId, bookIdSchema, books } from "@/lib/db/schema/books";
 import { authors } from "@/lib/db/schema/authors";
@@ -8,6 +8,8 @@ import {
   reflections,
   type CompleteReflection
 } from "@/lib/db/schema/reflections";
+import { CompleteReview, reviews } from "@/lib/db/schema/reviews";
+import { users } from "@/lib/db/schema/auth";
 
 export const getBooks = async () => {
   const { session } = await getUserAuth();
@@ -35,15 +37,26 @@ export const getBookById = async (id: BookId) => {
   return { book: b };
 };
 
-export const getBookByIdWithQuotesAndReflections = async (id: BookId) => {
+export const getBookByIdWithQuotesAndReflectionsAndReviews = async (
+  id: BookId
+) => {
   const { session } = await getUserAuth();
   const { id: bookId } = bookIdSchema.parse({ id });
   const rows = await db
-    .select({ book: books, quote: quotes, reflection: reflections })
+    .select({
+      book: books,
+      quote: quotes,
+      reflection: reflections,
+      review: reviews,
+      users: users
+    })
     .from(books)
     .where(and(eq(books.id, bookId), eq(books.userId, session?.user.id!)))
     .leftJoin(quotes, eq(books.id, quotes.bookId))
-    .leftJoin(reflections, eq(books.id, reflections.bookId));
+    .leftJoin(reflections, eq(books.id, reflections.bookId))
+    .leftJoin(reviews, eq(books.id, reviews.bookId))
+    .leftJoin(users, eq(books.userId, users.id));
+
   if (rows.length === 0) return {};
   const b = rows[0].book;
   const bq = rows
@@ -52,10 +65,13 @@ export const getBookByIdWithQuotesAndReflections = async (id: BookId) => {
   const br = rows
     .filter((r) => r.reflection !== null)
     .map((r) => r.reflection) as CompleteReflection[];
+  const brw = rows[0].review as CompleteReview;
+  const u = rows[0].users;
 
-  return { book: b, quotes: bq, reflections: br };
+  return { book: b, quotes: bq, reflections: br, review: brw, user: u };
 };
 
+// Book Search API - https://openlibrary.org/developers/api
 export interface BookSearchResult {
   title: string;
   author_name: string;
