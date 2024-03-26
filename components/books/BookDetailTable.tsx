@@ -62,7 +62,11 @@ export default function BookDetailTable({
         </div>
         <span>
           {optimisticBook.completedOn
-            ? optimisticBook.completedOn?.toDateString()
+            ? optimisticBook.completedOn
+                .toString()
+                .split(" ")
+                .slice(0, 4)
+                .join(" ")
             : "N/a"}
         </span>
       </section>
