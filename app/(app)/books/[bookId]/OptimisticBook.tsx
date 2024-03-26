@@ -3,13 +3,13 @@
 import { useOptimistic, useState } from "react";
 import { TAddOptimistic } from "@/app/(app)/books/useOptimisticBooks";
 import { type Book } from "@/lib/db/schema/books";
-import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
 import BookForm from "@/components/books/BookForm";
 import { type Author, type AuthorId } from "@/lib/db/schema/authors";
 import { BookShelf, BookShelfId } from "@/lib/db/schema/bookShelves";
+import BookDetailTable from "@/components/books/BookDetailTable";
 
 export default function OptimisticBook({
   book,
@@ -30,6 +30,21 @@ export default function OptimisticBook({
   };
   const closeModal = () => setOpen(false);
   const [optimisticBook, setOptimisticBook] = useOptimistic(book);
+
+  const authorName = authors
+    ? authors
+        .filter((author) => author.id === optimisticBook.authorId)
+        .map((author) => author.name)
+        .join(", ")
+    : "None";
+
+  const bookShelfTitle = bookShelves
+    ? bookShelves
+        .filter((bookShelf) => bookShelf.id === optimisticBook.bookShelfId)
+        .map((bookShelf) => bookShelf.title)
+        .join(", ")
+    : "None";
+
   const updateBook: TAddOptimistic = (input) =>
     setOptimisticBook({ ...input.data });
 
@@ -52,14 +67,12 @@ export default function OptimisticBook({
           Edit
         </Button>
       </div>
-      <pre
-        className={cn(
-          "text-wrap break-all rounded-lg bg-secondary p-4",
-          optimisticBook.id === "optimistic" ? "animate-pulse" : ""
-        )}
-      >
-        {JSON.stringify(optimisticBook, null, 2)}
-      </pre>
+
+      <BookDetailTable
+        optimisticBook={optimisticBook}
+        authorName={authorName}
+        bookShelfTitle={bookShelfTitle}
+      />
     </div>
   );
 }
