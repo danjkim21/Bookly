@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { varchar, timestamp, pgTable } from "drizzle-orm/pg-core";
+import { text, varchar, timestamp, pgTable } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { books } from "./books";
@@ -11,7 +11,7 @@ export const quotes = pgTable("quotes", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),
-  content: varchar("content", { length: 256 }).notNull(),
+  content: text("content").notNull(),
   bookId: varchar("book_id", { length: 256 })
     .references(() => books.id, { onDelete: "cascade" })
     .notNull(),
