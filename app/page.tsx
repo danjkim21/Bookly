@@ -1,6 +1,49 @@
 import { BooklyIcon } from "@/components/shared/BooklyIcon";
 import Link from "next/link";
 
+const features = [
+  {
+    title: "Sharing",
+    description: "Create digital public bookshelves and share your stories."
+  },
+  {
+    title: "Collaboration",
+    description:
+      "Create or join a Book Club to discuss your reading with friends and family"
+  },
+  {
+    title: "Analysis",
+    description:
+      "Log your reading activity to get insight into your reading history, favorite genres, and trends."
+  }
+];
+const footerLinks = [
+  {
+    title: "About",
+    url: "/"
+  },
+  {
+    title: "Pricing",
+    url: "/pricing"
+  },
+  {
+    title: "Community",
+    url: "/community"
+  },
+  {
+    title: "Sign In",
+    url: "/sign-in"
+  },
+  {
+    title: "danjkim21",
+    url: "https://github.com/danjkim21"
+  },
+  {
+    title: "© 2024 Bookly",
+    url: "https://github.com/danjkim21/Bookly"
+  }
+];
+
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
@@ -11,7 +54,7 @@ export default function LandingPage() {
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link
-            className="text-sm font-medium underline-offset-4 hover:underline"
+            className="invisible hidden text-sm font-medium underline-offset-4 hover:underline sm:visible sm:block"
             href="#features"
           >
             Features
@@ -33,12 +76,11 @@ export default function LandingPage() {
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                     The complete platform <br />
-                    for building the Web
+                    for discovering Stories
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground dark:text-neutral-400 md:text-xl">
-                    Give your team the toolkit to stop configuring and start
-                    innovating. Securely build, deploy, and scale the best web
-                    experiences.
+                    Keep track of your favorite books with ease. Discover new
+                    stories and connect with a community of like-minded readers.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -61,12 +103,12 @@ export default function LandingPage() {
                   Key Features
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                  Faster iteration. More innovation.
+                  Easy to use. More discovery.
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground dark:text-neutral-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  The platform for rapid progress. Let your team focus on
-                  shipping features instead of managing infrastructure with
-                  automated CI/CD.
+                  The platform for your reading. Focus on developing your
+                  reading habits, sharing your stories, and discovering new
+                  worlds.
                 </p>
               </div>
             </div>
@@ -74,32 +116,18 @@ export default function LandingPage() {
               <div className="mx-auto aspect-video overflow-hidden rounded-xl bg-neutral-100 object-cover object-center dark:bg-neutral-800 sm:w-full lg:order-last" />
               <div className="flex flex-col justify-center space-y-4">
                 <ul className="grid gap-6">
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Collaboration</h3>
-                      <p className="text-muted-foreground  dark:text-neutral-400">
-                        Make collaboration seamless with built-in code review
-                        tools.
-                      </p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Automation</h3>
-                      <p className="text-muted-foreground dark:text-neutral-400">
-                        Automate your workflow with continuous integration.
-                      </p>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="grid gap-1">
-                      <h3 className="text-xl font-bold">Scale</h3>
-                      <p className="text-muted-foreground dark:text-neutral-400">
-                        Deploy to the cloud with a single click and scale with
-                        ease.
-                      </p>
-                    </div>
-                  </li>
+                  {features.map((feature, index) => {
+                    return (
+                      <li key={index}>
+                        <div className="grid gap-1">
+                          <h3 className="text-xl font-bold">{feature.title}</h3>
+                          <p className="text-muted-foreground  dark:text-neutral-400">
+                            {feature.description}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -136,16 +164,30 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-      <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t px-4 py-6 sm:flex-row md:px-6">
-        <small className="text-xs text-muted-foreground dark:text-neutral-400">
-          <Link
-            href="https://github.com/danjkim21"
-            target="_blank"
-            referrerPolicy="no-referrer"
-          >
-            © 2024 Daniel Jay-Young Kim.
+
+      <footer className=" flex w-full shrink-0 items-center justify-center border-t">
+        <div className="bg-g mx-4 my-10 flex min-w-[320px] max-w-xl  flex-col items-center justify-center gap-6 rounded-xl bg-secondary p-4 md:mx-6 md:p-12">
+          <Link href="/">
+            <BooklyIcon className="h-14 w-14" />
+            <span className="sr-only">Bookly</span>
           </Link>
-        </small>
+          <small className="text-xs text-white dark:text-neutral-400">
+            <ul className="flex flex-col items-center justify-center gap-6 sm:flex-row">
+              {footerLinks.map((link, index) => {
+                return (
+                  <ol key={index}>
+                    <Link
+                      className="underline-offset-4 hover:underline"
+                      href={link.url}
+                    >
+                      {link.title}
+                    </Link>
+                  </ol>
+                );
+              })}
+            </ul>
+          </small>
+        </div>
       </footer>
     </div>
   );
