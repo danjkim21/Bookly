@@ -18,7 +18,15 @@ export const createAuthor = async (author: NewAuthorParams) => {
     userId: session?.user.id!
   });
   try {
-    const [a] = await db.insert(authors).values(newAuthor).returning();
+    const [a] = await db
+      .insert(authors)
+      .values(newAuthor)
+      .onConflictDoUpdate({
+        target: authors.name,
+        set: { name: newAuthor.name }
+      })
+      .returning();
+
     return { author: a };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";

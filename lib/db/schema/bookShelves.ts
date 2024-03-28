@@ -13,7 +13,7 @@ export const bookShelves = pgTable("book_shelves", {
     .$defaultFn(() => nanoid()),
   title: varchar("title", { length: 256 }).notNull(),
   description: varchar("description", { length: 256 }).notNull(),
-  slug: varchar("slug", { length: 256 }).notNull(),
+  slug: varchar("slug", { length: 256 }).unique().notNull(),
   public: boolean("public").notNull(),
   userId: varchar("user_id", { length: 256 }).notNull(),
 

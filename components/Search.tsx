@@ -54,24 +54,27 @@ export default function Search() {
   //   }
   // };
 
+  const capitalize = (str: string) =>
+    str.replace(/(?:^|\s|["'([{])+\S/g, (match) => match.toUpperCase());
+
   const handleSearchOnChange = async (value: string) => {
     setSearch(value);
   };
 
   const handleSubmitBook = async (value: string) => {
+    console.log(value);
+
     const [title, authorName] = value.split("~~");
 
-    const id = await createAuthorAction({ name: authorName });
+    const id = await createAuthorAction({ name: capitalize(authorName) });
 
     const bookParsed = await insertBookParams.safeParseAsync({
       authorId: id,
-      title,
+      title: capitalize(title),
       authorName,
       favorited: false,
       completed: false
     });
-
-    console.log(bookParsed);
 
     if (!bookParsed.success) {
       setErrors(bookParsed?.error.flatten().fieldErrors);
@@ -141,7 +144,7 @@ export default function Search() {
           searchResults.map((book) => (
             <CommandItem
               key={`${book.title}-${book.key}`}
-              value={`${book.title}~~${book.author_name}~~${book.key}`}
+              value={`${book.title}~~${book.author_name?.[0]}~~${book.key}`}
               className="block rounded-none"
               onSelect={handleSubmitBook}
             >
