@@ -12,11 +12,14 @@ export default function SummaryItems() {
   const openModal = () => {
     setOpen(true);
   };
+  const closeModal = () => {
+    setOpen(false);
+  };
 
   return (
     <>
       <Modal open={open} setOpen={setOpen} title={"Find Book"}>
-        <Search />
+        <Search openModal={openModal} closeModal={closeModal} />
       </Modal>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">

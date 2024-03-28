@@ -21,6 +21,8 @@ import { Book, insertBookParams } from "@/lib/db/schema/books";
 import { useValidatedForm } from "@/lib/hooks/useValidatedForm";
 import { createAuthorAction } from "@/lib/actions/authors";
 import { z } from "zod";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 // type Props = {};
 
@@ -39,28 +41,28 @@ export default function Search({
   const [isSearching, setIsSearching] = useState(false);
   const debouncedSearch = useDebounce(search, 400);
 
+  const router = useRouter();
+
   const { errors, hasErrors, setErrors, handleChange } =
     useValidatedForm<Book>(insertBookParams);
 
   const [pending, startMutation] = useTransition();
 
-  // const onSuccess = (
-  //   action: Action,
-  //   data?: { error: string; values: Book }
-  // ) => {
-  //   const failed = Boolean(data?.error);
-  //   if (failed) {
-  //     openModal && openModal(data?.values);
-  //     toast.error(`Failed to ${action}`, {
-  //       description: data?.error ?? "Error"
-  //     });
-  //   } else {
-  //     router.refresh();
-  //     postSuccess && postSuccess();
-  //     toast.success(`Book ${action}d!`);
-  //     if (action === "delete") router.push(backpath);
-  //   }
-  // };
+  const onSuccess = (data?: { error: string; values: Book }) => {
+    const failed = Boolean(data?.error);
+
+    if (failed) {
+      openModal && openModal(data?.values);
+      toast.error(`Failed to create`, {
+        description: data?.error ?? "Error"
+      });
+    } else {
+      router.refresh();
+      postSuccess && postSuccess();
+      closeModal && closeModal();
+      toast.success(`Book added successfully!`);
+    }
+  };
 
   const capitalize = (str: string) =>
     str.replace(/(?:^|\s|["'([{])+\S/g, (match) => match.toUpperCase());
@@ -107,7 +109,7 @@ export default function Search({
           error: error ?? "Error",
           values: pendingBook
         };
-        // onSuccess(error ? errorFormatted : undefined);
+        onSuccess(error ? errorFormatted : undefined);
       });
     } catch (e) {
       if (e instanceof z.ZodError) {
@@ -140,9 +142,7 @@ export default function Search({
         placeholder="Search for books..."
         className="group"
       />
-      <CommandList
-      // className="hidden group-focus-within:block"
-      >
+      <CommandList>
         {isSearching && <CommandLoading>Searching...</CommandLoading>}
         {!isSearching && searchResults.length === 0 && (
           <CommandEmpty>No results found.</CommandEmpty>
