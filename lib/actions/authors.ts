@@ -30,8 +30,10 @@ const revalidateAuthors = () => revalidatePath("/authors");
 export const createAuthorAction = async (input: NewAuthorParams) => {
   try {
     const payload = insertAuthorParams.parse(input);
-    await createAuthor(payload);
+    const { author } = await createAuthor(payload);
+    const id = author.id;
     revalidateAuthors();
+    return id;
   } catch (e) {
     return handleErrors(e);
   }
