@@ -24,7 +24,15 @@ import { z } from "zod";
 
 // type Props = {};
 
-export default function Search() {
+export default function Search({
+  openModal,
+  closeModal,
+  postSuccess
+}: {
+  openModal?: (book?: Book) => void;
+  closeModal?: () => void;
+  postSuccess?: () => void;
+}) {
   // props: Props
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<BookSearchResult[]>([]);
