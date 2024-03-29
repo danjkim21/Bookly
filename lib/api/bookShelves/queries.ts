@@ -48,15 +48,11 @@ export const getMostRecentBookShelves = async () => {
     .where(eq(bookShelves.userId, session?.user.id!))
     .groupBy(bookShelves.id);
 
-  console.log(rc);
-
   const b = rows.map((row) => ({
     ...row,
     bookCount: rb.find((x) => x.bookshelf === row.id)?.bookCounts,
     commentCount: rc.find((x) => x.bookshelf === row.id)?.commentCounts
   }));
-
-  console.log(b);
 
   return { bookShelves: b };
 };
