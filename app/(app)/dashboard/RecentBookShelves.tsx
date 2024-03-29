@@ -39,7 +39,10 @@ export default async function RecentBookShelves() {
                   label="Total Books"
                   value={bookShelf.bookCount ? bookShelf.bookCount : 0}
                 />
-                <StatisticItem label="Total Comments" value={0} />
+                <StatisticItem
+                  label="Total Comments"
+                  value={bookShelf.commentCount ? bookShelf.commentCount : 0}
+                />
               </CardFooter>
             </Card>
           );
