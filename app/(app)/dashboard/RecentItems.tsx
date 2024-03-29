@@ -21,9 +21,11 @@ export default async function RecentItems() {
                   <div className="flex flex-col gap-1">
                     <Link href={`/books/${book.id}`}>{book.title}</Link>
                     <div>
-                      <span className="inline-flex gap-1 rounded-md bg-green-800/30 px-2 py-[1px] text-sm text-green-500">
-                        <span>{book.author?.name}</span>
-                      </span>
+                      <Link href={`/authors/${book.author?.id}`}>
+                        <span className="inline-flex gap-1 rounded-md bg-green-800/30 px-2 py-[1px] text-sm text-green-500">
+                          <span>{book.author?.name}</span>
+                        </span>
+                      </Link>
                     </div>
                   </div>
                 </div>
