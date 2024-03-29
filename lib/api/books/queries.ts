@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, count } from "drizzle-orm";
 import { getUserAuth } from "@/lib/auth/utils";
 import { type BookId, bookIdSchema, books } from "@/lib/db/schema/books";
 import { authors } from "@/lib/db/schema/authors";
