@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc, count } from "drizzle-orm";
 import { getUserAuth } from "@/lib/auth/utils";
 import {
   type BookShelfId,
@@ -16,6 +16,44 @@ export const getBookShelves = async () => {
     .from(bookShelves)
     .where(eq(bookShelves.userId, session?.user.id!));
   const b = rows;
+  return { bookShelves: b };
+};
+
+export const getMostRecentBookShelves = async () => {
+  const { session } = await getUserAuth();
+  const rows = await db
+    .select()
+    .from(bookShelves)
+    .where(eq(bookShelves.userId, session?.user.id!))
+    .orderBy(desc(bookShelves.createdAt))
+    .limit(2);
+
+  const rb = await db
+    .select({
+      bookshelf: bookShelves.id,
+      bookCounts: count(books.id)
+    })
+    .from(bookShelves)
+    .leftJoin(books, eq(bookShelves.id, books.bookShelfId))
+    .where(eq(bookShelves.userId, session?.user.id!))
+    .groupBy(bookShelves.id);
+
+  const rc = await db
+    .select({
+      bookshelf: bookShelves.id,
+      commentCounts: count(comments.id)
+    })
+    .from(bookShelves)
+    .leftJoin(comments, eq(bookShelves.id, comments.bookShelfId))
+    .where(eq(bookShelves.userId, session?.user.id!))
+    .groupBy(bookShelves.id);
+
+  const b = rows.map((row) => ({
+    ...row,
+    commentCount: rc.find((x) => x.bookshelf === row.id)?.commentCounts,
+    bookCount: rb.find((x) => x.bookshelf === row.id)?.bookCounts
+  }));
+
   return { bookShelves: b };
 };
 
