@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import { getUserAuth } from "@/lib/auth/utils";
 import {
   type BookShelfId,
@@ -15,6 +15,18 @@ export const getBookShelves = async () => {
     .select()
     .from(bookShelves)
     .where(eq(bookShelves.userId, session?.user.id!));
+  const b = rows;
+  return { bookShelves: b };
+};
+
+export const getMostRecentBookShelves = async () => {
+  const { session } = await getUserAuth();
+  const rows = await db
+    .select()
+    .from(bookShelves)
+    .where(eq(bookShelves.userId, session?.user.id!))
+    .orderBy(desc(bookShelves.createdAt))
+    .limit(2);
   const b = rows;
   return { bookShelves: b };
 };
