@@ -19,7 +19,9 @@ export default async function RecentItems() {
                     {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <Link href={`/books/${book.id}`}>{book.title}</Link>
+                    <Link href={`/books/${book.id}`} className="line-clamp-1">
+                      {book.title}
+                    </Link>
                     <div>
                       <Link href={`/authors/${book.author?.id}`}>
                         <span className="inline-flex gap-1 rounded-md bg-green-800/30 px-2 py-[1px] text-sm text-green-500">

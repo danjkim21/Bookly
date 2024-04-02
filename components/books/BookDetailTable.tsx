@@ -39,7 +39,7 @@ export default function BookDetailTable({
           <BookCopyIcon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">BookShelf</h2>
         </div>
-        <span>{bookShelfTitle}</span>
+        <span>{bookShelfTitle ? bookShelfTitle : "None"}</span>
       </section>
       <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
