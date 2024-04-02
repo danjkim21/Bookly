@@ -27,35 +27,35 @@ export default function BookDetailTable({
       )}
     >
       <Separator className="my-6" />
-      <section className="flex flex-row rounded-xl px-3 py-1 hover:bg-secondary">
+      <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
           <UserCircle2Icon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">Author</h2>
         </div>
         <span>{authorName}</span>
       </section>
-      <section className="flex flex-row rounded-xl px-3 py-1 hover:bg-secondary">
+      <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
           <BookCopyIcon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">BookShelf</h2>
         </div>
-        <span>{bookShelfTitle}</span>
+        <span>{bookShelfTitle ? bookShelfTitle : "None"}</span>
       </section>
-      <section className="flex flex-row rounded-xl px-3 py-1 hover:bg-secondary">
+      <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
           <HeartIcon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">Favorited</h2>
         </div>
         <span>{optimisticBook.favorited ? "true" : "false"}</span>
       </section>
-      <section className="flex flex-row rounded-xl px-3 py-1 hover:bg-secondary">
+      <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
           <CheckCircle2Icon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">Completed</h2>
         </div>
         <span>{optimisticBook.completed ? "true" : "false"}</span>
       </section>
-      <section className="flex flex-row rounded-xl px-3 py-1 hover:bg-secondary">
+      <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
           <CalendarCheckIcon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">Completed On</h2>

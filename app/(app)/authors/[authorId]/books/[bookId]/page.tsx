@@ -86,13 +86,11 @@ const Book = async ({ id }: { id: string }) => {
       </div>
 
       <div className="relative mx-4 mt-8">
-        <h3 className="mb-4 text-xl font-medium">{book.title}&apos;s Quotes</h3>
+        <h3 className="mb-4 text-xl font-medium">Quotes</h3>
         <QuoteList books={[]} bookId={book.id} quotes={quotes} />
       </div>
       <div className="relative mx-4 mt-8">
-        <h3 className="mb-4 text-xl font-medium">
-          {book.title}&apos;s Reflections
-        </h3>
+        <h3 className="mb-4 text-xl font-medium">Reflections</h3>
         <ReflectionList books={[]} bookId={book.id} reflections={reflections} />
       </div>
     </Suspense>

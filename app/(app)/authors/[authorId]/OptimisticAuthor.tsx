@@ -29,7 +29,7 @@ export default function OptimisticAuthor({ author }: { author: Author }) {
           addOptimistic={updateAuthor}
         />
       </Modal>
-      <div className="mb-4 flex items-end justify-between">
+      <div className="mb-4 flex flex-wrap items-end justify-between">
         <h1 className="text-2xl font-semibold">{optimisticAuthor.name}</h1>
         <Button className="" onClick={() => setOpen(true)}>
           Edit

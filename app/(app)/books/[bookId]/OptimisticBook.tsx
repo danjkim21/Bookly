@@ -61,7 +61,10 @@ export default function OptimisticBook({
           bookShelves={bookShelves}
         />
       </Modal>
-      <div className="mb-4 flex items-end justify-between">
+      <div className="mb-4 h-32 w-24 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800 md:mb-8">
+        {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
+      </div>
+      <div className="mb-4 flex flex-wrap items-end justify-between">
         <h1 className="text-2xl font-semibold">{optimisticBook.title}</h1>
         <Button className="" onClick={() => setOpen(true)}>
           Edit

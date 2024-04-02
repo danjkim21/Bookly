@@ -102,12 +102,12 @@ const Reflection = ({
     >
       <div className="w-full">
         <blockquote className="text-background-foreground text-left font-normal italic  dark:text-white">
-          <p className='before:content-["\""] after:content-["\""]'>
+          <p className='line-clamp-2 before:content-["\""] after:content-["\""]'>
             {reflection.content}
           </p>
         </blockquote>
         <Link href={`books/${reflection.bookId}`}>
-          <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
+          <div className="text-background-foreground text-sm font-medium text-muted-foreground underline-offset-4 hover:underline dark:text-white">
             {reflection.book && reflection.book.title}
           </div>
         </Link>

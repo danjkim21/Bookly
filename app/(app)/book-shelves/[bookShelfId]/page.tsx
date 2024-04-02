@@ -44,9 +44,7 @@ const BookShelf = async ({ id }: { id: string }) => {
         <BookList authors={authors} books={books} />
       </div>
       <div className="relative mx-4 mt-8">
-        <h3 className="mb-4 text-xl font-medium">
-          {bookShelf.title}&apos;s Comments
-        </h3>
+        <h3 className="mb-4 text-xl font-medium">Comments</h3>
         <CommentList
           bookShelves={[]}
           bookShelfId={bookShelf.id}

@@ -98,19 +98,26 @@ const Book = ({
       )}
     >
       <article className="flex w-full content-start justify-start">
-        <div className="h-16 w-12 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800">
-          {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
-        </div>
+        <Link href={basePath + "/" + book.id}>
+          <div className="h-16 w-12 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800">
+            {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
+          </div>
+        </Link>
         <section className="ml-4 flex flex-col justify-center">
-          <div className="font-medium text-primary">{book.title}</div>
-          <div className="text-muted-foreground">{book.author?.name}</div>
+          <div className="line-clamp-1 font-medium text-primary underline-offset-4 hover:underline">
+            <Link href={basePath + "/" + book.id}>{book.title}</Link>
+          </div>
+          <div className="text-muted-foreground underline-offset-4 hover:underline">
+            <Link href={"authors/" + book.author?.id}>{book.author?.name}</Link>
+          </div>
         </section>
       </article>
       <BookFavoriteButton
         bookId={book.id}
         bookFavorited={book.favorited || false}
+        className="hidden md:block"
       />
-      <Button variant={"link"} asChild>
+      <Button variant={"link"} asChild className="hidden md:block">
         <Link href={basePath + "/" + book.id}>Edit</Link>
       </Button>
     </li>

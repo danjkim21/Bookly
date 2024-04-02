@@ -36,7 +36,7 @@ const Author = async ({ id }: { id: string }) => {
         <OptimisticAuthor author={author} />
       </div>
       <div className="relative mx-4 mt-8">
-        <h3 className="mb-4 text-xl font-medium">{author.name}&apos;s Books</h3>
+        <h3 className="mb-4 text-xl font-medium">Books</h3>
         <BookList authors={[]} authorId={author.id} books={books} />
       </div>
     </Suspense>
