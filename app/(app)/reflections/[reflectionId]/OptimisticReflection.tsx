@@ -42,7 +42,7 @@ export default function OptimisticReflection({
           addOptimistic={updateReflection}
         />
       </Modal>
-      <div className="mb-4 flex items-end justify-between">
+      <div className="mb-4 flex flex-wrap items-end justify-between">
         <h1 className="text-2xl font-semibold">
           {optimisticReflection.content}
         </h1>

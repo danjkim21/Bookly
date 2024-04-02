@@ -61,7 +61,7 @@ export default function OptimisticBook({
           bookShelves={bookShelves}
         />
       </Modal>
-      <div className="mb-4 flex items-end justify-between">
+      <div className="mb-4 flex flex-wrap items-end justify-between">
         <h1 className="text-2xl font-semibold">{optimisticBook.title}</h1>
         <Button className="" onClick={() => setOpen(true)}>
           Edit

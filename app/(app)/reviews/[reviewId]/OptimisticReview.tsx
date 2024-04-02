@@ -41,7 +41,7 @@ export default function OptimisticReview({
           addOptimistic={updateReview}
         />
       </Modal>
-      <div className="mb-4 flex items-end justify-between">
+      <div className="mb-4 flex flex-wrap items-end justify-between">
         <h1 className="text-2xl font-semibold">{optimisticReview.content}</h1>
         <Button className="" onClick={() => setOpen(true)}>
           Edit

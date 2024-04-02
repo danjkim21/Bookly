@@ -35,20 +35,22 @@ export default function OptimisticBookShelf({
           addOptimistic={updateBookShelf}
         />
       </Modal>
-      <div className="mb-4 flex items-end justify-between">
+      <div className="mb-4 flex flex-wrap items-end justify-between">
         <h1 className="text-2xl font-semibold">{optimisticBookShelf.title}</h1>
-        {bookShelf.public && (
-          <Button
-            className='ml-auto after:content-["_↗"]'
-            variant="link"
-            asChild
-          >
-            <Link href={`/${bookShelf.slug}`}>Public Link</Link>
+        <div>
+          {bookShelf.public && (
+            <Button
+              className='ml-auto after:content-["_↗"]'
+              variant="link"
+              asChild
+            >
+              <Link href={`/${bookShelf.slug}`}>Public Link</Link>
+            </Button>
+          )}
+          <Button className="" onClick={() => setOpen(true)}>
+            Edit
           </Button>
-        )}
-        <Button className="" onClick={() => setOpen(true)}>
-          Edit
-        </Button>
+        </div>
       </div>
       <pre
         className={cn(
