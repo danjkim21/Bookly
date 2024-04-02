@@ -95,12 +95,12 @@ const Quote = ({
     >
       <div className="w-full">
         <blockquote className="text-background-foreground text-left font-normal italic dark:text-white">
-          <p className='before:content-["\""] after:content-["\""]'>
+          <p className='line-clamp-2 before:content-["\""] after:content-["\""]'>
             {quote.content}
           </p>
         </blockquote>
         <Link href={`books/${quote.bookId}`}>
-          <div className="text-background-foreground text-sm font-medium text-muted-foreground dark:text-white">
+          <div className="text-background-foreground text-sm font-medium text-muted-foreground underline-offset-4 hover:underline dark:text-white">
             {quote.book && quote.book.title}
           </div>
         </Link>
