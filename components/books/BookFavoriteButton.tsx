@@ -5,10 +5,12 @@ import { updateBookFavoritedStatusAction } from "@/lib/actions/books";
 
 const BookFavoriteButton = ({
   bookId,
-  bookFavorited
+  bookFavorited,
+  className
 }: {
   bookId: string;
   bookFavorited: boolean;
+  className?: string;
 }) => {
   const handleBookFavorited = async () => {
     await updateBookFavoritedStatusAction(bookId, bookFavorited);
@@ -21,7 +23,11 @@ const BookFavoriteButton = ({
   };
 
   return (
-    <Button variant={"link"} onClick={handleBookFavorited}>
+    <Button
+      variant={"link"}
+      onClick={handleBookFavorited}
+      className={className}
+    >
       <Heart
         className="hover:scale-110"
         fill={bookFavorited ? "#ffffff" : "transparent"}
