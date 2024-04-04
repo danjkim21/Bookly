@@ -16,7 +16,10 @@ import {
 } from "../ui/dropdown-menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { updateBookFavoritedStatusAction } from "@/lib/actions/books";
+import {
+  updateBookBookshelfAction,
+  updateBookFavoritedStatusAction
+} from "@/lib/actions/books";
 import { toast } from "sonner";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
 
@@ -42,6 +45,13 @@ export default function BookDropdownMenu({
     } else {
       toast.success("Book added to favorites");
     }
+  };
+
+  const handleUpdateBookShelf = async (value: string) => {
+    console.log("bookshelfId", value);
+    await updateBookBookshelfAction(bookId, value);
+
+    toast.success("Added to bookshelf");
   };
 
   return (
@@ -74,7 +84,7 @@ export default function BookDropdownMenu({
               {/* TODO: Integrate updateBookShelf api */}
               <DropdownMenuRadioGroup
                 value={bookShelfId}
-                // onValueChange={}
+                onValueChange={handleUpdateBookShelf}
               >
                 {bookShelves?.map((bookshelf) => {
                   return (
