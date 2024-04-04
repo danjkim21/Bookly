@@ -10,6 +10,7 @@ import {
   bookIdSchema
 } from "@/lib/db/schema/books";
 import { getUserAuth } from "@/lib/auth/utils";
+import { BookShelfId } from "@/lib/db/schema/bookShelves";
 
 export const createBook = async (book: NewBookParams) => {
   const { session } = await getUserAuth();
@@ -58,6 +59,27 @@ export const updateBookFavoritedStatus = async (
     const [b] = await db
       .update(books)
       .set({ favorited, updatedAt: new Date() })
+      .where(and(eq(books.id, bookId!), eq(books.userId, session?.user.id!)))
+      .returning();
+    return { book: b };
+  } catch (err) {
+    const message = (err as Error).message ?? "Error, please try again";
+    console.error(message);
+    throw { error: message };
+  }
+};
+
+export const updateBookBookshelf = async (
+  id: BookId,
+  bookShelfId: BookShelfId
+) => {
+  const { session } = await getUserAuth();
+  const { id: bookId } = bookIdSchema.parse({ id });
+
+  try {
+    const [b] = await db
+      .update(books)
+      .set({ bookShelfId, updatedAt: new Date() })
       .where(and(eq(books.id, bookId!), eq(books.userId, session?.user.id!)))
       .returning();
     return { book: b };

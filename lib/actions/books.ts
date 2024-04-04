@@ -5,6 +5,7 @@ import {
   createBook,
   deleteBook,
   updateBook,
+  updateBookBookshelf,
   updateBookFavoritedStatus
 } from "@/lib/api/books/mutations";
 import {
@@ -16,6 +17,7 @@ import {
   updateBookParams
 } from "@/lib/db/schema/books";
 import { BookSearchResult, getBookSearchResults } from "../api/books/queries";
+import { BookShelfId } from "../db/schema/bookShelves";
 
 const handleErrors = (e: unknown) => {
   const errMsg = "Error, please try again.";
@@ -55,8 +57,20 @@ export const updateBookFavoritedStatusAction = async (
 ) => {
   try {
     const payload = bookIdSchema.parse({ id: input });
-    console.log(payload);
     await updateBookFavoritedStatus(payload.id, !favorited);
+    revalidateBooks();
+  } catch (e) {
+    return handleErrors(e);
+  }
+};
+
+export const updateBookBookshelfAction = async (
+  input: BookId,
+  bookShelfId: BookShelfId
+) => {
+  try {
+    const payload = bookIdSchema.parse({ id: input });
+    await updateBookBookshelf(payload.id, bookShelfId);
     revalidateBooks();
   } catch (e) {
     return handleErrors(e);

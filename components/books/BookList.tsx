@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import BookForm from "./BookForm";
 import { PlusIcon } from "lucide-react";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
-import BookFavoriteButton from "./BookFavoriteButton";
+import BookDropdownMenu from "./BookDropdownMenu";
 
 type TOpenModal = (book?: Book) => void;
 
@@ -68,7 +68,12 @@ export default function BookList({
       ) : (
         <ul>
           {optimisticBooks.map((book) => (
-            <Book book={book} key={book.id} openModal={openModal} />
+            <Book
+              book={book}
+              key={book.id}
+              openModal={openModal}
+              bookShelves={bookShelves}
+            />
           ))}
         </ul>
       )}
@@ -78,10 +83,12 @@ export default function BookList({
 
 const Book = ({
   book,
-  openModal
+  openModal,
+  bookShelves
 }: {
   book: CompleteBook;
   openModal: TOpenModal;
+  bookShelves?: BookShelf[];
 }) => {
   const optimistic = book.id === "optimistic";
   const deleting = book.id === "delete";
@@ -112,14 +119,20 @@ const Book = ({
           </div>
         </section>
       </article>
-      <BookFavoriteButton
+      {/* <BookFavoriteButton
         bookId={book.id}
         bookFavorited={book.favorited || false}
         className="hidden md:block"
       />
-      <Button variant={"link"} asChild className="hidden md:block">
-        <Link href={basePath + "/" + book.id}>Edit</Link>
-      </Button>
+      */}
+
+      <BookDropdownMenu
+        key={book.id}
+        bookId={book.id}
+        bookShelfId={book.bookShelfId ? book.bookShelfId : undefined}
+        isFavorited={book.favorited ? book.favorited : false}
+        bookShelves={bookShelves}
+      />
     </li>
   );
 };
