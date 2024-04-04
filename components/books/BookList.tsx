@@ -129,7 +129,7 @@ const Book = ({
       <BookDropdownMenu
         key={book.id}
         bookId={book.id}
-        bookShelfId={book.bookShelfId}
+        bookShelfId={book.bookShelfId ? book.bookShelfId : undefined}
         isFavorited={book.favorited ? book.favorited : false}
         bookShelves={bookShelves}
       />

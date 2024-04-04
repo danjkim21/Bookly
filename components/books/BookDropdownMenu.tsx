@@ -27,7 +27,7 @@ export default function BookDropdownMenu({
   bookShelves
 }: {
   bookId: string;
-  bookShelfId: string;
+  bookShelfId: string | undefined;
   isFavorited: boolean;
   bookShelves?: BookShelf[];
 }) {
