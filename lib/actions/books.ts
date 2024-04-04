@@ -63,6 +63,8 @@ export const updateBookFavoritedStatusAction = async (
   }
 };
 
+// export const updateBookBookshelfAction = async () => {};
+
 export const deleteBookAction = async (input: BookId) => {
   try {
     const payload = bookIdSchema.parse({ id: input });

@@ -68,6 +68,8 @@ export const updateBookFavoritedStatus = async (
   }
 };
 
+// export const updateBookBookshelf = async () => {};
+
 export const deleteBook = async (id: BookId) => {
   const { session } = await getUserAuth();
   const { id: bookId } = bookIdSchema.parse({ id });
