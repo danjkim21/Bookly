@@ -14,6 +14,7 @@ import BookForm from "./BookForm";
 import { PlusIcon } from "lucide-react";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
 import BookFavoriteButton from "./BookFavoriteButton";
+import BookDropdownMenu from "./BookDropdownMenu";
 
 type TOpenModal = (book?: Book) => void;
 
@@ -112,14 +113,20 @@ const Book = ({
           </div>
         </section>
       </article>
-      <BookFavoriteButton
+      {/* <BookFavoriteButton
         bookId={book.id}
         bookFavorited={book.favorited || false}
         className="hidden md:block"
       />
       <Button variant={"link"} asChild className="hidden md:block">
         <Link href={basePath + "/" + book.id}>Edit</Link>
-      </Button>
+      </Button> */}
+
+      <BookDropdownMenu
+        key={book.id}
+        bookId={book.id}
+        isFavorited={book.favorited ? book.favorited : false}
+      />
     </li>
   );
 };
