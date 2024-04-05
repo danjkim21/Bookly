@@ -11,7 +11,7 @@ export const authors = pgTable("authors", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),
-  name: varchar("name", { length: 256 }).notNull(),
+  name: varchar("name", { length: 256 }).unique().notNull(),
   userId: varchar("user_id", { length: 256 }).notNull(),
 
   createdAt: timestamp("created_at")

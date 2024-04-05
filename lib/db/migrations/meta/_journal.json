@@ -43,6 +43,13 @@
       "when": 1712256817665,
       "tag": "0005_mighty_medusa",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1712326907525,
+      "tag": "0006_big_toro",
+      "breakpoints": true
     }
   ]
 }
