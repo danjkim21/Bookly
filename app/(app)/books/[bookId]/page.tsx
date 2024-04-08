@@ -1,7 +1,10 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
-import { getBookByIdWithQuotesAndReflectionsAndReviews } from "@/lib/api/books/queries";
+import {
+  getBookByIdWithQuotesAndReflectionsAndReviews,
+  getBookDetailsByTitle
+} from "@/lib/api/books/queries";
 import { getAuthors } from "@/lib/api/authors/queries";
 import OptimisticBook from "@/app/(app)/books/[bookId]/OptimisticBook";
 import { checkAuth } from "@/lib/auth/utils";
@@ -34,6 +37,7 @@ const Book = async ({ id }: { id: string }) => {
 
   const { book, quotes, reflections, review, user } =
     await getBookByIdWithQuotesAndReflectionsAndReviews(id);
+  const { bookDetails } = await getBookDetailsByTitle(book?.title!);
   const { authors } = await getAuthors();
   const { bookShelves } = await getBookShelves();
 
@@ -44,6 +48,7 @@ const Book = async ({ id }: { id: string }) => {
         <BackButton currentResource="books" />
         <OptimisticBook
           book={book}
+          bookDetails={bookDetails}
           authors={authors}
           bookShelves={bookShelves}
           bookShelfId={book?.bookShelfId!}

@@ -50,6 +50,20 @@
       "when": 1712326907525,
       "tag": "0006_big_toro",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1712327313260,
+      "tag": "0007_parallel_daimon_hellstrom",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1712327637207,
+      "tag": "0008_magical_garia",
+      "breakpoints": true
     }
   ]
 }
