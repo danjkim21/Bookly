@@ -41,7 +41,7 @@ const Book = async ({ id }: { id: string }) => {
   const { authors } = await getAuthors();
   const { bookShelves } = await getBookShelves();
 
-  if (!book || !bookDetails) notFound();
+  if (!book) notFound();
   return (
     <Suspense fallback={<Loading />}>
       <div className="relative">

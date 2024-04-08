@@ -85,21 +85,14 @@ export default function BookDetailTable({
           <BookOpenTextIcon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">Page Count</h2>
         </div>
-        <span>{pageCount}</span>
+        <span>{pageCount ? pageCount : "N/a"}</span>
       </section>
       <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
           <StarsIcon className="h-4 w-4 text-accent" />
           <h2 className="min-w-36 text-accent">Avg. Rating</h2>
         </div>
-        <span>{rating}</span>
-      </section>
-      <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
-        <div className="flex items-center gap-2">
-          <StarsIcon className="h-4 w-4 text-accent" />
-          <h2 className="min-w-36 text-accent">Description</h2>
-        </div>
-        <span>{rating}</span>
+        <span>{rating ? rating : "N/a"}</span>
       </section>
       <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-start gap-2">
@@ -107,16 +100,18 @@ export default function BookDetailTable({
           <h2 className="min-w-36 text-accent">Subjects</h2>
         </div>
         <div className="line-clamp-2 flex flex-wrap gap-2">
-          {subjects.slice(0, 4).map((subject) => {
-            return (
-              <span
-                className="overflow-hidden rounded-xl bg-neutral-100/50 object-cover px-2 py-1 text-sm dark:bg-neutral-800"
-                key={subject}
-              >
-                {subject}
-              </span>
-            );
-          })}
+          {subjects
+            ? subjects.slice(0, 4).map((subject) => {
+                return (
+                  <span
+                    className="overflow-hidden rounded-xl bg-neutral-100/50 object-cover px-2 py-1 text-sm dark:bg-neutral-800"
+                    key={subject}
+                  >
+                    {subject}
+                  </span>
+                );
+              })
+            : "N/a"}
         </div>
       </section>
       <Separator className="my-6" />

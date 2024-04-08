@@ -85,7 +85,6 @@ export default function OptimisticBook({
         subjects={bookDetails?.subject}
         rating={bookDetails?.ratings_average}
         pageCount={bookDetails?.number_of_pages_median}
-        // desc={bookDetails?.}
       />
     </div>
   );
