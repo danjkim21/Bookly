@@ -23,6 +23,8 @@ import { createAuthorAction } from "@/lib/actions/authors";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import BookCoverImage from "./shared/BookCoverImage";
 
 // type Props = {};
 
@@ -39,7 +41,7 @@ export default function Search({
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<BookSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const debouncedSearch = useDebounce(search, 400);
+  const debouncedSearch = useDebounce(search, 300);
 
   const router = useRouter();
 
@@ -125,6 +127,8 @@ export default function Search({
     if (debouncedSearch) {
       results = await getBookSearchResultsAction(debouncedSearch);
     }
+
+    console.log("results", results);
     setIsSearching(false);
     setSearchResults(results);
   };
@@ -152,12 +156,15 @@ export default function Search({
           searchResults.map((book) => (
             <CommandItem
               key={`${book.title}-${book.key}`}
-              value={`${book.title}~~${book.author_name?.[0]}~~${book.key}`}
-              className="block rounded-none"
+              value={`${book.title}~~${book.authorName?.[0]}~~${book.key}`}
+              className="flex flex-col items-start justify-start gap-2 rounded-none sm:flex-row sm:gap-4"
               onSelect={handleSubmitBook}
             >
-              <div>{book.title}</div>
-              <div className="text-xs">{book?.author_name?.[0]}</div>
+              <BookCoverImage bookSrc={book.coverImg} width={40} height={60} />
+              <div className="">
+                <div className="line-clamp-2">{book.title}</div>
+                <div className="line-clamp-1 text-xs">{book?.authorName}</div>
+              </div>
             </CommandItem>
           ))}
       </CommandList>

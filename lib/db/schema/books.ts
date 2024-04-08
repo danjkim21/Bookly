@@ -26,10 +26,10 @@ export const books = pgTable("books", {
     .references(() => authors.id, { onDelete: "cascade" })
     .notNull(),
   bookShelfId: varchar("book_shelf_id", { length: 256 }).references(
-    () => bookShelves.id,
-    {
-      onDelete: "cascade"
-    }
+    () => bookShelves.id
+    // {
+    //   onDelete: "cascade"
+    // }
   ),
   userId: varchar("user_id", { length: 256 }).notNull(),
 

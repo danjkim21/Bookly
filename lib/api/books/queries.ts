@@ -86,9 +86,10 @@ export const getBookByIdWithQuotesAndReflectionsAndReviews = async (
 
 // Book Search API - https://openlibrary.org/developers/api
 export interface BookSearchResult {
-  title: string;
-  author_name: string;
   key: string;
+  title: string;
+  authorName: string;
+  coverImg: string;
 }
 
 export const getBookSearchResults = async (
@@ -98,8 +99,8 @@ export const getBookSearchResults = async (
 
   const url = new URL("https://openlibrary.org/search.json");
   url.searchParams.set("title", query);
-  url.searchParams.set("fields", "title,author_name,key");
-  url.searchParams.set("limit", "10");
+  url.searchParams.set("fields", "key,title,author_name,editions");
+  url.searchParams.set("limit", "6");
 
   const response = await fetch(url.toString(), {
     method: "GET",
@@ -110,5 +111,21 @@ export const getBookSearchResults = async (
   });
 
   const data = await response.json();
+
+  if (data.numFound === 0) {
+    return [];
+  }
+
+  data.docs = data.docs.map((doc: any) => {
+    return {
+      key: doc.key.split("/").pop(),
+      title: doc.title,
+      authorName: doc.author_name,
+      coverImg: doc.editions.docs[0].key.split("/").pop()
+    };
+  });
+
+  console.log(data.docs);
+
   return data.docs as BookSearchResult[];
 };
