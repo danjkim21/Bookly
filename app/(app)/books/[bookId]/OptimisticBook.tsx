@@ -21,7 +21,7 @@ export default function OptimisticBook({
   bookShelfId
 }: {
   book: Book;
-  bookDetails: any;
+  bookDetails?: any;
   authors: Author[];
   authorId?: AuthorId;
   bookShelves?: BookShelf[];
