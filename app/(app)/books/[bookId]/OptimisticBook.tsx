@@ -27,8 +27,6 @@ export default function OptimisticBook({
   bookShelves?: BookShelf[];
   bookShelfId?: BookShelfId;
 }) {
-  console.log(bookDetails);
-
   const [open, setOpen] = useState(false);
   const openModal = (_?: Book) => {
     setOpen(true);

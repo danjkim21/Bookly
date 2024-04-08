@@ -155,7 +155,5 @@ export const getBookDetailsByTitle = async (title: string) => {
     };
   });
 
-  console.log(data);
-
   return { bookDetails: data.docs[0] };
 };
