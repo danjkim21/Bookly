@@ -74,8 +74,6 @@ export default function Search({
   };
 
   const handleSubmitBook = async (value: string) => {
-    console.log(value);
-
     const [title, authorName] = value.split("~~");
 
     const id = await createAuthorAction({ name: capitalize(authorName) });
@@ -128,7 +126,6 @@ export default function Search({
       results = await getBookSearchResultsAction(debouncedSearch);
     }
 
-    console.log("results", results);
     setIsSearching(false);
     setSearchResults(results);
   };

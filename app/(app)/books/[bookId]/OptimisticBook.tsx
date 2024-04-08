@@ -10,20 +10,25 @@ import BookForm from "@/components/books/BookForm";
 import { type Author, type AuthorId } from "@/lib/db/schema/authors";
 import { BookShelf, BookShelfId } from "@/lib/db/schema/bookShelves";
 import BookDetailTable from "@/components/books/BookDetailTable";
+import BookCoverImage from "@/components/shared/BookCoverImage";
 
 export default function OptimisticBook({
   book,
+  bookDetails,
   authors,
   authorId,
   bookShelves,
   bookShelfId
 }: {
   book: Book;
+  bookDetails: any;
   authors: Author[];
   authorId?: AuthorId;
   bookShelves?: BookShelf[];
   bookShelfId?: BookShelfId;
 }) {
+  console.log(bookDetails);
+
   const [open, setOpen] = useState(false);
   const openModal = (_?: Book) => {
     setOpen(true);
@@ -62,7 +67,11 @@ export default function OptimisticBook({
         />
       </Modal>
       <div className="mb-4 h-32 w-24 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800 md:mb-8">
-        {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
+        <BookCoverImage
+          bookSrc={bookDetails?.coverImg}
+          height={128}
+          width={96}
+        />
       </div>
       <div className="mb-4 flex flex-wrap items-end justify-between">
         <h1 className="text-2xl font-semibold">{optimisticBook.title}</h1>
@@ -75,6 +84,10 @@ export default function OptimisticBook({
         optimisticBook={optimisticBook}
         authorName={authorName}
         bookShelfTitle={bookShelfTitle}
+        subjects={bookDetails?.subject}
+        rating={bookDetails?.ratings_average}
+        pageCount={bookDetails?.number_of_pages_median}
+        // desc={bookDetails?.}
       />
     </div>
   );

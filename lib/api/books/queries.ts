@@ -125,7 +125,37 @@ export const getBookSearchResults = async (
     };
   });
 
-  console.log(data.docs);
-
   return data.docs as BookSearchResult[];
+};
+
+export const getBookDetailsByTitle = async (title: string) => {
+  const url = new URL("https://openlibrary.org/search.json");
+  url.searchParams.set("title", title);
+  url.searchParams.set(
+    "fields",
+    "key,title,subtitle,author_name,isbn,editions,subject,ratings_average,ratings_count,number_of_pages_median"
+  );
+  url.searchParams.set("limit", "1");
+
+  const response = await fetch(url.toString(), {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    next: { revalidate: 10 }
+  });
+
+  const data = await response.json();
+
+  data.docs = data.docs.map((doc: any) => {
+    return {
+      ...doc,
+      key: doc.key.split("/").pop(),
+      coverImg: doc.editions.docs[0].key.split("/").pop()
+    };
+  });
+
+  console.log(data);
+
+  return { bookDetails: data.docs[0] };
 };
