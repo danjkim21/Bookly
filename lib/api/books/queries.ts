@@ -100,6 +100,7 @@ export const getBookSearchResults = async (
   const url = new URL("https://openlibrary.org/search.json");
   url.searchParams.set("title", query);
   url.searchParams.set("fields", "key,title,author_name,editions");
+  url.searchParams.set("language", "en");
   url.searchParams.set("limit", "6");
 
   const response = await fetch(url.toString(), {
@@ -135,6 +136,7 @@ export const getBookDetailsByTitle = async (title: string) => {
     "fields",
     "key,title,subtitle,author_name,isbn,editions,subject,ratings_average,ratings_count,number_of_pages_median"
   );
+  url.searchParams.set("language", "en");
   url.searchParams.set("limit", "1");
 
   const response = await fetch(url.toString(), {
