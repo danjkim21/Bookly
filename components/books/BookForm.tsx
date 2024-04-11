@@ -215,6 +215,7 @@ const BookForm = ({
         )}
       </div>
 
+      {/* TODO: remove completed field and update to book status */}
       <div>
         <Label
           className={cn(

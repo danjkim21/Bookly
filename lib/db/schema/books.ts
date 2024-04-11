@@ -50,7 +50,6 @@ export const insertBookSchema = createInsertSchema(books).omit(timestamps);
 export const insertBookParams = baseSchema
   .extend({
     title: z.coerce.string().min(1, "Add a Title"),
-    completed: z.coerce.boolean(),
     completedOn: z.coerce
       .string()
       .optional()
