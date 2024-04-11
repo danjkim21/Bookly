@@ -27,12 +27,14 @@ export default function BookDropdownMenu({
   bookId,
   bookShelfId,
   isFavorited,
-  bookShelves
+  bookShelves,
+  bookStatus
 }: {
   bookId: string;
   bookShelfId: string | undefined;
   isFavorited: boolean;
   bookShelves?: BookShelf[];
+  bookStatus?: string;
 }) {
   const pathname = usePathname();
   const basePath = pathname.includes("books") ? pathname : pathname + "/books/";
@@ -113,15 +115,15 @@ export default function BookDropdownMenu({
         <DropdownMenuLabel>Status</DropdownMenuLabel>
         {/* TODO: create new Book Field: Status - unread, in progress, complete */}
         <DropdownMenuRadioGroup
-          value="unread"
+          value={bookStatus}
           // value={status} onValueChange={setStatus}
         >
           <DropdownMenuRadioItem value="unread">Unread</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="in progress">
+          <DropdownMenuRadioItem value="in-progress">
             In Progress
           </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="complete">
-            Complete
+          <DropdownMenuRadioItem value="completed">
+            Completed
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

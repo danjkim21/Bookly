@@ -130,6 +130,7 @@ const Book = ({
         key={book.id}
         bookId={book.id}
         bookShelfId={book.bookShelfId ? book.bookShelfId : undefined}
+        bookStatus={book.status}
         isFavorited={book.favorited ? book.favorited : false}
         bookShelves={bookShelves}
       />

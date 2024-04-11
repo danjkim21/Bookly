@@ -98,6 +98,9 @@ const BookForm = ({
     setErrors(null);
 
     const payload = Object.fromEntries(data.entries());
+
+    console.log(payload);
+
     const bookParsed = await insertBookParams.safeParseAsync({
       authorId,
       ...payload
@@ -121,6 +124,9 @@ const BookForm = ({
       bookShelfId: values.bookShelfId ?? null,
       ...values
     };
+
+    console.log(values);
+
     try {
       startMutation(async () => {
         addOptimistic &&
@@ -173,6 +179,42 @@ const BookForm = ({
           <div className="h-6" />
         )}
       </div>
+
+      {/*  */}
+      <div>
+        <Label
+          className={cn(
+            "mb-2 inline-block",
+            errors?.status ? "text-destructive" : ""
+          )}
+        >
+          Status
+        </Label>
+        <Select defaultValue={book?.status} name="status">
+          <SelectTrigger
+            className={cn(errors?.status ? "ring ring-destructive" : "")}
+          >
+            <SelectValue placeholder="Book status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem key={"unread"} value={"unread"}>
+              Unread
+            </SelectItem>
+            <SelectItem key={"in-progress"} value={"in-progress"}>
+              In Progress
+            </SelectItem>
+            <SelectItem key={"completed"} value={"completed"}>
+              Completed
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        {errors?.status ? (
+          <p className="mt-2 text-xs text-destructive">{errors.status[0]}</p>
+        ) : (
+          <div className="h-6" />
+        )}
+      </div>
+
       <div>
         <Label
           className={cn(
