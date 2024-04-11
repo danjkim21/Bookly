@@ -50,9 +50,7 @@ export default function BookDropdownMenu({
     }
   };
 
-  const handleBookStatus = async (
-    value: "unread" | "in-progress" | "completed"
-  ) => {
+  const handleBookStatus = async (value: any) => {
     await updateBookStatusAction(bookId, value);
 
     if (value === "completed") {
