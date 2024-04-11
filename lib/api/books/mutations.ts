@@ -69,6 +69,26 @@ export const updateBookFavoritedStatus = async (
   }
 };
 
+export const updateBookStatus = async (
+  id: BookId,
+  status: "completed" | "in-progress" | "unread"
+) => {
+  const { session } = await getUserAuth();
+  const { id: bookId } = bookIdSchema.parse({ id });
+  try {
+    const [b] = await db
+      .update(books)
+      .set({ status, updatedAt: new Date() })
+      .where(and(eq(books.id, bookId!), eq(books.userId, session?.user.id!)))
+      .returning();
+    return { book: b };
+  } catch (err) {
+    const message = (err as Error).message ?? "Error, please try again";
+    console.error(message);
+    throw { error: message };
+  }
+};
+
 export const updateBookBookshelf = async (
   id: BookId,
   bookShelfId: BookShelfId
