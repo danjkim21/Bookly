@@ -18,7 +18,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   updateBookBookshelfAction,
-  updateBookFavoritedStatusAction
+  updateBookFavoritedStatusAction,
+  updateBookStatusAction
 } from "@/lib/actions/books";
 import { toast } from "sonner";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
@@ -46,6 +47,20 @@ export default function BookDropdownMenu({
       toast.success("Book removed from favorites");
     } else {
       toast.success("Book added to favorites");
+    }
+  };
+
+  const handleBookStatus = async (
+    value: "unread" | "in-progress" | "completed"
+  ) => {
+    await updateBookStatusAction(bookId, value);
+
+    if (value === "completed") {
+      toast.success("Book marked as completed");
+    } else if (value === "in-progress") {
+      toast.success("Book marked as in progress");
+    } else if (value === "unread") {
+      toast.success("Book marked as unread");
     }
   };
 
@@ -116,7 +131,7 @@ export default function BookDropdownMenu({
         {/* TODO: create new Book Field: Status - unread, in progress, complete */}
         <DropdownMenuRadioGroup
           value={bookStatus}
-          // value={status} onValueChange={setStatus}
+          onValueChange={handleBookStatus}
         >
           <DropdownMenuRadioItem value="unread">Unread</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="in-progress">
