@@ -4,7 +4,8 @@ import {
   boolean,
   date,
   timestamp,
-  pgTable
+  pgTable,
+  text
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -27,18 +28,19 @@ export const books = pgTable("books", {
     .notNull(),
   bookShelfId: varchar("book_shelf_id", { length: 256 }).references(
     () => bookShelves.id
-    // {
-    //   onDelete: "cascade"
-    // }
   ),
   userId: varchar("user_id", { length: 256 }).notNull(),
-
   createdAt: timestamp("created_at")
     .notNull()
     .default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .notNull()
-    .default(sql`now()`)
+    .default(sql`now()`),
+  status: text("status", {
+    enum: ["unread", "in-progress", "completed"]
+  })
+    .notNull()
+    .default("unread")
 });
 
 // Schema for books - used to validate API requests
