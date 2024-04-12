@@ -16,7 +16,9 @@ export const getBookCounts = async () => {
   const rc = await db
     .select({ count: count() })
     .from(books)
-    .where(and(eq(books.userId, session?.user.id!), eq(books.completed, true)));
+    .where(
+      and(eq(books.userId, session?.user.id!), eq(books.status, "completed"))
+    );
 
   const rf = await db
     .select({ count: count() })

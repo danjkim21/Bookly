@@ -6,7 +6,8 @@ import {
   deleteBook,
   updateBook,
   updateBookBookshelf,
-  updateBookFavoritedStatus
+  updateBookFavoritedStatus,
+  updateBookStatus
 } from "@/lib/api/books/mutations";
 import {
   BookId,
@@ -58,6 +59,19 @@ export const updateBookFavoritedStatusAction = async (
   try {
     const payload = bookIdSchema.parse({ id: input });
     await updateBookFavoritedStatus(payload.id, !favorited);
+    revalidateBooks();
+  } catch (e) {
+    return handleErrors(e);
+  }
+};
+
+export const updateBookStatusAction = async (
+  input: BookId,
+  status: "completed" | "in-progress" | "unread"
+) => {
+  try {
+    const payload = bookIdSchema.parse({ id: input });
+    await updateBookStatus(payload.id, status);
     revalidateBooks();
   } catch (e) {
     return handleErrors(e);

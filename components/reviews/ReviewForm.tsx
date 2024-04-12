@@ -57,7 +57,7 @@ const ReviewForm = ({
   const router = useRouter();
   const backpath = useBackPath("reviews");
 
-  const completedBooks = books.filter((book) => book.completed);
+  const completedBooks = books.filter((book) => book.status === "completed");
 
   const onSuccess = (
     action: Action,

@@ -60,9 +60,10 @@ export default function BookDetailTable({
       <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">
           <CheckCircle2Icon className="h-4 w-4 text-accent" />
-          <h2 className="min-w-36 text-accent">Completed</h2>
+          <h2 className="min-w-36 text-accent">Status</h2>
         </div>
-        <span>{optimisticBook.completed ? "true" : "false"}</span>
+
+        <span>{optimisticBook.status}</span>
       </section>
       <section className="flex flex-row rounded-xl px-0 py-1 hover:bg-secondary md:px-3">
         <div className="flex items-center gap-2">

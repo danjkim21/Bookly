@@ -18,7 +18,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   updateBookBookshelfAction,
-  updateBookFavoritedStatusAction
+  updateBookFavoritedStatusAction,
+  updateBookStatusAction
 } from "@/lib/actions/books";
 import { toast } from "sonner";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
@@ -27,12 +28,14 @@ export default function BookDropdownMenu({
   bookId,
   bookShelfId,
   isFavorited,
-  bookShelves
+  bookShelves,
+  bookStatus
 }: {
   bookId: string;
   bookShelfId: string | undefined;
   isFavorited: boolean;
   bookShelves?: BookShelf[];
+  bookStatus?: string;
 }) {
   const pathname = usePathname();
   const basePath = pathname.includes("books") ? pathname : pathname + "/books/";
@@ -44,6 +47,18 @@ export default function BookDropdownMenu({
       toast.success("Book removed from favorites");
     } else {
       toast.success("Book added to favorites");
+    }
+  };
+
+  const handleBookStatus = async (value: any) => {
+    await updateBookStatusAction(bookId, value);
+
+    if (value === "completed") {
+      toast.success("Book marked as completed");
+    } else if (value === "in-progress") {
+      toast.success("Book marked as in progress");
+    } else if (value === "unread") {
+      toast.success("Book marked as unread");
     }
   };
 
@@ -113,15 +128,15 @@ export default function BookDropdownMenu({
         <DropdownMenuLabel>Status</DropdownMenuLabel>
         {/* TODO: create new Book Field: Status - unread, in progress, complete */}
         <DropdownMenuRadioGroup
-          value="unread"
-          // value={status} onValueChange={setStatus}
+          value={bookStatus}
+          onValueChange={handleBookStatus}
         >
           <DropdownMenuRadioItem value="unread">Unread</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="in progress">
+          <DropdownMenuRadioItem value="in-progress">
             In Progress
           </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="complete">
-            Complete
+          <DropdownMenuRadioItem value="completed">
+            Completed
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

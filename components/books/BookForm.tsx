@@ -65,7 +65,9 @@ const BookForm = ({
   const { errors, hasErrors, setErrors, handleChange } =
     useValidatedForm<Book>(insertBookParams);
   const editing = !!book?.id;
-  const [completed, setCompleted] = useState(book?.completed ?? false);
+  const [completed, setCompleted] = useState(
+    book?.status === "completed" ?? false
+  );
   const [completedOn, setCompletedOn] = useState<Date | undefined>(
     book?.completedOn ? new Date(book.completedOn) : undefined
   );
@@ -98,6 +100,9 @@ const BookForm = ({
     setErrors(null);
 
     const payload = Object.fromEntries(data.entries());
+
+    console.log(payload);
+
     const bookParsed = await insertBookParams.safeParseAsync({
       authorId,
       ...payload
@@ -121,6 +126,9 @@ const BookForm = ({
       bookShelfId: values.bookShelfId ?? null,
       ...values
     };
+
+    console.log(values);
+
     try {
       startMutation(async () => {
         addOptimistic &&
@@ -173,26 +181,42 @@ const BookForm = ({
           <div className="h-6" />
         )}
       </div>
+
       <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.completed ? "text-destructive" : ""
+            errors?.status ? "text-destructive" : ""
           )}
         >
-          Completed
+          Status
         </Label>
-        <br />
-        <Checkbox
-          defaultChecked={book?.completed}
-          name={"completed"}
-          className={cn(errors?.completed ? "ring ring-destructive" : "")}
-          onCheckedChange={(checked) =>
-            setCompleted(Boolean(checked.valueOf()))
+        <Select
+          defaultValue={book?.status || "unread"}
+          name="status"
+          onValueChange={(value) =>
+            setCompleted(value === "completed" ? true : false)
           }
-        />
-        {errors?.completed ? (
-          <p className="mt-2 text-xs text-destructive">{errors.completed[0]}</p>
+        >
+          <SelectTrigger
+            className={cn(errors?.status ? "ring ring-destructive" : "")}
+          >
+            <SelectValue placeholder="Book status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem key={"unread"} value={"unread"}>
+              Unread
+            </SelectItem>
+            <SelectItem key={"in-progress"} value={"in-progress"}>
+              In Progress
+            </SelectItem>
+            <SelectItem key={"completed"} value={"completed"}>
+              Completed
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        {errors?.status ? (
+          <p className="mt-2 text-xs text-destructive">{errors.status[0]}</p>
         ) : (
           <div className="h-6" />
         )}
@@ -212,7 +236,7 @@ const BookForm = ({
           <Popover>
             <Input
               name="completedOn"
-              onChange={() => {}}
+              // onChange={() => {}}
               readOnly
               value={completedOn?.toUTCString() ?? new Date().toUTCString()}
               className="hidden"

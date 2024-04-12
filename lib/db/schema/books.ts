@@ -4,7 +4,8 @@ import {
   boolean,
   date,
   timestamp,
-  pgTable
+  pgTable,
+  text
 } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -19,7 +20,6 @@ export const books = pgTable("books", {
     .primaryKey()
     .$defaultFn(() => nanoid()),
   title: varchar("title", { length: 256 }).unique().notNull(),
-  completed: boolean("completed").notNull(),
   completedOn: date("completed_on"),
   favorited: boolean("favorited"),
   authorId: varchar("author_id", { length: 256 })
@@ -27,18 +27,19 @@ export const books = pgTable("books", {
     .notNull(),
   bookShelfId: varchar("book_shelf_id", { length: 256 }).references(
     () => bookShelves.id
-    // {
-    //   onDelete: "cascade"
-    // }
   ),
   userId: varchar("user_id", { length: 256 }).notNull(),
-
   createdAt: timestamp("created_at")
     .notNull()
     .default(sql`now()`),
   updatedAt: timestamp("updated_at")
     .notNull()
-    .default(sql`now()`)
+    .default(sql`now()`),
+  status: text("status", {
+    enum: ["unread", "in-progress", "completed"]
+  })
+    .notNull()
+    .default("unread")
 });
 
 // Schema for books - used to validate API requests
@@ -48,7 +49,6 @@ export const insertBookSchema = createInsertSchema(books).omit(timestamps);
 export const insertBookParams = baseSchema
   .extend({
     title: z.coerce.string().min(1, "Add a Title"),
-    completed: z.coerce.boolean(),
     completedOn: z.coerce
       .string()
       .optional()
@@ -71,7 +71,6 @@ export const insertBookParams = baseSchema
 export const updateBookSchema = baseSchema;
 export const updateBookParams = baseSchema
   .extend({
-    completed: z.coerce.boolean(),
     completedOn: z.coerce
       .string()
       .optional()
