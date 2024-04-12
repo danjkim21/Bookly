@@ -20,7 +20,6 @@ export const books = pgTable("books", {
     .primaryKey()
     .$defaultFn(() => nanoid()),
   title: varchar("title", { length: 256 }).unique().notNull(),
-  completed: boolean("completed").notNull(),
   completedOn: date("completed_on"),
   favorited: boolean("favorited"),
   authorId: varchar("author_id", { length: 256 })

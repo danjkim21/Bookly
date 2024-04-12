@@ -65,7 +65,9 @@ const BookForm = ({
   const { errors, hasErrors, setErrors, handleChange } =
     useValidatedForm<Book>(insertBookParams);
   const editing = !!book?.id;
-  const [completed, setCompleted] = useState(book?.completed ?? false);
+  const [completed, setCompleted] = useState(
+    book?.status === "completed" ?? false
+  );
   const [completedOn, setCompletedOn] = useState<Date | undefined>(
     book?.completedOn ? new Date(book.completedOn) : undefined
   );
@@ -180,7 +182,6 @@ const BookForm = ({
         )}
       </div>
 
-      {/*  */}
       <div>
         <Label
           className={cn(
@@ -190,7 +191,13 @@ const BookForm = ({
         >
           Status
         </Label>
-        <Select defaultValue={book?.status} name="status">
+        <Select
+          defaultValue={book?.status || "unread"}
+          name="status"
+          onValueChange={(value) =>
+            setCompleted(value === "completed" ? true : false)
+          }
+        >
           <SelectTrigger
             className={cn(errors?.status ? "ring ring-destructive" : "")}
           >
@@ -215,32 +222,6 @@ const BookForm = ({
         )}
       </div>
 
-      {/* TODO: remove completed field and update to book status */}
-      <div>
-        <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.completed ? "text-destructive" : ""
-          )}
-        >
-          Completed
-        </Label>
-        <br />
-        <Checkbox
-          defaultChecked={book?.completed}
-          name={"completed"}
-          className={cn(errors?.completed ? "ring ring-destructive" : "")}
-          onCheckedChange={(checked) =>
-            setCompleted(Boolean(checked.valueOf()))
-          }
-        />
-        {errors?.completed ? (
-          <p className="mt-2 text-xs text-destructive">{errors.completed[0]}</p>
-        ) : (
-          <div className="h-6" />
-        )}
-      </div>
-
       {completed && (
         <div>
           <Label
@@ -255,7 +236,7 @@ const BookForm = ({
           <Popover>
             <Input
               name="completedOn"
-              onChange={() => {}}
+              // onChange={() => {}}
               readOnly
               value={completedOn?.toUTCString() ?? new Date().toUTCString()}
               className="hidden"
