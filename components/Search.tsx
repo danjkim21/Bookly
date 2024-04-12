@@ -83,7 +83,7 @@ export default function Search({
       title: capitalize(title),
       authorName,
       favorited: false,
-      completed: false
+      status: "unread"
     });
 
     if (!bookParsed.success) {
