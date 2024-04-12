@@ -71,7 +71,6 @@ export const insertBookParams = baseSchema
 export const updateBookSchema = baseSchema;
 export const updateBookParams = baseSchema
   .extend({
-    completed: z.coerce.boolean(),
     completedOn: z.coerce
       .string()
       .optional()
