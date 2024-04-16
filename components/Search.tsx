@@ -157,8 +157,8 @@ export default function Search({
               className="flex flex-col items-start justify-start gap-2 rounded-none sm:flex-row sm:gap-4"
               onSelect={handleSubmitBook}
             >
-              <BookCoverImage bookSrc={book.coverImg} width={40} height={60} />
-              <div className="">
+              <BookCoverImage bookSrc={book.coverImg} width={48} height={64} />
+              <div>
                 <div className="line-clamp-2">{book.title}</div>
                 <div className="line-clamp-1 text-xs">{book?.authorName}</div>
               </div>
