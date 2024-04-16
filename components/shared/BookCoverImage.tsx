@@ -16,7 +16,6 @@ export default function BookCoverImage({
   // TODO: Figure out how to update image on 404 error
   return (
     <div
-      // className="min-h-min w-max overflow-hidden rounded-xl bg-neutral-100/50 dark:bg-neutral-800"
       className={cn(
         "overflow-hidden rounded-xl bg-neutral-100/50 dark:bg-neutral-800",
         `h-[${height}px] w-[${width}px]`
