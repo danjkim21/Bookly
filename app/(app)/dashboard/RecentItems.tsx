@@ -8,19 +8,19 @@ export default async function RecentItems() {
 
   return (
     <section className="flex flex-col gap-2">
-      <h2>Recently Added</h2>
+      <h2 className="text-lg font-semibold">Recently Added</h2>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {books.map((book) => {
           return (
             <Card key={book.id} className="col-span-1">
               <CardContent className="p-4">
                 <div className="flex gap-4">
-                  <div className="h-16 w-12 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800">
+                  <div className="h-16 min-w-12 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800">
                     {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
                   </div>
                   <div className="flex flex-col gap-1">
                     <Link href={`/books/${book.id}`} className="line-clamp-1">
-                      {book.title}
+                      <h3 className="text-md font-medium">{book.title}</h3>
                     </Link>
                     <div>
                       <Link href={`/authors/${book.author?.id}`}>

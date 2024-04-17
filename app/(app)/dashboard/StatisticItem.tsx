@@ -14,10 +14,10 @@ export default function StatisticItem({ label, value, path }: Props) {
     <div className="col-span-1 flex flex-col gap-1">
       {path ? (
         <Link href={`/${path}`} className="underline-offset-4 hover:underline">
-          <h3 className="text-xs opacity-40">{label.toUpperCase()}</h3>
+          <h3 className="text-xs opacity-60">{label.toUpperCase()}</h3>
         </Link>
       ) : (
-        <h3 className="text-xs opacity-40">{label.toUpperCase()}</h3>
+        <h3 className="text-xs opacity-60">{label.toUpperCase()}</h3>
       )}
       <div>{valueFormatted}</div>
     </div>

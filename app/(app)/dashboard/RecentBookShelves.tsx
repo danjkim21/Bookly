@@ -8,7 +8,7 @@ export default async function RecentBookShelves() {
 
   return (
     <section className="flex flex-col gap-2">
-      <h2>Latest Bookshelves</h2>
+      <h2 className="text-lg font-semibold">Latest Bookshelves</h2>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {bookShelves.map((bookShelf) => {
           return (
@@ -20,7 +20,7 @@ export default async function RecentBookShelves() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <Link href={`/${bookShelf.slug}`} className="line-clamp-1">
-                      {bookShelf.title}
+                      <h3 className="text-md font-medium">{bookShelf.title}</h3>
                     </Link>
                     <div>
                       {bookShelf.public ? (
