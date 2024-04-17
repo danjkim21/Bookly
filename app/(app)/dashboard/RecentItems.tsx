@@ -18,17 +18,18 @@ export default async function RecentItems() {
                   <div className="h-16 min-w-12 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800">
                     {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col">
                     <Link href={`/books/${book.id}`} className="line-clamp-1">
-                      <h3 className="text-md font-medium">{book.title}</h3>
+                      <h3 className="text-md font-medium underline-offset-4 hover:underline">
+                        {book.title}
+                      </h3>
                     </Link>
-                    <div>
-                      <Link href={`/authors/${book.author?.id}`}>
-                        <span className="inline-flex gap-1 rounded-md bg-green-800/30 px-2 py-[1px] text-sm text-green-500">
-                          <span>{book.author?.name}</span>
-                        </span>
-                      </Link>
-                    </div>
+                    <Link
+                      href={`/authors/${book.author?.id}`}
+                      className="text-sm text-muted-foreground underline-offset-2 hover:underline"
+                    >
+                      {book.author?.name}
+                    </Link>
                   </div>
                 </div>
               </CardContent>

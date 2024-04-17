@@ -20,16 +20,18 @@ export default async function RecentBookShelves() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <Link href={`/${bookShelf.slug}`} className="line-clamp-1">
-                      <h3 className="text-md font-medium">{bookShelf.title}</h3>
+                      <h3 className="text-md font-medium underline-offset-4 hover:underline">
+                        {bookShelf.title}
+                      </h3>
                     </Link>
                     <div>
                       {bookShelf.public ? (
                         <span className="inline-flex gap-1 rounded-md bg-green-800/30 px-2 py-[1px] text-sm text-green-500">
-                          <span>Public</span>
+                          Public
                         </span>
                       ) : (
                         <span className="inline-flex gap-1 rounded-md bg-gray-800/30 px-2 py-[1px] text-sm text-gray-300">
-                          <span>Private</span>
+                          Private
                         </span>
                       )}
                     </div>
