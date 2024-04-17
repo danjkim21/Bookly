@@ -1,7 +1,14 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardTitle
+} from "@/components/ui/card";
 import Link from "next/link";
 import StatisticItem from "./StatisticItem";
 import { getMostRecentBooks } from "@/lib/api/books/queries";
+import { BookPlus } from "lucide-react";
 
 export default async function RecentItems() {
   const { books } = await getMostRecentBooks();
@@ -10,6 +17,19 @@ export default async function RecentItems() {
     <section className="flex flex-col gap-2">
       <h2 className="text-lg font-semibold">Recently Added</h2>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {/* Empty State */}
+        {books.length === 0 && (
+          <Card className="col-span-1 flex h-[150px] items-center justify-center rounded-md border border-dashed border-white text-sm">
+            <BookPlus className="h-6 w-6" />
+            <CardContent className="p-4">
+              <CardTitle className="text-base font-medium">
+                No books found
+              </CardTitle>
+              <CardDescription>Add a new book</CardDescription>
+            </CardContent>
+          </Card>
+        )}
+        {/* Book List */}
         {books.map((book) => {
           return (
             <Card key={book.id} className="col-span-1">
@@ -20,9 +40,9 @@ export default async function RecentItems() {
                   </div>
                   <div className="flex flex-col">
                     <Link href={`/books/${book.id}`} className="line-clamp-1">
-                      <h3 className="text-md font-medium underline-offset-4 hover:underline">
+                      <CardTitle className="text-md font-medium underline-offset-4 hover:underline">
                         {book.title}
-                      </h3>
+                      </CardTitle>
                     </Link>
                     <Link
                       href={`/authors/${book.author?.id}`}
