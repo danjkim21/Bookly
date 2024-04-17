@@ -1,15 +1,39 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardTitle
+} from "@/components/ui/card";
 import Link from "next/link";
 import StatisticItem from "./StatisticItem";
 import { getMostRecentBookShelves } from "@/lib/api/bookShelves/queries";
+import { BookCopyIcon } from "lucide-react";
 
 export default async function RecentBookShelves() {
   const { bookShelves } = await getMostRecentBookShelves();
 
   return (
     <section className="flex flex-col gap-2">
-      <h2>Latest Bookshelves</h2>
+      <h2 className="text-lg font-semibold">Latest Bookshelves</h2>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {/* Empty State */}
+        {bookShelves.length === 0 && (
+          // TODO: replace link with popup create shelf component
+          <Link href="/book-shelves">
+            <Card className="col-span-1 flex h-[150px] items-center justify-center rounded-md border border-dashed border-white text-sm hover:border-transparent hover:shadow-sm">
+              <BookCopyIcon className="h-6 w-6" />
+              <CardContent className="p-4">
+                <CardTitle className="font-md text-base">
+                  No bookshelves found
+                </CardTitle>
+                <CardDescription>Add a new bookshelf</CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
+        )}
+
+        {/* BookShelf List */}
         {bookShelves.map((bookShelf) => {
           return (
             <Card key={bookShelf.id} className="col-span-1">
@@ -20,16 +44,18 @@ export default async function RecentBookShelves() {
                   </div>
                   <div className="flex flex-col gap-1">
                     <Link href={`/${bookShelf.slug}`} className="line-clamp-1">
-                      {bookShelf.title}
+                      <CardTitle className="text-md font-medium underline-offset-4 hover:underline">
+                        {bookShelf.title}
+                      </CardTitle>
                     </Link>
                     <div>
                       {bookShelf.public ? (
                         <span className="inline-flex gap-1 rounded-md bg-green-800/30 px-2 py-[1px] text-sm text-green-500">
-                          <span>Public</span>
+                          Public
                         </span>
                       ) : (
                         <span className="inline-flex gap-1 rounded-md bg-gray-800/30 px-2 py-[1px] text-sm text-gray-300">
-                          <span>Private</span>
+                          Private
                         </span>
                       )}
                     </div>

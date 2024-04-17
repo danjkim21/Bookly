@@ -41,7 +41,11 @@ export default function SummaryItems({
           <CardContent className="p-4">
             <div className="grid grid-cols-2">
               <StatisticItem label="books completed" value={completedCount} />
-              <StatisticItem label="books total" value={totalCount} />
+              <StatisticItem
+                label="books total"
+                value={totalCount}
+                path="books"
+              />
             </div>
           </CardContent>
           <CardFooter className="grid grid-cols-2 gap-2 rounded-b-lg border bg-muted p-4 dark:bg-card">
@@ -54,13 +58,22 @@ export default function SummaryItems({
           <CardContent className="flex flex-col gap-6 p-4">
             <div className="grid grid-cols-2">
               <StatisticItem label="books favorited" value={favoritedCount} />
-              <StatisticItem label="books reviewed" value={totalReviews} />
+              <StatisticItem
+                label="books reviewed"
+                value={totalReviews}
+                path="reviews"
+              />
             </div>
             <div className="grid grid-cols-2">
-              <StatisticItem label="quotes captured" value={totalQuotes} />
+              <StatisticItem
+                label="quotes captured"
+                value={totalQuotes}
+                path="quotes"
+              />
               <StatisticItem
                 label="reflections added"
                 value={totalReflections}
+                path="reflections"
               />
             </div>
           </CardContent>

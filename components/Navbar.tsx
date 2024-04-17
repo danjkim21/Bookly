@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { AlignRight } from "lucide-react";
 import { defaultLinks } from "@/config/nav";
+import { BooklyIcon } from "./shared/BooklyIcon";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ export default function Navbar() {
   return (
     <div className="mb-4 w-full border-b pb-2 md:hidden">
       <nav className="flex w-full items-center justify-between">
-        <div className="text-lg font-semibold">Logo</div>
+        <BooklyIcon className="h-10 w-10" />
         <Button variant="ghost" onClick={() => setOpen(!open)}>
           <AlignRight />
         </Button>
