@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  deleteBookAction,
   updateBookBookshelfAction,
   updateBookFavoritedStatusAction,
   updateBookStatusAction
@@ -39,6 +40,11 @@ export default function BookDropdownMenu({
 }) {
   const pathname = usePathname();
   const basePath = pathname.includes("books") ? pathname : pathname + "/books/";
+
+  const handleBookDelete = async () => {
+    await deleteBookAction(bookId);
+    toast.success("Book deleted");
+  };
 
   const handleBookFavorited = async () => {
     await updateBookFavoritedStatusAction(bookId, isFavorited);
@@ -84,7 +90,7 @@ export default function BookDropdownMenu({
           </DropdownMenuItem>
         </Link>
 
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleBookDelete}>
           <BookX className="mr-2 h-4 w-4" />
           Delete
         </DropdownMenuItem>
@@ -96,7 +102,6 @@ export default function BookDropdownMenu({
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
-              {/* TODO: Integrate updateBookShelf api */}
               <DropdownMenuRadioGroup
                 value={bookShelfId}
                 onValueChange={handleUpdateBookShelf}
@@ -126,7 +131,6 @@ export default function BookDropdownMenu({
 
         <DropdownMenuSeparator />
         <DropdownMenuLabel>Status</DropdownMenuLabel>
-        {/* TODO: create new Book Field: Status - unread, in progress, complete */}
         <DropdownMenuRadioGroup
           value={bookStatus}
           onValueChange={handleBookStatus}
