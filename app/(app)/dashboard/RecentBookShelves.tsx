@@ -19,15 +19,18 @@ export default async function RecentBookShelves() {
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {/* Empty State */}
         {bookShelves.length === 0 && (
-          <Card className="col-span-1 flex h-[150px] items-center justify-center rounded-md border border-dashed border-white text-sm">
-            <BookCopyIcon className="h-6 w-6" />
-            <CardContent className="p-4">
-              <CardTitle className="font-md text-base">
-                No bookshelves found
-              </CardTitle>
-              <CardDescription>Add a new bookshelf</CardDescription>
-            </CardContent>
-          </Card>
+          // TODO: replace link with popup create shelf component
+          <Link href="/book-shelves">
+            <Card className="col-span-1 flex h-[150px] items-center justify-center rounded-md border border-dashed border-white text-sm hover:border-transparent hover:shadow-sm">
+              <BookCopyIcon className="h-6 w-6" />
+              <CardContent className="p-4">
+                <CardTitle className="font-md text-base">
+                  No bookshelves found
+                </CardTitle>
+                <CardDescription>Add a new bookshelf</CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
         )}
 
         {/* BookShelf List */}

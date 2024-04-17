@@ -19,15 +19,18 @@ export default async function RecentItems() {
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {/* Empty State */}
         {books.length === 0 && (
-          <Card className="col-span-1 flex h-[150px] items-center justify-center rounded-md border border-dashed border-white text-sm">
-            <BookPlus className="h-6 w-6" />
-            <CardContent className="p-4">
-              <CardTitle className="text-base font-medium">
-                No books found
-              </CardTitle>
-              <CardDescription>Add a new book</CardDescription>
-            </CardContent>
-          </Card>
+          // TODO: replace link with popup search books component
+          <Link href="/books">
+            <Card className="col-span-1 flex h-[150px] items-center justify-center rounded-md border border-dashed border-white text-sm hover:border-transparent hover:shadow-sm">
+              <BookPlus className="h-6 w-6" />
+              <CardContent className="p-4">
+                <CardTitle className="text-base font-medium">
+                  No books found
+                </CardTitle>
+                <CardDescription>Add a new book</CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
         )}
         {/* Book List */}
         {books.map((book) => {
