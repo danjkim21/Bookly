@@ -77,19 +77,24 @@ export const getBookShelfById = async (id: BookShelfId) => {
 export const getBookShelfBySlugWithBooksAndComments = async (slug: string) => {
   const { id: bookShelfId } = bookShelfIdSchema.parse({ id: slug });
 
-  const rows = await db
-    .select({ bookShelf: bookShelves, comment: comments, book: books })
+  const rb = await db
+    .select({ bookShelf: bookShelves, book: books })
     .from(bookShelves)
     .where(eq(bookShelves.slug, bookShelfId))
-    .leftJoin(books, eq(bookShelves.id, books.bookShelfId))
+    .leftJoin(books, eq(bookShelves.id, books.bookShelfId));
+
+  const rc = await db
+    .select({ bookShelf: bookShelves, comment: comments })
+    .from(bookShelves)
+    .where(eq(bookShelves.slug, bookShelfId))
     .leftJoin(comments, eq(bookShelves.id, comments.bookShelfId));
 
-  if (rows.length === 0) return {};
-  const b = rows[0].bookShelf;
-  const bb = rows
+  if (rb.length === 0 || rc.length === 0) return {};
+  const b = rb[0].bookShelf;
+  const bb = rb
     .filter((r) => r.book !== null)
     .map((c) => c.book) as CompleteBook[];
-  const bc = rows
+  const bc = rc
     .filter((r) => r.comment !== null)
     .map((c) => c.comment) as CompleteComment[];
 
@@ -122,8 +127,8 @@ export const getBookShelfByIdWithBooksAndComments = async (id: BookShelfId) => {
   const { session } = await getUserAuth();
   const { id: bookShelfId } = bookShelfIdSchema.parse({ id });
 
-  const rows = await db
-    .select({ bookShelf: bookShelves, comment: comments, book: books })
+  const rb = await db
+    .select({ bookShelf: bookShelves, book: books })
     .from(bookShelves)
     .where(
       and(
@@ -131,15 +136,25 @@ export const getBookShelfByIdWithBooksAndComments = async (id: BookShelfId) => {
         eq(bookShelves.userId, session?.user.id!)
       )
     )
-    .leftJoin(comments, eq(bookShelves.id, comments.bookShelfId))
     .leftJoin(books, eq(bookShelves.id, books.bookShelfId));
 
-  if (rows.length === 0) return {};
-  const b = rows[0].bookShelf;
-  const bb = rows
+  const rc = await db
+    .select({ bookShelf: bookShelves, comment: comments })
+    .from(bookShelves)
+    .where(
+      and(
+        eq(bookShelves.id, bookShelfId),
+        eq(bookShelves.userId, session?.user.id!)
+      )
+    )
+    .leftJoin(comments, eq(bookShelves.id, comments.bookShelfId));
+
+  if (rb.length === 0 || rc.length === 0) return {};
+  const b = rb[0].bookShelf;
+  const bb = rb
     .filter((r) => r.book !== null)
     .map((c) => c.book) as CompleteBook[];
-  const bc = rows
+  const bc = rc
     .filter((r) => r.comment !== null)
     .map((c) => c.comment) as CompleteComment[];
 
