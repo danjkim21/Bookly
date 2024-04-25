@@ -12,6 +12,7 @@ import { useOptimisticComments } from "@/app/(app)/comments/useOptimisticComment
 import { Button } from "@/components/ui/button";
 import CommentForm from "./CommentForm";
 import { PlusIcon } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 type TOpenModal = (comment?: Comment) => void;
 
@@ -60,7 +61,7 @@ export default function CommentList({
       {optimisticComments.length === 0 ? (
         <EmptyState openModal={openModal} />
       ) : (
-        <ul>
+        <ul className="space-y-2">
           {optimisticComments.map((comment) => (
             <Comment comment={comment} key={comment.id} openModal={openModal} />
           ))}
@@ -88,17 +89,31 @@ const Comment = ({
   return (
     <li
       className={cn(
-        "my-2 flex justify-between",
+        "my-2 flex items-start justify-start gap-4",
         mutating ? "animate-pulse opacity-30" : "",
         deleting ? "text-destructive" : ""
       )}
     >
-      <div className="w-full">
-        <div>{comment.content}</div>
+      {/* TODO: add user name/info to comment query */}
+      <Avatar className="shrink-0">
+        <AvatarImage alt="Dan Kim" src="/placeholder-user.jpg" />
+        <AvatarFallback className="border-2 border-border text-muted-foreground">
+          DK
+        </AvatarFallback>
+      </Avatar>
+
+      <div>
+        <div className="flex flex-col items-start gap-1 md:flex-row md:items-center ">
+          <div className="font-medium">{comment.userId}</div>
+          <div className="text-sm text-muted-foreground dark:text-gray-400">
+            {comment.createdAt.toLocaleString()}
+            <Button variant={"link"} asChild>
+              <Link href={basePath + "/" + comment.id}>Edit</Link>
+            </Button>
+          </div>
+        </div>
+        <p className="text-sm">{comment.content}</p>
       </div>
-      <Button variant={"link"} asChild>
-        <Link href={basePath + "/" + comment.id}>Edit</Link>
-      </Button>
     </li>
   );
 };
