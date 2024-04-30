@@ -12,6 +12,7 @@ import { useOptimisticBookShelves } from "@/app/(app)/book-shelves/useOptimistic
 import { Button } from "@/components/ui/button";
 import BookShelfForm from "./BookShelfForm";
 import { PlusIcon } from "lucide-react";
+import { Card, CardContent, CardFooter, CardTitle } from "../ui/card";
 
 type TOpenModal = (bookShelf?: BookShelf) => void;
 
@@ -54,7 +55,7 @@ export default function BookShelfList({
       {optimisticBookShelves.length === 0 ? (
         <EmptyState openModal={openModal} />
       ) : (
-        <ul>
+        <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {optimisticBookShelves.map((bookShelf) => (
             <BookShelf
               bookShelf={bookShelf}
@@ -86,23 +87,50 @@ const BookShelf = ({
   return (
     <li
       className={cn(
-        "my-2 flex justify-between",
         mutating ? "animate-pulse opacity-30" : "",
         deleting ? "text-destructive" : ""
       )}
     >
-      <div className="w-full">
-        <div>{bookShelf.title}</div>
-      </div>
-      {bookShelf.public && (
-        <Button className='after:content-["_↗"]' variant="link" asChild>
-          <Link href={bookShelf.slug}>Public Link</Link>
-        </Button>
-      )}
-      <Button variant={"link"} asChild>
-        <Link href={basePath + "/" + bookShelf.id}>Edit</Link>
-      </Button>
+      <Card>
+        <Link href={basePath + "/" + bookShelf.id}>
+          <CardContent className="pb-4 pt-6">
+            <div className="mb-4 h-28 max-w-20 overflow-hidden rounded-xl bg-neutral-100/50 object-cover dark:bg-neutral-800">
+              {/* TODO: Create book.url property in schema and add url img instead of this placeholder */}
+            </div>
+            <CardTitle>{bookShelf.title}</CardTitle>
+          </CardContent>
+          <CardFooter className="m-0 px-2 pb-3">
+            {bookShelf.public && (
+              <Button className='after:content-["_↗"]' variant="link" asChild>
+                <Link href={bookShelf.slug}>Public Link</Link>
+              </Button>
+            )}
+            <Button variant={"link"} asChild>
+              <Link href={basePath + "/" + bookShelf.id}>Edit</Link>
+            </Button>
+          </CardFooter>
+        </Link>
+      </Card>
     </li>
+    // <li
+    //   className={cn(
+    //     "my-2 flex justify-between",
+    //     mutating ? "animate-pulse opacity-30" : "",
+    //     deleting ? "text-destructive" : ""
+    //   )}
+    // >
+    //   <div className="w-full">
+    //     <div>{bookShelf.title}</div>
+    //   </div>
+    //   {bookShelf.public && (
+    //     <Button className='after:content-["_↗"]' variant="link" asChild>
+    //       <Link href={bookShelf.slug}>Public Link</Link>
+    //     </Button>
+    //   )}
+    //   <Button variant={"link"} asChild>
+    //     <Link href={basePath + "/" + bookShelf.id}>Edit</Link>
+    //   </Button>
+    // </li>
   );
 };
 
