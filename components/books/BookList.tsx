@@ -11,9 +11,10 @@ import { type Author, type AuthorId } from "@/lib/db/schema/authors";
 import { useOptimisticBooks } from "@/app/(app)/books/useOptimisticBooks";
 import { Button } from "@/components/ui/button";
 import BookForm from "./BookForm";
-import { PlusIcon } from "lucide-react";
+import { BookIcon, BookMarkedIcon, CheckIcon, PlusIcon } from "lucide-react";
 import { BookShelf } from "@/lib/db/schema/bookShelves";
 import BookDropdownMenu from "./BookDropdownMenu";
+import { Badge } from "../ui/badge";
 
 type TOpenModal = (book?: Book) => void;
 
@@ -119,12 +120,20 @@ const Book = ({
           </div>
         </section>
       </article>
-      {/* <BookFavoriteButton
-        bookId={book.id}
-        bookFavorited={book.favorited || false}
-        className="hidden md:block"
-      />
-      */}
+
+      <div className="mr-4 hidden gap-2 md:flex">
+        <Badge
+          variant="secondary"
+          className="gap-2 bg-gray-800/30 text-gray-300"
+        >
+          {book.status === "unread" && <BookIcon className="h-4 w-4" />}
+          {book.status === "in-progress" && (
+            <BookMarkedIcon className="h-4 w-4" />
+          )}
+          {book.status === "completed" && <CheckIcon className="h-4 w-4" />}
+          {book.status}
+        </Badge>
+      </div>
 
       <BookDropdownMenu
         key={book.id}
